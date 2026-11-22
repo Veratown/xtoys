@@ -1,0 +1,1887 @@
+{
+  "initialActions": [
+    {
+      "type": "updateVariable",
+      "variable": "tLevel",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "tBoost",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "tBoostReq",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "aLevel",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "aBoost",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "aBoostReq",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "bLevel",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "bBoost",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "bBoostReq",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "aShockPct",
+      "value": "0"
+    },
+    {
+      "type": "updateComponent",
+      "channel": "part-estim-a",
+      "action": "setMode",
+      "mode": "standard"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "bShockPct",
+      "value": "0"
+    },
+    {
+      "type": "updateComponent",
+      "channel": "part-estim-b",
+      "action": "setMode",
+      "mode": "standard"
+    },
+    {
+      "type": "updateComponent",
+      "channel": "generic-1-a",
+      "action": "setVolume",
+      "percentVolume": "0",
+      "rampTime": 0
+    },
+    {
+      "type": "updateComponent",
+      "channel": "part-estim-a",
+      "action": "setVolume",
+      "percentVolume": "0",
+      "rampTime": 0
+    },
+    {
+      "type": "updateComponent",
+      "channel": "part-estim-b",
+      "action": "setVolume",
+      "percentVolume": "0",
+      "rampTime": 0
+    },
+    {
+      "type": "updateComponent",
+      "channel": "part-estim-a",
+      "action": "setShock2",
+      "percentVolume": "0",
+      "time": "0",
+      "shock": false
+    },
+    {
+      "type": "updateComponent",
+      "channel": "part-estim-b",
+      "action": "setShock2",
+      "percentVolume": "0",
+      "time": "0",
+      "shock": false
+    },
+    {
+      "type": "updateVariable",
+      "variable": "joinReady",
+      "value": "on"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "speakReady",
+      "value": "on"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "gameHit",
+      "value": "0"
+    },
+    {
+      "type": "updateScript",
+      "action": "setText",
+      "text": "Veratown bridge: waiting for events"
+    }
+  ],
+  "finalActions": [
+    {
+      "type": "updateComponent",
+      "channel": "generic-1-a",
+      "action": "setVolume",
+      "percentVolume": "0",
+      "rampTime": 0
+    },
+    {
+      "type": "updateComponent",
+      "channel": "part-estim-a",
+      "action": "setVolume",
+      "percentVolume": "0",
+      "rampTime": 0
+    },
+    {
+      "type": "updateComponent",
+      "channel": "part-estim-b",
+      "action": "setVolume",
+      "percentVolume": "0",
+      "rampTime": 0
+    },
+    {
+      "type": "updateComponent",
+      "channel": "part-estim-a",
+      "action": "setShock2",
+      "percentVolume": "0",
+      "time": "0",
+      "shock": false
+    },
+    {
+      "type": "updateComponent",
+      "channel": "part-estim-b",
+      "action": "setShock2",
+      "percentVolume": "0",
+      "time": "0",
+      "shock": false
+    }
+  ],
+  "globalTriggers": [
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "toyEvent",
+      "requiredExpression": "{trigger-assetGroupName} == {tGroup}",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "tLevel",
+          "value": "max(0, min(4, {trigger-level}))"
+        },
+        {
+          "type": "updateJob",
+          "job": "Apply",
+          "action": "start",
+          "restart": true
+        },
+        {
+          "type": "updateJob",
+          "job": "Watchdog",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{idleTimeout} > 0"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "activityEvent",
+      "requiredExpression": "{trigger-assetGroupName} == {tGroup} and not ({trigger-actionName} == \"ShockLow\" or {trigger-actionName} == \"ShockMed\" or {trigger-actionName} == \"ShockHigh\")",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "tBoostReq",
+          "value": "{boostPct}"
+        },
+        {
+          "type": "updateJob",
+          "job": "BoostT",
+          "action": "start",
+          "restart": true
+        },
+        {
+          "type": "updateJob",
+          "job": "Watchdog",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{idleTimeout} > 0"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "itemRemoved",
+      "requiredExpression": "{trigger-assetGroupName} == {tGroup}",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "tLevel",
+          "value": "0"
+        },
+        {
+          "type": "updateJob",
+          "job": "Apply",
+          "action": "start",
+          "restart": true
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "toyEvent",
+      "requiredExpression": "{trigger-assetGroupName} == {aGroup}",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "aLevel",
+          "value": "max(0, min(4, {trigger-level}))"
+        },
+        {
+          "type": "updateJob",
+          "job": "Apply",
+          "action": "start",
+          "restart": true
+        },
+        {
+          "type": "updateJob",
+          "job": "Watchdog",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{idleTimeout} > 0"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "activityEvent",
+      "requiredExpression": "{trigger-assetGroupName} == {aGroup} and not ({trigger-actionName} == \"ShockLow\" or {trigger-actionName} == \"ShockMed\" or {trigger-actionName} == \"ShockHigh\")",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "aBoostReq",
+          "value": "{boostPct}"
+        },
+        {
+          "type": "updateJob",
+          "job": "BoostA",
+          "action": "start",
+          "restart": true
+        },
+        {
+          "type": "updateJob",
+          "job": "Watchdog",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{idleTimeout} > 0"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "itemRemoved",
+      "requiredExpression": "{trigger-assetGroupName} == {aGroup}",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "aLevel",
+          "value": "0"
+        },
+        {
+          "type": "updateJob",
+          "job": "Apply",
+          "action": "start",
+          "restart": true
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "toyEvent",
+      "requiredExpression": "{trigger-assetGroupName} == {bGroup}",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "bLevel",
+          "value": "max(0, min(4, {trigger-level}))"
+        },
+        {
+          "type": "updateJob",
+          "job": "Apply",
+          "action": "start",
+          "restart": true
+        },
+        {
+          "type": "updateJob",
+          "job": "Watchdog",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{idleTimeout} > 0"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "activityEvent",
+      "requiredExpression": "{trigger-assetGroupName} == {bGroup} and not ({trigger-actionName} == \"ShockLow\" or {trigger-actionName} == \"ShockMed\" or {trigger-actionName} == \"ShockHigh\")",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "bBoostReq",
+          "value": "{boostPct}"
+        },
+        {
+          "type": "updateJob",
+          "job": "BoostB",
+          "action": "start",
+          "restart": true
+        },
+        {
+          "type": "updateJob",
+          "job": "Watchdog",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{idleTimeout} > 0"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "itemRemoved",
+      "requiredExpression": "{trigger-assetGroupName} == {bGroup}",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "bLevel",
+          "value": "0"
+        },
+        {
+          "type": "updateJob",
+          "job": "Apply",
+          "action": "start",
+          "restart": true
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "activityEvent",
+      "requiredExpression": "{trigger-assetGroupName} == {aGroup} and ({trigger-actionName} == \"ShockLow\" or {trigger-actionName} == \"ShockMed\" or {trigger-actionName} == \"ShockHigh\") and {allowShocks} == \"on\" and {paused} == \"off\"",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "aShockPct",
+          "value": "{trigger-actionName} == \"ShockHigh\" ? {shockMax} : ({trigger-actionName} == \"ShockMed\" ? {shockMax} * 2 / 3 : {shockMax} / 3)"
+        },
+        {
+          "type": "updateJob",
+          "job": "ShockA",
+          "action": "start",
+          "restart": true
+        },
+        {
+          "type": "updateJob",
+          "job": "Watchdog",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{idleTimeout} > 0"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "activityEvent",
+      "requiredExpression": "{trigger-assetGroupName} == {bGroup} and ({trigger-actionName} == \"ShockLow\" or {trigger-actionName} == \"ShockMed\" or {trigger-actionName} == \"ShockHigh\") and {allowShocks} == \"on\" and {paused} == \"off\"",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "bShockPct",
+          "value": "{trigger-actionName} == \"ShockHigh\" ? {shockMax} : ({trigger-actionName} == \"ShockMed\" ? {shockMax} * 2 / 3 : {shockMax} / 3)"
+        },
+        {
+          "type": "updateJob",
+          "job": "ShockB",
+          "action": "start",
+          "restart": true
+        },
+        {
+          "type": "updateJob",
+          "job": "Watchdog",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{idleTimeout} > 0"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "bridgeStop",
+      "actions": [
+        {
+          "type": "updateJob",
+          "job": "StopAll",
+          "action": "start",
+          "restart": true
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "Veratown bridge stopped: {trigger-reason}"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "bridgeVerify",
+      "actions": [
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "Veratown link code: {trigger-code}"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtRoomJoin",
+      "requiredExpression": "{joinTarget} != \"off\" and {joinReady} == \"on\" and {paused} == \"off\" and ({trustedOnly} == \"off\" or {trigger-relation} == \"trusted\") and {trigger-who} == \"other\"",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "tBoostReq",
+          "value": "{joinPct}",
+          "requiredExpression": "{joinTarget} == \"Tremblr\" or {joinTarget} == \"All\""
+        },
+        {
+          "type": "updateJob",
+          "job": "BoostT",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{joinTarget} == \"Tremblr\" or {joinTarget} == \"All\""
+        },
+        {
+          "type": "updateVariable",
+          "variable": "aBoostReq",
+          "value": "{joinPct}",
+          "requiredExpression": "{joinTarget} == \"Channel A\" or {joinTarget} == \"All\""
+        },
+        {
+          "type": "updateJob",
+          "job": "BoostA",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{joinTarget} == \"Channel A\" or {joinTarget} == \"All\""
+        },
+        {
+          "type": "updateVariable",
+          "variable": "bBoostReq",
+          "value": "{joinPct}",
+          "requiredExpression": "{joinTarget} == \"Channel B\" or {joinTarget} == \"All\""
+        },
+        {
+          "type": "updateJob",
+          "job": "BoostB",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{joinTarget} == \"Channel B\" or {joinTarget} == \"All\""
+        },
+        {
+          "type": "updateVariable",
+          "variable": "joinReady",
+          "value": "off"
+        },
+        {
+          "type": "updateJob",
+          "job": "JoinCooldown",
+          "action": "start",
+          "restart": true
+        },
+        {
+          "type": "updateJob",
+          "job": "Watchdog",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{idleTimeout} > 0"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtSpokenTo",
+      "requiredExpression": "{speakTarget} != \"off\" and {speakReady} == \"on\" and {paused} == \"off\" and ({trustedOnly} == \"off\" or {trigger-relation} == \"trusted\")",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "tBoostReq",
+          "value": "{speakPct}",
+          "requiredExpression": "{speakTarget} == \"Tremblr\" or {speakTarget} == \"All\""
+        },
+        {
+          "type": "updateJob",
+          "job": "BoostT",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{speakTarget} == \"Tremblr\" or {speakTarget} == \"All\""
+        },
+        {
+          "type": "updateVariable",
+          "variable": "aBoostReq",
+          "value": "{speakPct}",
+          "requiredExpression": "{speakTarget} == \"Channel A\" or {speakTarget} == \"All\""
+        },
+        {
+          "type": "updateJob",
+          "job": "BoostA",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{speakTarget} == \"Channel A\" or {speakTarget} == \"All\""
+        },
+        {
+          "type": "updateVariable",
+          "variable": "bBoostReq",
+          "value": "{speakPct}",
+          "requiredExpression": "{speakTarget} == \"Channel B\" or {speakTarget} == \"All\""
+        },
+        {
+          "type": "updateJob",
+          "job": "BoostB",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{speakTarget} == \"Channel B\" or {speakTarget} == \"All\""
+        },
+        {
+          "type": "updateVariable",
+          "variable": "speakReady",
+          "value": "off"
+        },
+        {
+          "type": "updateJob",
+          "job": "SpeakCooldown",
+          "action": "start",
+          "restart": true
+        },
+        {
+          "type": "updateJob",
+          "job": "Watchdog",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{idleTimeout} > 0"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "inflationEvent",
+      "requiredExpression": "{followInflation} == \"on\" and {trigger-assetGroupName} == {tGroup}",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "tLevel",
+          "value": "max(0, min(4, {trigger-level}))"
+        },
+        {
+          "type": "updateJob",
+          "job": "Apply",
+          "action": "start",
+          "restart": true
+        },
+        {
+          "type": "updateJob",
+          "job": "Watchdog",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{idleTimeout} > 0"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "inflationEvent",
+      "requiredExpression": "{followInflation} == \"on\" and {trigger-assetGroupName} == {aGroup}",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "aLevel",
+          "value": "max(0, min(4, {trigger-level}))"
+        },
+        {
+          "type": "updateJob",
+          "job": "Apply",
+          "action": "start",
+          "restart": true
+        },
+        {
+          "type": "updateJob",
+          "job": "Watchdog",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{idleTimeout} > 0"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "inflationEvent",
+      "requiredExpression": "{followInflation} == \"on\" and {trigger-assetGroupName} == {bGroup}",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "bLevel",
+          "value": "max(0, min(4, {trigger-level}))"
+        },
+        {
+          "type": "updateJob",
+          "job": "Apply",
+          "action": "start",
+          "restart": true
+        },
+        {
+          "type": "updateJob",
+          "job": "Watchdog",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{idleTimeout} > 0"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "bridgeTest",
+      "actions": [
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "Veratown bridge test received"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "bridgeState",
+      "actions": [
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "Bot state: in room {trigger-present}, appearance seen {trigger-fresh}"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtResult",
+      "requiredExpression": "{trigger-status} == \"rejected\"",
+      "actions": [
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "Bot {trigger-request}: {trigger-status} ({trigger-reason})"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtResult",
+      "requiredExpression": "{trigger-status} != \"rejected\"",
+      "actions": [
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "Bot {trigger-request}: {trigger-status}"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtCasinoResult",
+      "requiredExpression": "{gameTarget} != \"off\" and {paused} == \"off\" and {gCasino} == \"on\" and {trigger-outcome} == \"loss\"",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "gameHit",
+          "value": "{gameHit} + 1"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtHotSeatSelected",
+      "requiredExpression": "{gameTarget} != \"off\" and {paused} == \"off\" and {gHotSeat} == \"on\"",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "gameHit",
+          "value": "{gameHit} + 1"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtHotSeatReleased",
+      "requiredExpression": "{gameTarget} != \"off\" and {paused} == \"off\" and {gHotSeat} == \"on\" and {trigger-outcome} == \"bluff_exposed\"",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "gameHit",
+          "value": "{gameHit} + 1"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtTruthDareAssigned",
+      "requiredExpression": "{gameTarget} != \"off\" and {paused} == \"off\" and {gTruthDare} == \"on\"",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "gameHit",
+          "value": "{gameHit} + 1"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtDilemmaResult",
+      "requiredExpression": "{gameTarget} != \"off\" and {paused} == \"off\" and {gDilemma} == \"on\" and {trigger-outcome} == \"incorrect\"",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "gameHit",
+          "value": "{gameHit} + 1"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtTrickOrTreatOutcome",
+      "requiredExpression": "{gameTarget} != \"off\" and {paused} == \"off\" and {gTrick} == \"on\" and ({trigger-outcome} == \"loss\" or {trigger-outcome} == \"nothing\")",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "gameHit",
+          "value": "{gameHit} + 1"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtStagedTableAppearance",
+      "requiredExpression": "{gameTarget} != \"off\" and {paused} == \"off\" and {gStaged} == \"on\" and {trigger-state} == \"stage_confirmed\"",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "gameHit",
+          "value": "{gameHit} + 1"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtShowerStarted",
+      "requiredExpression": "{gameTarget} != \"off\" and {paused} == \"off\" and {gShower} == \"on\"",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "gameHit",
+          "value": "{gameHit} + 1"
+        }
+      ]
+    },
+    {
+      "type": "variableChange",
+      "variable": "paused",
+      "valueChange": null,
+      "actions": [
+        {
+          "type": "updateJob",
+          "job": "Apply",
+          "action": "start",
+          "restart": true
+        },
+        {
+          "type": "updateJob",
+          "job": "ShockA",
+          "action": "stop",
+          "requiredExpression": "{paused} == \"on\""
+        },
+        {
+          "type": "updateComponent",
+          "channel": "part-estim-a",
+          "action": "setShock2",
+          "percentVolume": "0",
+          "time": "0",
+          "shock": false,
+          "requiredExpression": "{paused} == \"on\""
+        },
+        {
+          "type": "updateJob",
+          "job": "ShockB",
+          "action": "stop",
+          "requiredExpression": "{paused} == \"on\""
+        },
+        {
+          "type": "updateComponent",
+          "channel": "part-estim-b",
+          "action": "setShock2",
+          "percentVolume": "0",
+          "time": "0",
+          "shock": false,
+          "requiredExpression": "{paused} == \"on\""
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "vtStop",
+          "webhookData": [],
+          "requiredExpression": "{paused} == \"on\" and {pauseStopsBot} == \"on\""
+        }
+      ]
+    },
+    {
+      "type": "variableChange",
+      "variable": "tMax",
+      "valueChange": null,
+      "actions": [
+        {
+          "type": "updateJob",
+          "job": "Apply",
+          "action": "start",
+          "restart": true
+        }
+      ]
+    },
+    {
+      "type": "variableChange",
+      "variable": "aMax",
+      "valueChange": null,
+      "actions": [
+        {
+          "type": "updateJob",
+          "job": "Apply",
+          "action": "start",
+          "restart": true
+        }
+      ]
+    },
+    {
+      "type": "variableChange",
+      "variable": "bMax",
+      "valueChange": null,
+      "actions": [
+        {
+          "type": "updateJob",
+          "job": "Apply",
+          "action": "start",
+          "restart": true
+        }
+      ]
+    },
+    {
+      "type": "variableChange",
+      "variable": "allowShocks",
+      "valueChange": null,
+      "actions": [
+        {
+          "type": "updateJob",
+          "job": "ShockA",
+          "action": "stop",
+          "requiredExpression": "{allowShocks} == \"off\""
+        },
+        {
+          "type": "updateComponent",
+          "channel": "part-estim-a",
+          "action": "setShock2",
+          "percentVolume": "0",
+          "time": "0",
+          "shock": false,
+          "requiredExpression": "{allowShocks} == \"off\""
+        },
+        {
+          "type": "updateJob",
+          "job": "ShockB",
+          "action": "stop",
+          "requiredExpression": "{allowShocks} == \"off\""
+        },
+        {
+          "type": "updateComponent",
+          "channel": "part-estim-b",
+          "action": "setShock2",
+          "percentVolume": "0",
+          "time": "0",
+          "shock": false,
+          "requiredExpression": "{allowShocks} == \"off\""
+        }
+      ]
+    },
+    {
+      "type": "variableChange",
+      "variable": "gameHit",
+      "valueChange": null,
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "tBoostReq",
+          "value": "{gamePct}",
+          "requiredExpression": "{gameTarget} == \"Tremblr\" or {gameTarget} == \"All\""
+        },
+        {
+          "type": "updateJob",
+          "job": "BoostT",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{gameTarget} == \"Tremblr\" or {gameTarget} == \"All\""
+        },
+        {
+          "type": "updateVariable",
+          "variable": "aBoostReq",
+          "value": "{gamePct}",
+          "requiredExpression": "{gameTarget} == \"Channel A\" or {gameTarget} == \"All\""
+        },
+        {
+          "type": "updateJob",
+          "job": "BoostA",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{gameTarget} == \"Channel A\" or {gameTarget} == \"All\""
+        },
+        {
+          "type": "updateVariable",
+          "variable": "bBoostReq",
+          "value": "{gamePct}",
+          "requiredExpression": "{gameTarget} == \"Channel B\" or {gameTarget} == \"All\""
+        },
+        {
+          "type": "updateJob",
+          "job": "BoostB",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{gameTarget} == \"Channel B\" or {gameTarget} == \"All\""
+        },
+        {
+          "type": "updateJob",
+          "job": "Watchdog",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{idleTimeout} > 0"
+        }
+      ]
+    },
+    {
+      "type": "variableChange",
+      "variable": "ctlLevel",
+      "valueChange": null,
+      "actions": [
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "vtSetVibe",
+          "webhookData": [
+            {
+              "key": "group",
+              "value": "{ctlGroup}"
+            },
+            {
+              "key": "level",
+              "value": "{ctlLevel}"
+            }
+          ],
+          "requiredExpression": "{ctlLevel} != \"none\""
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "Asked bot to set {ctlGroup} to {ctlLevel}",
+          "requiredExpression": "{ctlLevel} != \"none\""
+        }
+      ]
+    },
+    {
+      "type": "variableChange",
+      "variable": "ctlEmote",
+      "valueChange": null,
+      "actions": [
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "vtEmote",
+          "webhookData": [
+            {
+              "key": "template",
+              "value": "{ctlEmote}"
+            }
+          ],
+          "requiredExpression": "{ctlEmote} != \"none\""
+        },
+        {
+          "type": "updateVariable",
+          "variable": "ctlEmote",
+          "value": "none",
+          "requiredExpression": "{ctlEmote} != \"none\""
+        }
+      ]
+    },
+    {
+      "type": "variableChange",
+      "variable": "ctlQuery",
+      "valueChange": null,
+      "actions": [
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "vtQueryState",
+          "webhookData": [],
+          "requiredExpression": "{ctlQuery} == \"on\""
+        },
+        {
+          "type": "updateVariable",
+          "variable": "ctlQuery",
+          "value": "off",
+          "requiredExpression": "{ctlQuery} == \"on\""
+        }
+      ]
+    },
+    {
+      "type": "variableChange",
+      "variable": "ctlStop",
+      "valueChange": null,
+      "actions": [
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "vtStop",
+          "webhookData": [],
+          "requiredExpression": "{ctlStop} == \"on\""
+        },
+        {
+          "type": "updateVariable",
+          "variable": "ctlStop",
+          "value": "off",
+          "requiredExpression": "{ctlStop} == \"on\""
+        }
+      ]
+    }
+  ],
+  "jobs": {
+    "Apply": {
+      "steps": {
+        "START": {
+          "actions": [
+            {
+              "type": "updateComponent",
+              "channel": "generic-1-a",
+              "action": "setVolume",
+              "percentVolume": "{paused} == \"on\" ? 0 : min({tMax}, {tLevel} * {tMax} / 4 + {tBoost})",
+              "rampTime": "{paused} == \"on\" ? 0 : {rampTime}"
+            },
+            {
+              "type": "updateComponent",
+              "channel": "part-estim-a",
+              "action": "setVolume",
+              "percentVolume": "{paused} == \"on\" ? 0 : min({aMax}, {aLevel} * {aMax} / 4 + {aBoost})",
+              "rampTime": "{paused} == \"on\" ? 0 : {rampTime}"
+            },
+            {
+              "type": "updateComponent",
+              "channel": "part-estim-b",
+              "action": "setVolume",
+              "percentVolume": "{paused} == \"on\" ? 0 : min({bMax}, {bLevel} * {bMax} / 4 + {bBoost})",
+              "rampTime": "{paused} == \"on\" ? 0 : {rampTime}"
+            }
+          ],
+          "triggers": []
+        }
+      }
+    },
+    "StopAll": {
+      "steps": {
+        "START": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "variable": "tLevel",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "tBoost",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "aLevel",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "aBoost",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "bLevel",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "bBoost",
+              "value": "0"
+            },
+            {
+              "type": "updateJob",
+              "job": "BoostT",
+              "action": "stop"
+            },
+            {
+              "type": "updateJob",
+              "job": "BoostA",
+              "action": "stop"
+            },
+            {
+              "type": "updateJob",
+              "job": "BoostB",
+              "action": "stop"
+            },
+            {
+              "type": "updateJob",
+              "job": "ShockA",
+              "action": "stop"
+            },
+            {
+              "type": "updateJob",
+              "job": "ShockB",
+              "action": "stop"
+            },
+            {
+              "type": "updateJob",
+              "job": "Watchdog",
+              "action": "stop"
+            },
+            {
+              "type": "updateComponent",
+              "channel": "generic-1-a",
+              "action": "setVolume",
+              "percentVolume": "0",
+              "rampTime": 0
+            },
+            {
+              "type": "updateComponent",
+              "channel": "part-estim-a",
+              "action": "setVolume",
+              "percentVolume": "0",
+              "rampTime": 0
+            },
+            {
+              "type": "updateComponent",
+              "channel": "part-estim-b",
+              "action": "setVolume",
+              "percentVolume": "0",
+              "rampTime": 0
+            },
+            {
+              "type": "updateComponent",
+              "channel": "part-estim-a",
+              "action": "setShock2",
+              "percentVolume": "0",
+              "time": "0",
+              "shock": false
+            },
+            {
+              "type": "updateComponent",
+              "channel": "part-estim-b",
+              "action": "setShock2",
+              "percentVolume": "0",
+              "time": "0",
+              "shock": false
+            }
+          ],
+          "triggers": []
+        }
+      }
+    },
+    "Watchdog": {
+      "steps": {
+        "START": {
+          "actions": [],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{idleTimeout}",
+              "actions": [
+                {
+                  "type": "updateJob",
+                  "job": "StopAll",
+                  "action": "start",
+                  "restart": true
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "BoostT": {
+      "steps": {
+        "START": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "variable": "tBoost",
+              "value": "{tBoostReq} * {tMax} / 100"
+            },
+            {
+              "type": "updateJob",
+              "job": "Apply",
+              "action": "start",
+              "restart": true
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{boostSeconds}",
+              "actions": [
+                {
+                  "type": "updateVariable",
+                  "variable": "tBoost",
+                  "value": "0"
+                },
+                {
+                  "type": "updateJob",
+                  "job": "Apply",
+                  "action": "start",
+                  "restart": true
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "BoostA": {
+      "steps": {
+        "START": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "variable": "aBoost",
+              "value": "{aBoostReq} * {aMax} / 100"
+            },
+            {
+              "type": "updateJob",
+              "job": "Apply",
+              "action": "start",
+              "restart": true
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{boostSeconds}",
+              "actions": [
+                {
+                  "type": "updateVariable",
+                  "variable": "aBoost",
+                  "value": "0"
+                },
+                {
+                  "type": "updateJob",
+                  "job": "Apply",
+                  "action": "start",
+                  "restart": true
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "BoostB": {
+      "steps": {
+        "START": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "variable": "bBoost",
+              "value": "{bBoostReq} * {bMax} / 100"
+            },
+            {
+              "type": "updateJob",
+              "job": "Apply",
+              "action": "start",
+              "restart": true
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{boostSeconds}",
+              "actions": [
+                {
+                  "type": "updateVariable",
+                  "variable": "bBoost",
+                  "value": "0"
+                },
+                {
+                  "type": "updateJob",
+                  "job": "Apply",
+                  "action": "start",
+                  "restart": true
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "ShockA": {
+      "steps": {
+        "START": {
+          "actions": [
+            {
+              "type": "updateComponent",
+              "channel": "part-estim-a",
+              "action": "setShock2",
+              "percentVolume": "min({shockMax}, {aShockPct})",
+              "time": "{shockSeconds}",
+              "shock": true
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{shockSeconds} + 1",
+              "actions": [
+                {
+                  "type": "updateComponent",
+                  "channel": "part-estim-a",
+                  "action": "setShock2",
+                  "percentVolume": "0",
+                  "time": "0",
+                  "shock": false
+                },
+                {
+                  "type": "updateJob",
+                  "job": "Apply",
+                  "action": "start",
+                  "restart": true
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "ShockB": {
+      "steps": {
+        "START": {
+          "actions": [
+            {
+              "type": "updateComponent",
+              "channel": "part-estim-b",
+              "action": "setShock2",
+              "percentVolume": "min({shockMax}, {bShockPct})",
+              "time": "{shockSeconds}",
+              "shock": true
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{shockSeconds} + 1",
+              "actions": [
+                {
+                  "type": "updateComponent",
+                  "channel": "part-estim-b",
+                  "action": "setShock2",
+                  "percentVolume": "0",
+                  "time": "0",
+                  "shock": false
+                },
+                {
+                  "type": "updateJob",
+                  "job": "Apply",
+                  "action": "start",
+                  "restart": true
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "JoinCooldown": {
+      "steps": {
+        "START": {
+          "actions": [],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{eventCooldown}",
+              "actions": [
+                {
+                  "type": "updateVariable",
+                  "variable": "joinReady",
+                  "value": "on"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "SpeakCooldown": {
+      "steps": {
+        "START": {
+          "actions": [],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{eventCooldown}",
+              "actions": [
+                {
+                  "type": "updateVariable",
+                  "variable": "speakReady",
+                  "value": "on"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  },
+  "queues": [],
+  "channels": {
+    "webhook-a": {
+      "type": "webhook",
+      "outbound": true,
+      "hideWebhookInfo": false
+    },
+    "generic-1-a": {
+      "type": "generic-1",
+      "name": "Tremblr"
+    },
+    "part-estim-a": {
+      "type": "part-estim",
+      "name": "DG-LAB channel A"
+    },
+    "part-estim-b": {
+      "type": "part-estim",
+      "name": "DG-LAB channel B"
+    }
+  },
+  "controls": [
+    {
+      "type": "header",
+      "name": "Safety",
+      "description": "Pause stops every output immediately."
+    },
+    {
+      "id": "paused",
+      "type": "toggle",
+      "name": "Pause everything",
+      "up": "off",
+      "down": "on",
+      "value": "off"
+    },
+    {
+      "id": "idleTimeout",
+      "type": "slider",
+      "name": "Idle stop (s, 0 = off)",
+      "min": 0,
+      "max": 600,
+      "value": 0,
+      "description": "Stop all outputs when no event arrives for this long. The Veratown bot sends no keep-alives, so a quiet room also stops the outputs."
+    },
+    {
+      "type": "header",
+      "name": "Tremblr",
+      "description": "Speed follows the vibrator level on the chosen BC body group."
+    },
+    {
+      "id": "tGroup",
+      "type": "select",
+      "name": "Tremblr follows",
+      "options": [
+        "off",
+        "ItemVulva",
+        "ItemVulvaPiercings",
+        "ItemButt",
+        "ItemPelvis",
+        "ItemNipples",
+        "ItemNipplesPiercings",
+        "ItemBreast",
+        "ItemNeck"
+      ],
+      "value": "ItemVulva"
+    },
+    {
+      "id": "tMax",
+      "type": "slider",
+      "name": "Tremblr max speed %",
+      "min": 0,
+      "max": 100,
+      "value": 60
+    },
+    {
+      "type": "header",
+      "name": "DG-LAB Coyote",
+      "description": "Also set channel limits in the DG-LAB settings. Start low."
+    },
+    {
+      "id": "aGroup",
+      "type": "select",
+      "name": "Channel A follows",
+      "options": [
+        "off",
+        "ItemVulva",
+        "ItemVulvaPiercings",
+        "ItemButt",
+        "ItemPelvis",
+        "ItemNipples",
+        "ItemNipplesPiercings",
+        "ItemBreast",
+        "ItemNeck"
+      ],
+      "value": "ItemNipples"
+    },
+    {
+      "id": "aMax",
+      "type": "slider",
+      "name": "Channel A max %",
+      "min": 0,
+      "max": 100,
+      "value": 20
+    },
+    {
+      "id": "bGroup",
+      "type": "select",
+      "name": "Channel B follows",
+      "options": [
+        "off",
+        "ItemVulva",
+        "ItemVulvaPiercings",
+        "ItemButt",
+        "ItemPelvis",
+        "ItemNipples",
+        "ItemNipplesPiercings",
+        "ItemBreast",
+        "ItemNeck"
+      ],
+      "value": "ItemButt"
+    },
+    {
+      "id": "bMax",
+      "type": "slider",
+      "name": "Channel B max %",
+      "min": 0,
+      "max": 100,
+      "value": 20
+    },
+    {
+      "id": "allowShocks",
+      "type": "toggle",
+      "name": "Allow shock events",
+      "up": "off",
+      "down": "on",
+      "value": "off",
+      "description": "BC shock items (ShockLow/Med/High) on a channel's group send a timed shock to that channel."
+    },
+    {
+      "id": "shockMax",
+      "type": "slider",
+      "name": "Shock strength %",
+      "min": 0,
+      "max": 100,
+      "value": 30
+    },
+    {
+      "id": "shockSeconds",
+      "type": "slider",
+      "name": "Shock duration (s)",
+      "min": 0.5,
+      "max": 2,
+      "value": 1
+    },
+    {
+      "type": "header",
+      "name": "Activities and ramps"
+    },
+    {
+      "id": "boostPct",
+      "type": "slider",
+      "name": "Activity boost % of max",
+      "min": 0,
+      "max": 100,
+      "value": 30
+    },
+    {
+      "id": "boostSeconds",
+      "type": "slider",
+      "name": "Activity boost duration (s)",
+      "min": 1,
+      "max": 20,
+      "value": 5
+    },
+    {
+      "id": "rampTime",
+      "type": "slider",
+      "name": "Ramp (s)",
+      "min": 0,
+      "max": 5,
+      "value": 1
+    },
+    {
+      "id": "followInflation",
+      "type": "toggle",
+      "name": "Inflation counts as level",
+      "up": "off",
+      "down": "on",
+      "value": "on",
+      "description": "inflationEvent on a mapped group sets that output like a vibrator level (0-4)."
+    },
+    {
+      "type": "header",
+      "name": "Veratown game events",
+      "description": "Sent by the Veratown bot for games you enable with !xtoys game."
+    },
+    {
+      "id": "gameTarget",
+      "type": "select",
+      "name": "Game events boost",
+      "options": ["off", "Tremblr", "Channel A", "Channel B", "All"],
+      "value": "off"
+    },
+    {
+      "id": "gamePct",
+      "type": "slider",
+      "name": "Game boost % of max",
+      "min": 0,
+      "max": 100,
+      "value": 30
+    },
+    {
+      "id": "gCasino",
+      "type": "toggle",
+      "name": "Casino loss",
+      "up": "off",
+      "down": "on",
+      "value": "on"
+    },
+    {
+      "id": "gHotSeat",
+      "type": "toggle",
+      "name": "Picked for the Hot Seat or bluff exposed",
+      "up": "off",
+      "down": "on",
+      "value": "on"
+    },
+    {
+      "id": "gTruthDare",
+      "type": "toggle",
+      "name": "Truth or Dare challenge assigned",
+      "up": "off",
+      "down": "on",
+      "value": "on"
+    },
+    {
+      "id": "gDilemma",
+      "type": "toggle",
+      "name": "Dilemma prediction wrong",
+      "up": "off",
+      "down": "on",
+      "value": "on"
+    },
+    {
+      "id": "gTrick",
+      "type": "toggle",
+      "name": "Trick-or-treat loss or nothing",
+      "up": "off",
+      "down": "on",
+      "value": "on"
+    },
+    {
+      "id": "gStaged",
+      "type": "toggle",
+      "name": "Staged Table stage confirmed",
+      "up": "off",
+      "down": "on",
+      "value": "on"
+    },
+    {
+      "id": "gShower",
+      "type": "toggle",
+      "name": "Shower starts",
+      "up": "off",
+      "down": "on",
+      "value": "on"
+    },
+    {
+      "type": "header",
+      "name": "Room and chat",
+      "description": "From the Veratown bot (!xtoys mirror room chat) or the BC room and chat userscript (/xtroom)."
+    },
+    {
+      "id": "joinTarget",
+      "type": "select",
+      "name": "Someone enters the room",
+      "options": ["off", "Tremblr", "Channel A", "Channel B", "All"],
+      "value": "off"
+    },
+    {
+      "id": "joinPct",
+      "type": "slider",
+      "name": "Room entry boost % of max",
+      "min": 0,
+      "max": 100,
+      "value": 40
+    },
+    {
+      "id": "speakTarget",
+      "type": "select",
+      "name": "Someone speaks to me",
+      "options": ["off", "Tremblr", "Channel A", "Channel B", "All"],
+      "value": "off",
+      "description": "Public chat or emotes that mention you. Whispers to you are not visible to a bot."
+    },
+    {
+      "id": "speakPct",
+      "type": "slider",
+      "name": "Spoken-to boost % of max",
+      "min": 0,
+      "max": 100,
+      "value": 25
+    },
+    {
+      "id": "trustedOnly",
+      "type": "toggle",
+      "name": "Only trusted members",
+      "up": "off",
+      "down": "on",
+      "value": "off",
+      "description": "React only to members marked trusted: your !xtoys allow list with the Veratown bot, or your whitelist, owner, or lovers with the room and chat userscript."
+    },
+    {
+      "id": "eventCooldown",
+      "type": "slider",
+      "name": "Room/chat cooldown (s)",
+      "min": 5,
+      "max": 300,
+      "value": 30,
+      "description": "Minimum time between reactions to the same kind of room or chat event."
+    },
+    {
+      "type": "header",
+      "name": "Control BC from XToys (two-way)",
+      "description": "Sends requests to the Veratown bot. Each one also needs the matching !xtoys control grant; the bot's answer is shown in the status text."
+    },
+    {
+      "id": "ctlGroup",
+      "type": "select",
+      "name": "BC vibrator to set",
+      "options": [
+        "ItemVulva",
+        "ItemVulvaPiercings",
+        "ItemButt",
+        "ItemPelvis",
+        "ItemNipples",
+        "ItemNipplesPiercings",
+        "ItemBreast",
+        "ItemNeck"
+      ],
+      "value": "ItemVulva",
+      "description": "Must also be in your !xtoys groups list."
+    },
+    {
+      "id": "ctlLevel",
+      "type": "select",
+      "name": "Set BC vibrator level",
+      "options": ["none", "off", "low", "medium", "high", "maximum"],
+      "value": "none",
+      "description": "Choosing a level asks the bot to set it (needs setVibe). Pick none first to send the same level again."
+    },
+    {
+      "id": "ctlEmote",
+      "type": "select",
+      "name": "Send emote",
+      "options": ["none", "shiver", "squirm", "gasp", "blush", "moan"],
+      "value": "none",
+      "description": "Asks the bot for a fixed emote (needs emote); at most one every 30 s."
+    },
+    {
+      "id": "ctlQuery",
+      "type": "toggle",
+      "name": "Ask bot for state",
+      "up": "off",
+      "down": "on",
+      "value": "off",
+      "description": "Shows whether you are in the room and your observed vibrator levels (needs queryState)."
+    },
+    {
+      "id": "ctlStop",
+      "type": "toggle",
+      "name": "Stop bot control",
+      "up": "off",
+      "down": "on",
+      "value": "off",
+      "description": "Sends vtStop (needs stop). With !xtoys stopchanges vibesOff the bot also turns your vibrators off."
+    },
+    {
+      "id": "pauseStopsBot",
+      "type": "toggle",
+      "name": "Pause also stops bot control",
+      "up": "off",
+      "down": "on",
+      "value": "on"
+    }
+  ],
+  "customFunctions": ""
+}

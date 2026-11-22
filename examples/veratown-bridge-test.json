@@ -1,0 +1,2982 @@
+{
+  "initialActions": [
+    {
+      "type": "updateVariable",
+      "variable": "cBridgeVerify",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "cBridgeTest",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "cBridgeState",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "cVtResult",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "cBridgeStop",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "cToyEvent",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "cInflationEvent",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "cItemAdded",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "cItemRemoved",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "cActivityEvent",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "cActivityOnOtherEvent",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "cVtRoomJoin",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "cVtRoomLeave",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "cVtSpokenTo",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "cVtLocationEntered",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "cVtLocationLeft",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "cVtCasinoResult",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "cVtHotSeatSelected",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "cVtHotSeatReleased",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "cVtTruthDareAssigned",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "cVtTruthDareResolved",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "cVtDilemmaResult",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "cVtStagedTablePhase",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "cVtStagedTableAppearance",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "cVtShowerStarted",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "cVtShowerEnded",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "cVtTrickOrTreatOutcome",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "received",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "sent",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "resOther",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "resRejected",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "typesSeen",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "lastEvent",
+      "value": "none"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "runId",
+      "value": "0"
+    },
+    {
+      "type": "updateComponent",
+      "channel": "generic-1-a",
+      "action": "setVolume",
+      "percentVolume": "0",
+      "rampTime": 0
+    },
+    {
+      "type": "updateScript",
+      "action": "setText",
+      "text": "Veratown bridge test: waiting for events"
+    }
+  ],
+  "finalActions": [
+    {
+      "type": "updateComponent",
+      "channel": "generic-1-a",
+      "action": "setVolume",
+      "percentVolume": "0",
+      "rampTime": 0
+    }
+  ],
+  "globalTriggers": [
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "bridgeVerify",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "cBridgeVerify",
+          "value": "{cBridgeVerify} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "received",
+          "value": "{received} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "lastEvent",
+          "value": "bridgeVerify"
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "#{received} bridgeVerify code={trigger-code}"
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "probeAck",
+          "webhookData": [
+            {
+              "key": "event",
+              "value": "bridgeVerify"
+            },
+            {
+              "key": "seq",
+              "value": "{trigger-seq}"
+            },
+            {
+              "key": "count",
+              "value": "{cBridgeVerify}"
+            },
+            {
+              "key": "f1",
+              "value": "{trigger-code}"
+            }
+          ],
+          "requiredExpression": "{echo} == \"on\""
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "bridgeTest",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "cBridgeTest",
+          "value": "{cBridgeTest} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "received",
+          "value": "{received} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "lastEvent",
+          "value": "bridgeTest"
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "#{received} bridgeTest"
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "probeAck",
+          "webhookData": [
+            {
+              "key": "event",
+              "value": "bridgeTest"
+            },
+            {
+              "key": "seq",
+              "value": "{trigger-seq}"
+            },
+            {
+              "key": "count",
+              "value": "{cBridgeTest}"
+            }
+          ],
+          "requiredExpression": "{echo} == \"on\""
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "bridgeState",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "cBridgeState",
+          "value": "{cBridgeState} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "received",
+          "value": "{received} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "lastEvent",
+          "value": "bridgeState"
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "#{received} bridgeState present={trigger-present} requestId={trigger-requestId}"
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "probeAck",
+          "webhookData": [
+            {
+              "key": "event",
+              "value": "bridgeState"
+            },
+            {
+              "key": "seq",
+              "value": "{trigger-seq}"
+            },
+            {
+              "key": "count",
+              "value": "{cBridgeState}"
+            },
+            {
+              "key": "f1",
+              "value": "{trigger-present}"
+            },
+            {
+              "key": "f2",
+              "value": "{trigger-requestId}"
+            }
+          ],
+          "requiredExpression": "{echo} == \"on\""
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtResult",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "cVtResult",
+          "value": "{cVtResult} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "received",
+          "value": "{received} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "lastEvent",
+          "value": "vtResult"
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "#{received} vtResult status={trigger-status} requestId={trigger-requestId}"
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "probeAck",
+          "webhookData": [
+            {
+              "key": "event",
+              "value": "vtResult"
+            },
+            {
+              "key": "seq",
+              "value": "{trigger-seq}"
+            },
+            {
+              "key": "count",
+              "value": "{cVtResult}"
+            },
+            {
+              "key": "f1",
+              "value": "{trigger-status}"
+            },
+            {
+              "key": "f2",
+              "value": "{trigger-requestId}"
+            }
+          ],
+          "requiredExpression": "{echo} == \"on\""
+        },
+        {
+          "type": "updateVariable",
+          "variable": "resRejected",
+          "value": "{resRejected} + 1",
+          "requiredExpression": "{trigger-status} == \"rejected\""
+        },
+        {
+          "type": "updateVariable",
+          "variable": "resOther",
+          "value": "{resOther} + 1",
+          "requiredExpression": "{trigger-status} != \"rejected\""
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "bridgeStop",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "cBridgeStop",
+          "value": "{cBridgeStop} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "received",
+          "value": "{received} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "lastEvent",
+          "value": "bridgeStop"
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "#{received} bridgeStop reason={trigger-reason}"
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "probeAck",
+          "webhookData": [
+            {
+              "key": "event",
+              "value": "bridgeStop"
+            },
+            {
+              "key": "seq",
+              "value": "{trigger-seq}"
+            },
+            {
+              "key": "count",
+              "value": "{cBridgeStop}"
+            },
+            {
+              "key": "f1",
+              "value": "{trigger-reason}"
+            }
+          ],
+          "requiredExpression": "{echo} == \"on\""
+        },
+        {
+          "type": "updateComponent",
+          "channel": "generic-1-a",
+          "action": "setVolume",
+          "percentVolume": "0",
+          "rampTime": 0
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "toyEvent",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "cToyEvent",
+          "value": "{cToyEvent} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "received",
+          "value": "{received} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "lastEvent",
+          "value": "toyEvent"
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "#{received} toyEvent assetGroupName={trigger-assetGroupName} level={trigger-level}"
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "probeAck",
+          "webhookData": [
+            {
+              "key": "event",
+              "value": "toyEvent"
+            },
+            {
+              "key": "seq",
+              "value": "{trigger-seq}"
+            },
+            {
+              "key": "count",
+              "value": "{cToyEvent}"
+            },
+            {
+              "key": "f1",
+              "value": "{trigger-assetGroupName}"
+            },
+            {
+              "key": "f2",
+              "value": "{trigger-level}"
+            }
+          ],
+          "requiredExpression": "{echo} == \"on\""
+        },
+        {
+          "type": "updateComponent",
+          "channel": "generic-1-a",
+          "action": "setVolume",
+          "percentVolume": "{paused} == \"on\" ? 0 : max(0, min(4, {trigger-level})) * {toyMax} / 4",
+          "rampTime": 500,
+          "requiredExpression": "{driveToy} == \"on\""
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "inflationEvent",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "cInflationEvent",
+          "value": "{cInflationEvent} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "received",
+          "value": "{received} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "lastEvent",
+          "value": "inflationEvent"
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "#{received} inflationEvent assetGroupName={trigger-assetGroupName} level={trigger-level}"
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "probeAck",
+          "webhookData": [
+            {
+              "key": "event",
+              "value": "inflationEvent"
+            },
+            {
+              "key": "seq",
+              "value": "{trigger-seq}"
+            },
+            {
+              "key": "count",
+              "value": "{cInflationEvent}"
+            },
+            {
+              "key": "f1",
+              "value": "{trigger-assetGroupName}"
+            },
+            {
+              "key": "f2",
+              "value": "{trigger-level}"
+            }
+          ],
+          "requiredExpression": "{echo} == \"on\""
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "itemAdded",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "cItemAdded",
+          "value": "{cItemAdded} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "received",
+          "value": "{received} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "lastEvent",
+          "value": "itemAdded"
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "#{received} itemAdded assetGroupName={trigger-assetGroupName} assetName={trigger-assetName}"
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "probeAck",
+          "webhookData": [
+            {
+              "key": "event",
+              "value": "itemAdded"
+            },
+            {
+              "key": "seq",
+              "value": "{trigger-seq}"
+            },
+            {
+              "key": "count",
+              "value": "{cItemAdded}"
+            },
+            {
+              "key": "f1",
+              "value": "{trigger-assetGroupName}"
+            },
+            {
+              "key": "f2",
+              "value": "{trigger-assetName}"
+            }
+          ],
+          "requiredExpression": "{echo} == \"on\""
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "itemRemoved",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "cItemRemoved",
+          "value": "{cItemRemoved} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "received",
+          "value": "{received} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "lastEvent",
+          "value": "itemRemoved"
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "#{received} itemRemoved assetGroupName={trigger-assetGroupName} assetName={trigger-assetName}"
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "probeAck",
+          "webhookData": [
+            {
+              "key": "event",
+              "value": "itemRemoved"
+            },
+            {
+              "key": "seq",
+              "value": "{trigger-seq}"
+            },
+            {
+              "key": "count",
+              "value": "{cItemRemoved}"
+            },
+            {
+              "key": "f1",
+              "value": "{trigger-assetGroupName}"
+            },
+            {
+              "key": "f2",
+              "value": "{trigger-assetName}"
+            }
+          ],
+          "requiredExpression": "{echo} == \"on\""
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "activityEvent",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "cActivityEvent",
+          "value": "{cActivityEvent} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "received",
+          "value": "{received} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "lastEvent",
+          "value": "activityEvent"
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "#{received} activityEvent assetGroupName={trigger-assetGroupName} actionName={trigger-actionName}"
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "probeAck",
+          "webhookData": [
+            {
+              "key": "event",
+              "value": "activityEvent"
+            },
+            {
+              "key": "seq",
+              "value": "{trigger-seq}"
+            },
+            {
+              "key": "count",
+              "value": "{cActivityEvent}"
+            },
+            {
+              "key": "f1",
+              "value": "{trigger-assetGroupName}"
+            },
+            {
+              "key": "f2",
+              "value": "{trigger-actionName}"
+            }
+          ],
+          "requiredExpression": "{echo} == \"on\""
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "activityOnOtherEvent",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "cActivityOnOtherEvent",
+          "value": "{cActivityOnOtherEvent} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "received",
+          "value": "{received} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "lastEvent",
+          "value": "activityOnOtherEvent"
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "#{received} activityOnOtherEvent assetGroupName={trigger-assetGroupName} actionName={trigger-actionName}"
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "probeAck",
+          "webhookData": [
+            {
+              "key": "event",
+              "value": "activityOnOtherEvent"
+            },
+            {
+              "key": "seq",
+              "value": "{trigger-seq}"
+            },
+            {
+              "key": "count",
+              "value": "{cActivityOnOtherEvent}"
+            },
+            {
+              "key": "f1",
+              "value": "{trigger-assetGroupName}"
+            },
+            {
+              "key": "f2",
+              "value": "{trigger-actionName}"
+            }
+          ],
+          "requiredExpression": "{echo} == \"on\""
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtRoomJoin",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "cVtRoomJoin",
+          "value": "{cVtRoomJoin} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "received",
+          "value": "{received} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "lastEvent",
+          "value": "vtRoomJoin"
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "#{received} vtRoomJoin who={trigger-who}"
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "probeAck",
+          "webhookData": [
+            {
+              "key": "event",
+              "value": "vtRoomJoin"
+            },
+            {
+              "key": "seq",
+              "value": "{trigger-seq}"
+            },
+            {
+              "key": "count",
+              "value": "{cVtRoomJoin}"
+            },
+            {
+              "key": "f1",
+              "value": "{trigger-who}"
+            }
+          ],
+          "requiredExpression": "{echo} == \"on\""
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtRoomLeave",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "cVtRoomLeave",
+          "value": "{cVtRoomLeave} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "received",
+          "value": "{received} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "lastEvent",
+          "value": "vtRoomLeave"
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "#{received} vtRoomLeave who={trigger-who}"
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "probeAck",
+          "webhookData": [
+            {
+              "key": "event",
+              "value": "vtRoomLeave"
+            },
+            {
+              "key": "seq",
+              "value": "{trigger-seq}"
+            },
+            {
+              "key": "count",
+              "value": "{cVtRoomLeave}"
+            },
+            {
+              "key": "f1",
+              "value": "{trigger-who}"
+            }
+          ],
+          "requiredExpression": "{echo} == \"on\""
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtSpokenTo",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "cVtSpokenTo",
+          "value": "{cVtSpokenTo} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "received",
+          "value": "{received} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "lastEvent",
+          "value": "vtSpokenTo"
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "#{received} vtSpokenTo kind={trigger-kind}"
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "probeAck",
+          "webhookData": [
+            {
+              "key": "event",
+              "value": "vtSpokenTo"
+            },
+            {
+              "key": "seq",
+              "value": "{trigger-seq}"
+            },
+            {
+              "key": "count",
+              "value": "{cVtSpokenTo}"
+            },
+            {
+              "key": "f1",
+              "value": "{trigger-kind}"
+            }
+          ],
+          "requiredExpression": "{echo} == \"on\""
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtLocationEntered",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "cVtLocationEntered",
+          "value": "{cVtLocationEntered} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "received",
+          "value": "{received} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "lastEvent",
+          "value": "vtLocationEntered"
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "#{received} vtLocationEntered location={trigger-location} locationType={trigger-locationType}"
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "probeAck",
+          "webhookData": [
+            {
+              "key": "event",
+              "value": "vtLocationEntered"
+            },
+            {
+              "key": "seq",
+              "value": "{trigger-seq}"
+            },
+            {
+              "key": "count",
+              "value": "{cVtLocationEntered}"
+            },
+            {
+              "key": "f1",
+              "value": "{trigger-location}"
+            },
+            {
+              "key": "f2",
+              "value": "{trigger-locationType}"
+            }
+          ],
+          "requiredExpression": "{echo} == \"on\""
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtLocationLeft",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "cVtLocationLeft",
+          "value": "{cVtLocationLeft} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "received",
+          "value": "{received} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "lastEvent",
+          "value": "vtLocationLeft"
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "#{received} vtLocationLeft location={trigger-location} locationType={trigger-locationType}"
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "probeAck",
+          "webhookData": [
+            {
+              "key": "event",
+              "value": "vtLocationLeft"
+            },
+            {
+              "key": "seq",
+              "value": "{trigger-seq}"
+            },
+            {
+              "key": "count",
+              "value": "{cVtLocationLeft}"
+            },
+            {
+              "key": "f1",
+              "value": "{trigger-location}"
+            },
+            {
+              "key": "f2",
+              "value": "{trigger-locationType}"
+            }
+          ],
+          "requiredExpression": "{echo} == \"on\""
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtCasinoResult",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "cVtCasinoResult",
+          "value": "{cVtCasinoResult} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "received",
+          "value": "{received} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "lastEvent",
+          "value": "vtCasinoResult"
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "#{received} vtCasinoResult game={trigger-game} outcome={trigger-outcome}"
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "probeAck",
+          "webhookData": [
+            {
+              "key": "event",
+              "value": "vtCasinoResult"
+            },
+            {
+              "key": "seq",
+              "value": "{trigger-seq}"
+            },
+            {
+              "key": "count",
+              "value": "{cVtCasinoResult}"
+            },
+            {
+              "key": "f1",
+              "value": "{trigger-game}"
+            },
+            {
+              "key": "f2",
+              "value": "{trigger-outcome}"
+            }
+          ],
+          "requiredExpression": "{echo} == \"on\""
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtHotSeatSelected",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "cVtHotSeatSelected",
+          "value": "{cVtHotSeatSelected} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "received",
+          "value": "{received} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "lastEvent",
+          "value": "vtHotSeatSelected"
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "#{received} vtHotSeatSelected"
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "probeAck",
+          "webhookData": [
+            {
+              "key": "event",
+              "value": "vtHotSeatSelected"
+            },
+            {
+              "key": "seq",
+              "value": "{trigger-seq}"
+            },
+            {
+              "key": "count",
+              "value": "{cVtHotSeatSelected}"
+            }
+          ],
+          "requiredExpression": "{echo} == \"on\""
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtHotSeatReleased",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "cVtHotSeatReleased",
+          "value": "{cVtHotSeatReleased} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "received",
+          "value": "{received} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "lastEvent",
+          "value": "vtHotSeatReleased"
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "#{received} vtHotSeatReleased outcome={trigger-outcome} settlement={trigger-settlement}"
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "probeAck",
+          "webhookData": [
+            {
+              "key": "event",
+              "value": "vtHotSeatReleased"
+            },
+            {
+              "key": "seq",
+              "value": "{trigger-seq}"
+            },
+            {
+              "key": "count",
+              "value": "{cVtHotSeatReleased}"
+            },
+            {
+              "key": "f1",
+              "value": "{trigger-outcome}"
+            },
+            {
+              "key": "f2",
+              "value": "{trigger-settlement}"
+            }
+          ],
+          "requiredExpression": "{echo} == \"on\""
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtTruthDareAssigned",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "cVtTruthDareAssigned",
+          "value": "{cVtTruthDareAssigned} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "received",
+          "value": "{received} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "lastEvent",
+          "value": "vtTruthDareAssigned"
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "#{received} vtTruthDareAssigned kind={trigger-kind} role={trigger-role}"
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "probeAck",
+          "webhookData": [
+            {
+              "key": "event",
+              "value": "vtTruthDareAssigned"
+            },
+            {
+              "key": "seq",
+              "value": "{trigger-seq}"
+            },
+            {
+              "key": "count",
+              "value": "{cVtTruthDareAssigned}"
+            },
+            {
+              "key": "f1",
+              "value": "{trigger-kind}"
+            },
+            {
+              "key": "f2",
+              "value": "{trigger-role}"
+            }
+          ],
+          "requiredExpression": "{echo} == \"on\""
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtTruthDareResolved",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "cVtTruthDareResolved",
+          "value": "{cVtTruthDareResolved} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "received",
+          "value": "{received} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "lastEvent",
+          "value": "vtTruthDareResolved"
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "#{received} vtTruthDareResolved role={trigger-role} outcome={trigger-outcome}"
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "probeAck",
+          "webhookData": [
+            {
+              "key": "event",
+              "value": "vtTruthDareResolved"
+            },
+            {
+              "key": "seq",
+              "value": "{trigger-seq}"
+            },
+            {
+              "key": "count",
+              "value": "{cVtTruthDareResolved}"
+            },
+            {
+              "key": "f1",
+              "value": "{trigger-role}"
+            },
+            {
+              "key": "f2",
+              "value": "{trigger-outcome}"
+            }
+          ],
+          "requiredExpression": "{echo} == \"on\""
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtDilemmaResult",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "cVtDilemmaResult",
+          "value": "{cVtDilemmaResult} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "received",
+          "value": "{received} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "lastEvent",
+          "value": "vtDilemmaResult"
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "#{received} vtDilemmaResult choice={trigger-choice} outcome={trigger-outcome}"
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "probeAck",
+          "webhookData": [
+            {
+              "key": "event",
+              "value": "vtDilemmaResult"
+            },
+            {
+              "key": "seq",
+              "value": "{trigger-seq}"
+            },
+            {
+              "key": "count",
+              "value": "{cVtDilemmaResult}"
+            },
+            {
+              "key": "f1",
+              "value": "{trigger-choice}"
+            },
+            {
+              "key": "f2",
+              "value": "{trigger-outcome}"
+            }
+          ],
+          "requiredExpression": "{echo} == \"on\""
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtStagedTablePhase",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "cVtStagedTablePhase",
+          "value": "{cVtStagedTablePhase} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "received",
+          "value": "{received} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "lastEvent",
+          "value": "vtStagedTablePhase"
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "#{received} vtStagedTablePhase phase={trigger-phase}"
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "probeAck",
+          "webhookData": [
+            {
+              "key": "event",
+              "value": "vtStagedTablePhase"
+            },
+            {
+              "key": "seq",
+              "value": "{trigger-seq}"
+            },
+            {
+              "key": "count",
+              "value": "{cVtStagedTablePhase}"
+            },
+            {
+              "key": "f1",
+              "value": "{trigger-phase}"
+            }
+          ],
+          "requiredExpression": "{echo} == \"on\""
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtStagedTableAppearance",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "cVtStagedTableAppearance",
+          "value": "{cVtStagedTableAppearance} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "received",
+          "value": "{received} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "lastEvent",
+          "value": "vtStagedTableAppearance"
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "#{received} vtStagedTableAppearance state={trigger-state} stage={trigger-stage}"
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "probeAck",
+          "webhookData": [
+            {
+              "key": "event",
+              "value": "vtStagedTableAppearance"
+            },
+            {
+              "key": "seq",
+              "value": "{trigger-seq}"
+            },
+            {
+              "key": "count",
+              "value": "{cVtStagedTableAppearance}"
+            },
+            {
+              "key": "f1",
+              "value": "{trigger-state}"
+            },
+            {
+              "key": "f2",
+              "value": "{trigger-stage}"
+            }
+          ],
+          "requiredExpression": "{echo} == \"on\""
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtShowerStarted",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "cVtShowerStarted",
+          "value": "{cVtShowerStarted} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "received",
+          "value": "{received} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "lastEvent",
+          "value": "vtShowerStarted"
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "#{received} vtShowerStarted"
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "probeAck",
+          "webhookData": [
+            {
+              "key": "event",
+              "value": "vtShowerStarted"
+            },
+            {
+              "key": "seq",
+              "value": "{trigger-seq}"
+            },
+            {
+              "key": "count",
+              "value": "{cVtShowerStarted}"
+            }
+          ],
+          "requiredExpression": "{echo} == \"on\""
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtShowerEnded",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "cVtShowerEnded",
+          "value": "{cVtShowerEnded} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "received",
+          "value": "{received} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "lastEvent",
+          "value": "vtShowerEnded"
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "#{received} vtShowerEnded reason={trigger-reason}"
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "probeAck",
+          "webhookData": [
+            {
+              "key": "event",
+              "value": "vtShowerEnded"
+            },
+            {
+              "key": "seq",
+              "value": "{trigger-seq}"
+            },
+            {
+              "key": "count",
+              "value": "{cVtShowerEnded}"
+            },
+            {
+              "key": "f1",
+              "value": "{trigger-reason}"
+            }
+          ],
+          "requiredExpression": "{echo} == \"on\""
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtTrickOrTreatOutcome",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "cVtTrickOrTreatOutcome",
+          "value": "{cVtTrickOrTreatOutcome} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "received",
+          "value": "{received} + 1"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "lastEvent",
+          "value": "vtTrickOrTreatOutcome"
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "#{received} vtTrickOrTreatOutcome choice={trigger-choice} outcome={trigger-outcome}"
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "probeAck",
+          "webhookData": [
+            {
+              "key": "event",
+              "value": "vtTrickOrTreatOutcome"
+            },
+            {
+              "key": "seq",
+              "value": "{trigger-seq}"
+            },
+            {
+              "key": "count",
+              "value": "{cVtTrickOrTreatOutcome}"
+            },
+            {
+              "key": "f1",
+              "value": "{trigger-choice}"
+            },
+            {
+              "key": "f2",
+              "value": "{trigger-outcome}"
+            }
+          ],
+          "requiredExpression": "{echo} == \"on\""
+        }
+      ]
+    },
+    {
+      "type": "variableChange",
+      "variable": "sendTest",
+      "valueChange": null,
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "runId",
+          "value": "{runId} + 1",
+          "requiredExpression": "{sendTest} != \"none\""
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "vtQueryState",
+          "webhookData": [
+            {
+              "key": "requestId",
+              "value": "r{runId}s1"
+            }
+          ],
+          "requiredExpression": "{sendTest} == \"query\""
+        },
+        {
+          "type": "updateVariable",
+          "variable": "sent",
+          "value": "{sent} + 1",
+          "requiredExpression": "{sendTest} == \"query\""
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "Sent test query: vtQueryState",
+          "requiredExpression": "{sendTest} == \"query\""
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "vtSetVibe",
+          "webhookData": [
+            {
+              "key": "group",
+              "value": "{testGroup}"
+            },
+            {
+              "key": "level",
+              "value": "low"
+            },
+            {
+              "key": "requestId",
+              "value": "r{runId}s2"
+            }
+          ],
+          "requiredExpression": "{sendTest} == \"setNamed\""
+        },
+        {
+          "type": "updateVariable",
+          "variable": "sent",
+          "value": "{sent} + 1",
+          "requiredExpression": "{sendTest} == \"setNamed\""
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "Sent test setNamed: vtSetVibe named level",
+          "requiredExpression": "{sendTest} == \"setNamed\""
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "vtSetVibe",
+          "webhookData": [
+            {
+              "key": "group",
+              "value": "{testGroup}"
+            },
+            {
+              "key": "level",
+              "value": "40"
+            },
+            {
+              "key": "requestId",
+              "value": "r{runId}s3"
+            }
+          ],
+          "requiredExpression": "{sendTest} == \"setNumber\""
+        },
+        {
+          "type": "updateVariable",
+          "variable": "sent",
+          "value": "{sent} + 1",
+          "requiredExpression": "{sendTest} == \"setNumber\""
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "Sent test setNumber: vtSetVibe numeric level",
+          "requiredExpression": "{sendTest} == \"setNumber\""
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "vtSetVibe",
+          "webhookData": [
+            {
+              "key": "group",
+              "value": "{testGroup}"
+            },
+            {
+              "key": "level",
+              "value": "low"
+            },
+            {
+              "key": "member",
+              "value": "{testMember}"
+            },
+            {
+              "key": "requestId",
+              "value": "r{runId}s4"
+            }
+          ],
+          "requiredExpression": "{sendTest} == \"setMember\" and ({testMember} > 0)"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "sent",
+          "value": "{sent} + 1",
+          "requiredExpression": "{sendTest} == \"setMember\" and ({testMember} > 0)"
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "Sent test setMember: vtSetVibe for member",
+          "requiredExpression": "{sendTest} == \"setMember\" and ({testMember} > 0)"
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "vtEmote",
+          "webhookData": [
+            {
+              "key": "template",
+              "value": "{testEmote}"
+            },
+            {
+              "key": "requestId",
+              "value": "r{runId}s5"
+            }
+          ],
+          "requiredExpression": "{sendTest} == \"emote\""
+        },
+        {
+          "type": "updateVariable",
+          "variable": "sent",
+          "value": "{sent} + 1",
+          "requiredExpression": "{sendTest} == \"emote\""
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "Sent test emote: vtEmote",
+          "requiredExpression": "{sendTest} == \"emote\""
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "vtSetVibe",
+          "webhookData": [
+            {
+              "key": "group",
+              "value": "{testGroup}"
+            },
+            {
+              "key": "level",
+              "value": "off"
+            },
+            {
+              "key": "requestId",
+              "value": "r{runId}s6"
+            }
+          ],
+          "requiredExpression": "{sendTest} == \"setOff\""
+        },
+        {
+          "type": "updateVariable",
+          "variable": "sent",
+          "value": "{sent} + 1",
+          "requiredExpression": "{sendTest} == \"setOff\""
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "Sent test setOff: vtSetVibe off",
+          "requiredExpression": "{sendTest} == \"setOff\""
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "vtStop",
+          "webhookData": [
+            {
+              "key": "requestId",
+              "value": "r{runId}s7"
+            }
+          ],
+          "requiredExpression": "{sendTest} == \"stop\""
+        },
+        {
+          "type": "updateVariable",
+          "variable": "sent",
+          "value": "{sent} + 1",
+          "requiredExpression": "{sendTest} == \"stop\""
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "Sent test stop: vtStop",
+          "requiredExpression": "{sendTest} == \"stop\""
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "vtBogus",
+          "webhookData": [
+            {
+              "key": "requestId",
+              "value": "r{runId}s8"
+            }
+          ],
+          "requiredExpression": "{sendTest} == \"badAction\""
+        },
+        {
+          "type": "updateVariable",
+          "variable": "sent",
+          "value": "{sent} + 1",
+          "requiredExpression": "{sendTest} == \"badAction\""
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "Sent test badAction: unknown action (must be dropped)",
+          "requiredExpression": "{sendTest} == \"badAction\""
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "vtSetVibe",
+          "webhookData": [
+            {
+              "key": "group",
+              "value": "{testGroup}"
+            },
+            {
+              "key": "level",
+              "value": "ultra"
+            },
+            {
+              "key": "requestId",
+              "value": "r{runId}s9"
+            }
+          ],
+          "requiredExpression": "{sendTest} == \"badLevel\""
+        },
+        {
+          "type": "updateVariable",
+          "variable": "sent",
+          "value": "{sent} + 1",
+          "requiredExpression": "{sendTest} == \"badLevel\""
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "Sent test badLevel: invalid level (must be dropped)",
+          "requiredExpression": "{sendTest} == \"badLevel\""
+        },
+        {
+          "type": "updateVariable",
+          "variable": "sendTest",
+          "value": "none",
+          "requiredExpression": "{sendTest} != \"none\""
+        }
+      ]
+    },
+    {
+      "type": "variableChange",
+      "variable": "runAll",
+      "valueChange": null,
+      "actions": [
+        {
+          "type": "updateJob",
+          "job": "RunAll",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{runAll} == \"on\""
+        },
+        {
+          "type": "updateJob",
+          "job": "RunAll",
+          "action": "stop",
+          "requiredExpression": "{runAll} == \"off\""
+        }
+      ]
+    },
+    {
+      "type": "variableChange",
+      "variable": "showSummary",
+      "valueChange": null,
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "typesSeen",
+          "value": "min(1, {cBridgeVerify}) + min(1, {cBridgeTest}) + min(1, {cBridgeState}) + min(1, {cVtResult}) + min(1, {cBridgeStop}) + min(1, {cToyEvent}) + min(1, {cInflationEvent}) + min(1, {cItemAdded}) + min(1, {cItemRemoved}) + min(1, {cActivityEvent}) + min(1, {cActivityOnOtherEvent}) + min(1, {cVtRoomJoin}) + min(1, {cVtRoomLeave}) + min(1, {cVtSpokenTo}) + min(1, {cVtLocationEntered}) + min(1, {cVtLocationLeft}) + min(1, {cVtCasinoResult}) + min(1, {cVtHotSeatSelected}) + min(1, {cVtHotSeatReleased}) + min(1, {cVtTruthDareAssigned}) + min(1, {cVtTruthDareResolved}) + min(1, {cVtDilemmaResult}) + min(1, {cVtStagedTablePhase}) + min(1, {cVtStagedTableAppearance}) + min(1, {cVtShowerStarted}) + min(1, {cVtShowerEnded}) + min(1, {cVtTrickOrTreatOutcome})",
+          "requiredExpression": "{showSummary} == \"on\""
+        },
+        {
+          "type": "updateScript",
+          "action": "setText",
+          "text": "Received {received} events ({typesSeen}/27 types), last {lastEvent}; sent {sent} tests; results ok {resOther}, rejected {resRejected}; states {cBridgeState}",
+          "requiredExpression": "{showSummary} == \"on\""
+        },
+        {
+          "type": "updateVariable",
+          "variable": "showSummary",
+          "value": "off",
+          "requiredExpression": "{showSummary} == \"on\""
+        }
+      ]
+    },
+    {
+      "type": "variableChange",
+      "variable": "resetCounters",
+      "valueChange": null,
+      "actions": [
+        {
+          "type": "updateJob",
+          "job": "Reset",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{resetCounters} == \"on\""
+        },
+        {
+          "type": "updateVariable",
+          "variable": "resetCounters",
+          "value": "off",
+          "requiredExpression": "{resetCounters} == \"on\""
+        }
+      ]
+    },
+    {
+      "type": "variableChange",
+      "variable": "toyPulse",
+      "valueChange": null,
+      "actions": [
+        {
+          "type": "updateJob",
+          "job": "ToyPulse",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{toyPulse} == \"on\""
+        },
+        {
+          "type": "updateVariable",
+          "variable": "toyPulse",
+          "value": "off",
+          "requiredExpression": "{toyPulse} == \"on\""
+        }
+      ]
+    },
+    {
+      "type": "variableChange",
+      "variable": "paused",
+      "valueChange": null,
+      "actions": [
+        {
+          "type": "updateComponent",
+          "channel": "generic-1-a",
+          "action": "setVolume",
+          "percentVolume": "0",
+          "rampTime": 0,
+          "requiredExpression": "{paused} == \"on\""
+        },
+        {
+          "type": "updateJob",
+          "job": "ToyPulse",
+          "action": "stop",
+          "requiredExpression": "{paused} == \"on\""
+        },
+        {
+          "type": "updateJob",
+          "job": "RunAll",
+          "action": "stop",
+          "requiredExpression": "{paused} == \"on\""
+        }
+      ]
+    }
+  ],
+  "jobs": {
+    "Reset": {
+      "steps": {
+        "START": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "variable": "cBridgeVerify",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "cBridgeTest",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "cBridgeState",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "cVtResult",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "cBridgeStop",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "cToyEvent",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "cInflationEvent",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "cItemAdded",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "cItemRemoved",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "cActivityEvent",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "cActivityOnOtherEvent",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "cVtRoomJoin",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "cVtRoomLeave",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "cVtSpokenTo",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "cVtLocationEntered",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "cVtLocationLeft",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "cVtCasinoResult",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "cVtHotSeatSelected",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "cVtHotSeatReleased",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "cVtTruthDareAssigned",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "cVtTruthDareResolved",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "cVtDilemmaResult",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "cVtStagedTablePhase",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "cVtStagedTableAppearance",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "cVtShowerStarted",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "cVtShowerEnded",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "cVtTrickOrTreatOutcome",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "received",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "sent",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "resOther",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "resRejected",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "typesSeen",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "lastEvent",
+              "value": "none"
+            },
+            {
+              "type": "updateScript",
+              "action": "setText",
+              "text": "Counters reset"
+            }
+          ],
+          "triggers": []
+        }
+      }
+    },
+    "ToyPulse": {
+      "steps": {
+        "START": {
+          "actions": [
+            {
+              "type": "updateComponent",
+              "channel": "generic-1-a",
+              "action": "setVolume",
+              "percentVolume": "{paused} == \"on\" ? 0 : {toyMax}",
+              "rampTime": 1000,
+              "requiredExpression": "{driveToy} == \"on\" and {paused} == \"off\""
+            },
+            {
+              "type": "updateScript",
+              "action": "setText",
+              "text": "Toy pulse at {toyMax}% for 3 s",
+              "requiredExpression": "{driveToy} == \"on\" and {paused} == \"off\""
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "3",
+              "actions": [
+                {
+                  "type": "updateComponent",
+                  "channel": "generic-1-a",
+                  "action": "setVolume",
+                  "percentVolume": "0",
+                  "rampTime": 0
+                },
+                {
+                  "type": "updateScript",
+                  "action": "setText",
+                  "text": "Toy pulse done"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "RunAll": {
+      "steps": {
+        "START": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "variable": "runId",
+              "value": "{runId} + 1"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "sent",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "resOther",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "resRejected",
+              "value": "0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "cBridgeState",
+              "value": "0"
+            },
+            {
+              "type": "updateScript",
+              "action": "setText",
+              "text": "Run-all started"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "1",
+              "actions": [
+                {
+                  "type": "updateJob",
+                  "job": "RunAll",
+                  "action": "goTo",
+                  "step": "T1"
+                }
+              ]
+            }
+          ]
+        },
+        "T1": {
+          "actions": [
+            {
+              "type": "updateComponent",
+              "channel": "webhook-a",
+              "action": "send",
+              "webhookAction": "vtQueryState",
+              "webhookData": [
+                {
+                  "key": "requestId",
+                  "value": "r{runId}s1"
+                }
+              ]
+            },
+            {
+              "type": "updateVariable",
+              "variable": "sent",
+              "value": "{sent} + 1"
+            },
+            {
+              "type": "updateScript",
+              "action": "setText",
+              "text": "Sent test query: vtQueryState"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{stepSeconds}",
+              "actions": [
+                {
+                  "type": "updateJob",
+                  "job": "RunAll",
+                  "action": "goTo",
+                  "step": "T2"
+                }
+              ]
+            }
+          ]
+        },
+        "T2": {
+          "actions": [
+            {
+              "type": "updateComponent",
+              "channel": "webhook-a",
+              "action": "send",
+              "webhookAction": "vtSetVibe",
+              "webhookData": [
+                {
+                  "key": "group",
+                  "value": "{testGroup}"
+                },
+                {
+                  "key": "level",
+                  "value": "low"
+                },
+                {
+                  "key": "requestId",
+                  "value": "r{runId}s2"
+                }
+              ]
+            },
+            {
+              "type": "updateVariable",
+              "variable": "sent",
+              "value": "{sent} + 1"
+            },
+            {
+              "type": "updateScript",
+              "action": "setText",
+              "text": "Sent test setNamed: vtSetVibe named level"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{stepSeconds}",
+              "actions": [
+                {
+                  "type": "updateJob",
+                  "job": "RunAll",
+                  "action": "goTo",
+                  "step": "T3"
+                }
+              ]
+            }
+          ]
+        },
+        "T3": {
+          "actions": [
+            {
+              "type": "updateComponent",
+              "channel": "webhook-a",
+              "action": "send",
+              "webhookAction": "vtSetVibe",
+              "webhookData": [
+                {
+                  "key": "group",
+                  "value": "{testGroup}"
+                },
+                {
+                  "key": "level",
+                  "value": "40"
+                },
+                {
+                  "key": "requestId",
+                  "value": "r{runId}s3"
+                }
+              ]
+            },
+            {
+              "type": "updateVariable",
+              "variable": "sent",
+              "value": "{sent} + 1"
+            },
+            {
+              "type": "updateScript",
+              "action": "setText",
+              "text": "Sent test setNumber: vtSetVibe numeric level"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{stepSeconds}",
+              "actions": [
+                {
+                  "type": "updateJob",
+                  "job": "RunAll",
+                  "action": "goTo",
+                  "step": "T4"
+                }
+              ]
+            }
+          ]
+        },
+        "T4": {
+          "actions": [
+            {
+              "type": "updateComponent",
+              "channel": "webhook-a",
+              "action": "send",
+              "webhookAction": "vtSetVibe",
+              "webhookData": [
+                {
+                  "key": "group",
+                  "value": "{testGroup}"
+                },
+                {
+                  "key": "level",
+                  "value": "low"
+                },
+                {
+                  "key": "member",
+                  "value": "{testMember}"
+                },
+                {
+                  "key": "requestId",
+                  "value": "r{runId}s4"
+                }
+              ],
+              "requiredExpression": "{testMember} > 0"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "sent",
+              "value": "{sent} + 1",
+              "requiredExpression": "{testMember} > 0"
+            },
+            {
+              "type": "updateScript",
+              "action": "setText",
+              "text": "Sent test setMember: vtSetVibe for member",
+              "requiredExpression": "{testMember} > 0"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{stepSeconds}",
+              "actions": [
+                {
+                  "type": "updateJob",
+                  "job": "RunAll",
+                  "action": "goTo",
+                  "step": "T5"
+                }
+              ]
+            }
+          ]
+        },
+        "T5": {
+          "actions": [
+            {
+              "type": "updateComponent",
+              "channel": "webhook-a",
+              "action": "send",
+              "webhookAction": "vtEmote",
+              "webhookData": [
+                {
+                  "key": "template",
+                  "value": "{testEmote}"
+                },
+                {
+                  "key": "requestId",
+                  "value": "r{runId}s5"
+                }
+              ]
+            },
+            {
+              "type": "updateVariable",
+              "variable": "sent",
+              "value": "{sent} + 1"
+            },
+            {
+              "type": "updateScript",
+              "action": "setText",
+              "text": "Sent test emote: vtEmote"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{stepSeconds}",
+              "actions": [
+                {
+                  "type": "updateJob",
+                  "job": "RunAll",
+                  "action": "goTo",
+                  "step": "T6"
+                }
+              ]
+            }
+          ]
+        },
+        "T6": {
+          "actions": [
+            {
+              "type": "updateComponent",
+              "channel": "webhook-a",
+              "action": "send",
+              "webhookAction": "vtSetVibe",
+              "webhookData": [
+                {
+                  "key": "group",
+                  "value": "{testGroup}"
+                },
+                {
+                  "key": "level",
+                  "value": "off"
+                },
+                {
+                  "key": "requestId",
+                  "value": "r{runId}s6"
+                }
+              ]
+            },
+            {
+              "type": "updateVariable",
+              "variable": "sent",
+              "value": "{sent} + 1"
+            },
+            {
+              "type": "updateScript",
+              "action": "setText",
+              "text": "Sent test setOff: vtSetVibe off"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{stepSeconds}",
+              "actions": [
+                {
+                  "type": "updateJob",
+                  "job": "RunAll",
+                  "action": "goTo",
+                  "step": "T7"
+                }
+              ]
+            }
+          ]
+        },
+        "T7": {
+          "actions": [
+            {
+              "type": "updateComponent",
+              "channel": "webhook-a",
+              "action": "send",
+              "webhookAction": "vtStop",
+              "webhookData": [
+                {
+                  "key": "requestId",
+                  "value": "r{runId}s7"
+                }
+              ]
+            },
+            {
+              "type": "updateVariable",
+              "variable": "sent",
+              "value": "{sent} + 1"
+            },
+            {
+              "type": "updateScript",
+              "action": "setText",
+              "text": "Sent test stop: vtStop"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{stepSeconds}",
+              "actions": [
+                {
+                  "type": "updateJob",
+                  "job": "RunAll",
+                  "action": "goTo",
+                  "step": "T8"
+                }
+              ]
+            }
+          ]
+        },
+        "T8": {
+          "actions": [
+            {
+              "type": "updateComponent",
+              "channel": "webhook-a",
+              "action": "send",
+              "webhookAction": "vtBogus",
+              "webhookData": [
+                {
+                  "key": "requestId",
+                  "value": "r{runId}s8"
+                }
+              ]
+            },
+            {
+              "type": "updateVariable",
+              "variable": "sent",
+              "value": "{sent} + 1"
+            },
+            {
+              "type": "updateScript",
+              "action": "setText",
+              "text": "Sent test badAction: unknown action (must be dropped)"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{stepSeconds}",
+              "actions": [
+                {
+                  "type": "updateJob",
+                  "job": "RunAll",
+                  "action": "goTo",
+                  "step": "T9"
+                }
+              ]
+            }
+          ]
+        },
+        "T9": {
+          "actions": [
+            {
+              "type": "updateComponent",
+              "channel": "webhook-a",
+              "action": "send",
+              "webhookAction": "vtSetVibe",
+              "webhookData": [
+                {
+                  "key": "group",
+                  "value": "{testGroup}"
+                },
+                {
+                  "key": "level",
+                  "value": "ultra"
+                },
+                {
+                  "key": "requestId",
+                  "value": "r{runId}s9"
+                }
+              ]
+            },
+            {
+              "type": "updateVariable",
+              "variable": "sent",
+              "value": "{sent} + 1"
+            },
+            {
+              "type": "updateScript",
+              "action": "setText",
+              "text": "Sent test badLevel: invalid level (must be dropped)"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{stepSeconds}",
+              "actions": [
+                {
+                  "type": "updateJob",
+                  "job": "RunAll",
+                  "action": "goTo",
+                  "step": "DONE"
+                }
+              ]
+            }
+          ]
+        },
+        "DONE": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "variable": "typesSeen",
+              "value": "min(1, {cBridgeVerify}) + min(1, {cBridgeTest}) + min(1, {cBridgeState}) + min(1, {cVtResult}) + min(1, {cBridgeStop}) + min(1, {cToyEvent}) + min(1, {cInflationEvent}) + min(1, {cItemAdded}) + min(1, {cItemRemoved}) + min(1, {cActivityEvent}) + min(1, {cActivityOnOtherEvent}) + min(1, {cVtRoomJoin}) + min(1, {cVtRoomLeave}) + min(1, {cVtSpokenTo}) + min(1, {cVtLocationEntered}) + min(1, {cVtLocationLeft}) + min(1, {cVtCasinoResult}) + min(1, {cVtHotSeatSelected}) + min(1, {cVtHotSeatReleased}) + min(1, {cVtTruthDareAssigned}) + min(1, {cVtTruthDareResolved}) + min(1, {cVtDilemmaResult}) + min(1, {cVtStagedTablePhase}) + min(1, {cVtStagedTableAppearance}) + min(1, {cVtShowerStarted}) + min(1, {cVtShowerEnded}) + min(1, {cVtTrickOrTreatOutcome})"
+            },
+            {
+              "type": "updateComponent",
+              "channel": "webhook-a",
+              "action": "send",
+              "webhookAction": "probeAck",
+              "webhookData": [
+                {
+                  "key": "event",
+                  "value": "runAllDone"
+                },
+                {
+                  "key": "count",
+                  "value": "{sent}"
+                },
+                {
+                  "key": "f1",
+                  "value": "{resOther}"
+                },
+                {
+                  "key": "f2",
+                  "value": "{resRejected}"
+                }
+              ],
+              "requiredExpression": "{echo} == \"on\""
+            },
+            {
+              "type": "updateScript",
+              "action": "setText",
+              "text": "Run-all done: sent {sent}, results ok {resOther}, rejected {resRejected}, states {cBridgeState}, event types seen {typesSeen}/27"
+            },
+            {
+              "type": "updateVariable",
+              "variable": "runAll",
+              "value": "off"
+            }
+          ],
+          "triggers": []
+        }
+      }
+    }
+  },
+  "queues": [],
+  "channels": {
+    "webhook-a": {
+      "type": "webhook",
+      "outbound": true,
+      "hideWebhookInfo": false
+    },
+    "generic-1-a": {
+      "type": "generic-1",
+      "name": "Test vibrator (optional)"
+    }
+  },
+  "controls": [
+    {
+      "type": "header",
+      "name": "Veratown bridge test",
+      "description": "Diagnostic script: counts every bot event and sends test control messages. Use with the bot or with the veratown-bridge-harness tool."
+    },
+    {
+      "id": "paused",
+      "type": "toggle",
+      "name": "Pause (stops toy and run-all)",
+      "up": "off",
+      "down": "on",
+      "value": "off"
+    },
+    {
+      "id": "echo",
+      "type": "toggle",
+      "name": "Echo events to harness (probeAck)",
+      "up": "off",
+      "down": "on",
+      "value": "off",
+      "description": "Only for the harness tool. The bot drops probeAck frames."
+    },
+    {
+      "id": "showSummary",
+      "type": "toggle",
+      "name": "Show summary",
+      "up": "off",
+      "down": "on",
+      "value": "off"
+    },
+    {
+      "id": "resetCounters",
+      "type": "toggle",
+      "name": "Reset counters",
+      "up": "off",
+      "down": "on",
+      "value": "off"
+    },
+    {
+      "type": "header",
+      "name": "Control messages to the bot",
+      "description": "Each test sends one message with requestId r<run>s<step>. Grant control with !xtoys control first."
+    },
+    {
+      "id": "testGroup",
+      "type": "select",
+      "name": "Test group",
+      "options": [
+        "ItemVulva",
+        "ItemVulvaPiercings",
+        "ItemButt",
+        "ItemPelvis",
+        "ItemNipples",
+        "ItemNipplesPiercings",
+        "ItemBreast",
+        "ItemNeck"
+      ],
+      "value": "ItemVulva"
+    },
+    {
+      "id": "testEmote",
+      "type": "select",
+      "name": "Test emote",
+      "options": ["shiver", "squirm", "gasp", "blush", "moan"],
+      "value": "shiver"
+    },
+    {
+      "id": "testMember",
+      "type": "slider",
+      "name": "Delegated member number (0 = skip)",
+      "min": 0,
+      "max": 999999,
+      "value": 0
+    },
+    {
+      "id": "sendTest",
+      "type": "select",
+      "name": "Send one test",
+      "options": [
+        "none",
+        "query",
+        "setNamed",
+        "setNumber",
+        "setMember",
+        "emote",
+        "setOff",
+        "stop",
+        "badAction",
+        "badLevel"
+      ],
+      "value": "none"
+    },
+    {
+      "id": "runAll",
+      "type": "toggle",
+      "name": "Run all control tests",
+      "up": "off",
+      "down": "on",
+      "value": "off"
+    },
+    {
+      "id": "stepSeconds",
+      "type": "slider",
+      "name": "Seconds between tests",
+      "min": 1,
+      "max": 10,
+      "value": 3
+    },
+    {
+      "type": "header",
+      "name": "Optional test toy",
+      "description": "Any vibrator. Off by default; keep the maximum low."
+    },
+    {
+      "id": "driveToy",
+      "type": "toggle",
+      "name": "Toy follows toyEvent",
+      "up": "off",
+      "down": "on",
+      "value": "off"
+    },
+    {
+      "id": "toyMax",
+      "type": "slider",
+      "name": "Toy max %",
+      "min": 0,
+      "max": 50,
+      "value": 20
+    },
+    {
+      "id": "toyPulse",
+      "type": "toggle",
+      "name": "Pulse toy for 3 s",
+      "up": "off",
+      "down": "on",
+      "value": "off"
+    }
+  ],
+  "customFunctions": ""
+}

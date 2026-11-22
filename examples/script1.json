@@ -1,0 +1,102 @@
+{
+  "initialActions": [],
+  "finalActions": [],
+  "globalTriggers": [
+    {
+      "type": "componentState",
+      "action": "GetData",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "value": "{trigger-CockDesire}",
+          "variable": "CockDesire"
+        },
+        {
+          "type": "updateVariable",
+          "value": "{trigger-MouthDesire}",
+          "variable": "MouthDesire"
+        },
+        {
+          "type": "updateVariable",
+          "value": "{trigger-BoobsDesire}",
+          "variable": "BoobsDesire"
+        },
+        {
+          "type": "updateVariable",
+          "value": "{trigger-PussyDesire}",
+          "variable": "PussyDesire"
+        },
+        {
+          "type": "updateVariable",
+          "value": "{trigger-ButtDesire}",
+          "variable": "ButtDesire"
+        },
+        {
+          "type": "updateVariable",
+          "value": "{trigger-Pleasure}",
+          "variable": "Pleasure"
+        },
+        {
+          "job": "J_Intensity",
+          "step": "START",
+          "type": "updateJob",
+          "action": "goTo"
+        }
+      ],
+      "channel": "webhook-a",
+      "parsedAction": "GetData"
+    }
+  ],
+  "jobs": {
+    "J_Intensity": {
+      "steps": {
+        "START": {
+          "actions": [
+            {
+              "mode": "speed",
+              "type": "updateComponent",
+              "action": "setVolume",
+              "channel": "part-linear-actuator-position-a",
+              "rampTime": "1",
+              "percentVolume": "{Pleasure}",
+              "parsedRampTime": 1
+            },
+            {
+              "type": "updateComponent",
+              "action": "setVolume",
+              "channel": "generic-1-a",
+              "rampTime": "1",
+              "percentVolume": "{Pleasure}"
+            }
+          ],
+          "triggers": []
+        }
+      }
+    }
+  },
+  "queues": [],
+  "channels": {
+    "webhook-a": {
+      "name": null,
+      "type": "webhook",
+      "outbound": false,
+      "hideWebhookInfo": false
+    },
+    "generic-1-a": {
+      "name": null,
+      "type": "generic-1"
+    },
+    "part-linear-actuator-position-a": {
+      "name": null,
+      "type": "part-linear-actuator-position"
+    }
+  },
+  "controls": [],
+  "controlPresets": [],
+  "media": {
+    "patterns": {},
+    "audio": {},
+    "voices": {}
+  },
+  "customFunctions": ""
+}

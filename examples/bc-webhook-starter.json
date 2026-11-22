@@ -1,0 +1,122 @@
+{
+  "initialActions": [
+    { "type": "updateVariable", "variable": "level", "value": "0" },
+    {
+      "type": "updateComponent",
+      "channel": "generic-1-a",
+      "action": "setVolume",
+      "percentVolume": "0",
+      "rampTime": 0
+    }
+  ],
+  "finalActions": [
+    {
+      "type": "updateComponent",
+      "channel": "generic-1-a",
+      "action": "setVolume",
+      "percentVolume": "0",
+      "rampTime": 0
+    }
+  ],
+  "globalTriggers": [
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "toyEvent",
+      "requiredExpression": "{trigger-assetGroupName} == {group}",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "level",
+          "value": "max(0, min(4, {trigger-level}))"
+        },
+        {
+          "type": "updateComponent",
+          "channel": "generic-1-a",
+          "action": "setVolume",
+          "percentVolume": "{paused} == \"on\" ? 0 : {level} * {maxIntensity} / 4",
+          "rampTime": "{rampTime}"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "bridgeStop",
+      "actions": [
+        { "type": "updateVariable", "variable": "level", "value": "0" },
+        {
+          "type": "updateComponent",
+          "channel": "generic-1-a",
+          "action": "setVolume",
+          "percentVolume": "0",
+          "rampTime": 0
+        }
+      ]
+    },
+    {
+      "type": "variableChange",
+      "variable": "paused",
+      "valueChange": null,
+      "actions": [
+        {
+          "type": "updateComponent",
+          "channel": "generic-1-a",
+          "action": "setVolume",
+          "percentVolume": "{paused} == \"on\" ? 0 : {level} * {maxIntensity} / 4",
+          "rampTime": 0
+        }
+      ]
+    }
+  ],
+  "jobs": {},
+  "queues": [],
+  "channels": {
+    "webhook-a": {
+      "type": "webhook",
+      "outbound": false,
+      "hideWebhookInfo": false
+    },
+    "generic-1-a": { "type": "generic-1", "name": "Toy" }
+  },
+  "controls": [
+    {
+      "id": "group",
+      "type": "select",
+      "name": "BC body group",
+      "options": [
+        "ItemVulva",
+        "ItemButt",
+        "ItemNipples",
+        "ItemVulvaPiercings",
+        "ItemPelvis"
+      ],
+      "value": "ItemVulva"
+    },
+    {
+      "id": "maxIntensity",
+      "type": "slider",
+      "name": "Max intensity %",
+      "min": 0,
+      "max": 100,
+      "value": 50
+    },
+    {
+      "id": "rampTime",
+      "type": "slider",
+      "name": "Ramp (s)",
+      "min": 0,
+      "max": 5,
+      "value": 1
+    },
+    {
+      "id": "paused",
+      "type": "toggle",
+      "name": "Pause",
+      "up": "off",
+      "down": "on",
+      "value": "off"
+    }
+  ],
+  "customFunctions": ""
+}

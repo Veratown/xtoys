@@ -1,0 +1,356 @@
+{
+  "initialActions": [],
+  "finalActions": [
+    {
+      "type": "updateComponent",
+      "action": "setVolume",
+      "channel": "generic-1-a",
+      "rampTime": 0,
+      "percentVolume": "0"
+    }
+  ],
+  "globalTriggers": [
+    {
+      "type": "multiUser",
+      "event": "action",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "value": "{trigger-choice}",
+          "variable": "otherChoice"
+        }
+      ],
+      "multiUserAction": "choice"
+    },
+    {
+      "type": "multiUser",
+      "event": "join",
+      "actions": [
+        {
+          "type": "multiUser",
+          "users": [
+            "{trigger-user}"
+          ],
+          "action": "send",
+          "additionalData": [
+            {
+              "key": "timer",
+              "value": "{timer}"
+            }
+          ],
+          "multiUserAction": "settings"
+        },
+        {
+          "job": "Timer",
+          "type": "updateJob",
+          "action": "start",
+          "restart": true
+        }
+      ],
+      "multiUserMode": "host"
+    },
+    {
+      "type": "multiUser",
+      "event": "leave",
+      "actions": [
+        {
+          "job": "Timer",
+          "type": "updateJob",
+          "action": "stop"
+        },
+        {
+          "part": "text",
+          "text": {
+            "ops": [
+              {
+                "insert": "\n",
+                "attributes": {
+                  "align": "center"
+                }
+              }
+            ]
+          },
+          "type": "updateTease",
+          "clear": true,
+          "delay": "none",
+          "location": "main",
+          "parsedText": {
+            "ops": [
+              {
+                "insert": "\n",
+                "attributes": {
+                  "align": "center"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "multiUserMode": "host"
+    },
+    {
+      "type": "multiUser",
+      "event": "action",
+      "actions": [
+        {
+          "job": "Timer",
+          "type": "updateJob",
+          "action": "start",
+          "restart": true
+        }
+      ],
+      "multiUserMode": "guest",
+      "multiUserAction": "start"
+    },
+    {
+      "type": "multiUser",
+      "event": "action",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "value": "{trigger-timer}",
+          "variable": "timer"
+        }
+      ],
+      "multiUserMode": "guest",
+      "multiUserAction": "settings"
+    }
+  ],
+  "jobs": {
+    "Timer": {
+      "steps": {
+        "START": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "\"pleasure\"",
+              "variable": "otherChoice"
+            },
+            {
+              "type": "updateVariable",
+              "value": "\"pleasure\"",
+              "variable": "choice"
+            },
+            {
+              "type": "multiUser",
+              "action": "send",
+              "multiUserAction": "start",
+              "requiredExpression": "{multi-user-mode} == \"host\""
+            },
+            {
+              "part": "text",
+              "text": {
+                "ops": [
+                  {
+                    "insert": "Next round:"
+                  },
+                  {
+                    "insert": "\n",
+                    "attributes": {
+                      "align": "center"
+                    }
+                  }
+                ]
+              },
+              "type": "updateTease",
+              "delay": "none",
+              "location": "main",
+              "parsedText": {
+                "ops": [
+                  {
+                    "insert": "Next round:"
+                  },
+                  {
+                    "insert": "\n",
+                    "attributes": {
+                      "align": "center"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "type": "updateVariable",
+              "value": "{timer}",
+              "variable": "timeRemaining"
+            },
+            {
+              "job": "Timer",
+              "step": "Countdown",
+              "type": "updateJob",
+              "action": "goTo"
+            },
+            {
+              "job": "MakeChoice",
+              "type": "updateJob",
+              "action": "start",
+              "restart": true
+            }
+          ],
+          "triggers": []
+        },
+        "TimeUp": {
+          "actions": [
+            {
+              "code": "callAction({\n    \"type\":\"updateTease\",\n    \"part\":\"text\",\n    \"location\":\"main\",\n    \"delay\":\"reading\",\n    \"text\":{\"ops\":[\n        {\"insert\":\"You picked: \" + choice1},\n        {\"attributes\":{\"align\":\"center\"},\n        \"insert\":\"\\n\"},\n        {\"insert\":\"They picked: \" + choice2},\n        {\"attributes\":{\"align\":\"center\"},\n        \"insert\":\"\\n\"}]\n    }});\nif (choice1 == \"pleasure\") {\n    if (choice2 == \"pleasure\") { // medium shock\n        callAction({\"type\":\"updateComponent\",\"channel\":\"generic-1-a\",\"action\":\"setVolume\",\"rampTime\":0,\"percentVolume\":\"0\"});\n        callAction({\"type\":\"updateComponent\",\"channel\":\"shockcollar-a\",\"action\":\"setShock2\",\"percentVolume\":\"60\",\"shock\":true,\"time\":\"1\"});\n    } else if (choice2 == \"pain\") { // strong pleasure\n        callAction({\"type\":\"updateComponent\",\"channel\":\"generic-1-a\",\"action\":\"setVolume\",\"rampTime\":0,\"percentVolume\":\"100\"});\n    }\n} else if (choice1 == \"pain\") {\n    callAction({\"type\":\"updateComponent\",\"channel\":\"generic-1-a\",\"action\":\"setVolume\",\"rampTime\":0,\"percentVolume\":\"0\"});\n    if (choice2 == \"pleasure\") { // strong shock\n        callAction({\"type\":\"updateComponent\",\"channel\":\"shockcollar-a\",\"action\":\"setShock2\",\"percentVolume\":\"100\",\"shock\":true,\"time\":\"1\"});\n    } else if (choice2 == \"pain\") { // weak shock\n        callAction({\"type\":\"updateComponent\",\"channel\":\"shockcollar-a\",\"action\":\"setShock2\",\"percentVolume\":\"30\",\"shock\":true,\"time\":\"1\"});\n    }\n}",
+              "type": "customCode",
+              "customVar": "result",
+              "variables": [
+                {
+                  "name": "choice1",
+                  "value": "choice",
+                  "expression": null
+                },
+                {
+                  "name": "choice2",
+                  "value": "otherChoice",
+                  "expression": null
+                }
+              ]
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "3",
+              "actions": [
+                {
+                  "job": "Timer",
+                  "step": "START",
+                  "type": "updateJob",
+                  "action": "goTo"
+                }
+              ],
+              "parsedAmount": 3,
+              "requiredExpression": "{multi-user-mode} == \"host\""
+            }
+          ]
+        },
+        "Countdown": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "{timeRemaining} - 1",
+              "variable": "timeRemaining"
+            },
+            {
+              "part": "text",
+              "type": "updateTease",
+              "location": "status",
+              "parsedText": "Time remaining to make a choice: 0s",
+              "statusText": "Time remaining to make a choice: {timeRemaining}s"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "1",
+              "actions": [
+                {
+                  "job": "Timer",
+                  "type": "updateJob",
+                  "action": "restartStep"
+                }
+              ],
+              "parsedAmount": 1
+            },
+            {
+              "type": "expressionState",
+              "actions": [
+                {
+                  "job": "Timer",
+                  "step": "TimeUp",
+                  "type": "updateJob",
+                  "action": "goTo"
+                }
+              ],
+              "expression": "{timeRemaining} == 0"
+            }
+          ]
+        }
+      }
+    },
+    "MakeChoice": {
+      "steps": {
+        "START": {
+          "actions": [
+            {
+              "part": "input",
+              "type": "updateTease",
+              "buttons": [
+                {
+                  "name": "Pleasure",
+                  "page": "SendChoice",
+                  "action": null,
+                  "goToPage": true,
+                  "variable": "choice",
+                  "setVariable": true,
+                  "variableValue": "pleasure"
+                },
+                {
+                  "name": "Pain",
+                  "page": "SendChoice",
+                  "action": null,
+                  "goToPage": true,
+                  "variable": "choice",
+                  "setVariable": true,
+                  "variableValue": "pain"
+                }
+              ],
+              "inputType": "buttons"
+            }
+          ],
+          "triggers": []
+        },
+        "SendChoice": {
+          "actions": [
+            {
+              "type": "multiUser",
+              "action": "send",
+              "additionalData": [
+                {
+                  "key": "choice",
+                  "value": "{choice}"
+                }
+              ],
+              "multiUserAction": "choice"
+            }
+          ],
+          "triggers": []
+        }
+      }
+    }
+  },
+  "queues": [],
+  "channels": {
+    "generic-1-a": {
+      "name": null,
+      "type": "generic-1"
+    },
+    "shockcollar-a": {
+      "name": null,
+      "type": "shockcollar"
+    }
+  },
+  "controls": [
+    {
+      "id": "timer",
+      "max": 60,
+      "min": 5,
+      "name": "Length of Time to Make Choice (s)",
+      "type": "slider",
+      "value": 10,
+      "hostOnly": true
+    }
+  ],
+  "media": {
+    "audio": {},
+    "images": {},
+    "videos": {},
+    "voices": {},
+    "patterns": {}
+  },
+  "customFunctions": ""
+}
