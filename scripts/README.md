@@ -1,3 +1,16 @@
 # Xtoys Scripts folder
 
-for each solution create a subfolder with the scripts .json file and optional .js scripts files
+For each solution, create a subfolder containing its importable script `.json`
+and optional `.js` source files.
+
+Every Veratown-connected export must be standalone; XToys scripts are not
+chained. Include its own `webhook-a` channel, a visible response control, and
+the native lifecycle triggers from
+[`shared/veratown-webhook.mjs`](./shared/veratown-webhook.mjs). Use
+`installVeratownWebhook()` in the export builder rather than relying only on
+JavaScript listeners. This keeps private webhook creation, verification-code
+display, and bot responses consistent across scripts.
+
+| Solution | Files | Purpose |
+| --- | --- | --- |
+| [Veratown webhook setup](./veratown-webhook-setup/README.md) | [XToys export](./veratown-webhook-setup/veratown-webhook-setup.json) | Create a private webhook and display Veratown responses for registration. |

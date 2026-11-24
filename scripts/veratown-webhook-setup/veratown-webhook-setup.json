@@ -1,0 +1,365 @@
+{
+  "initialActions": [
+    {
+      "type": "updateVariable",
+      "variable": "response",
+      "value": "Waiting for a Veratown message."
+    }
+  ],
+  "finalActions": [],
+  "globalTriggers": [
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "bridgeVerify",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Verification code: {trigger-code}\nWhisper !xtoys verify {trigger-code} within 5 minutes."
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "bridgeTest",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Veratown test event received."
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "bridgeState",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Veratown state response received. Present: {trigger-present}; fresh: {trigger-fresh}."
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "bridgeStop",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Veratown stopped the bridge. Reason: {trigger-reason}."
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtResult",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Veratown control result: {trigger-status}. Reason: {trigger-reason}."
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "toyEvent",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Veratown event received: toyEvent"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "inflationEvent",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Veratown event received: inflationEvent"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "itemAdded",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Veratown event received: itemAdded"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "itemRemoved",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Veratown event received: itemRemoved"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "activityEvent",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Veratown event received: activityEvent"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "activityOnOtherEvent",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Veratown event received: activityOnOtherEvent"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtRoomJoin",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Veratown event received: vtRoomJoin"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtRoomLeave",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Veratown event received: vtRoomLeave"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtSpokenTo",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Veratown event received: vtSpokenTo"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtLocationEntered",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Veratown event received: vtLocationEntered"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtLocationLeft",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Veratown event received: vtLocationLeft"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtCasinoResult",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Veratown event received: vtCasinoResult"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtHotSeatSelected",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Veratown event received: vtHotSeatSelected"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtHotSeatReleased",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Veratown event received: vtHotSeatReleased"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtTruthDareAssigned",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Veratown event received: vtTruthDareAssigned"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtTruthDareResolved",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Veratown event received: vtTruthDareResolved"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtDilemmaResult",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Veratown event received: vtDilemmaResult"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtStagedTablePhase",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Veratown event received: vtStagedTablePhase"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtStagedTableAppearance",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Veratown event received: vtStagedTableAppearance"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtShowerStarted",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Veratown event received: vtShowerStarted"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtShowerEnded",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Veratown event received: vtShowerEnded"
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtTrickOrTreatOutcome",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Veratown event received: vtTrickOrTreatOutcome"
+        }
+      ]
+    }
+  ],
+  "jobs": {},
+  "queues": [],
+  "channels": {
+    "webhook-a": {
+      "type": "webhook",
+      "outbound": false,
+      "hideWebhookInfo": false
+    }
+  },
+  "controls": [
+    {
+      "type": "header",
+      "name": "Veratown webhook setup",
+      "description": "Create a private XToys webhook and display the latest Veratown response without JavaScript."
+    },
+    {
+      "id": "response",
+      "type": "textarea",
+      "name": "Latest Veratown response",
+      "value": "Waiting for a Veratown message.",
+      "description": "The verification code appears here after !xtoys link."
+    }
+  ],
+  "controlPresets": [],
+  "media": {
+    "audio": {},
+    "voices": {},
+    "patterns": {}
+  }
+}
