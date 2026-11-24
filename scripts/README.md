@@ -14,3 +14,4 @@ display, and bot responses consistent across scripts.
 | Solution | Files | Purpose |
 | --- | --- | --- |
 | [Veratown webhook setup](./veratown-webhook-setup/README.md) | [XToys export](./veratown-webhook-setup/veratown-webhook-setup.json) | Create a private webhook and display Veratown responses for registration. |
+| [Veratown event router](./veratown-event-router/README.md) | [XToys export](./veratown-event-router/veratown-event-router.json), [JavaScript source](./veratown-event-router/router.js) | Route Veratown BC, game, room, and configured map-location events to connected toys. |
