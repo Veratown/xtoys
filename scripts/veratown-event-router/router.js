@@ -34,6 +34,7 @@ function clamp(value, minimum, maximum) {
 }
 
 function setStatus(message) {
+  setVariable("status", String(message));
   callAction({ type: "updateScript", action: "setText", text: message });
 }
 
@@ -411,7 +412,12 @@ function initVeratownRouter() {
   registerWebhook("vtLocationEntered", function (data) { onLocation(data, true); });
   registerWebhook("vtLocationLeft", function (data) { onLocation(data, false); });
   registerWebhook("bridgeVerify", function (data) {
-    setStatus("Link code: " + String(data["trigger-code"] || "check the bot reply"));
+    var code = String(data["trigger-code"] || "");
+    if (!code) {
+      setStatus("Verification event received without a code. Check the webhook connection and relink.");
+      return;
+    }
+    setStatus("Veratown verification code: " + code + " - whisper !xtoys verify " + code + " within 5 minutes.");
   });
   registerWebhook("bridgeTest", function () { setStatus("Veratown bridge test received."); });
   registerWebhook("bridgeStop", handleBridgeStop);

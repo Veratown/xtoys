@@ -148,8 +148,10 @@ An operator must enable the bridge; players cannot enable it themselves.
 4. **Player: link privately.** Whisper the bot `!xtoys link <webhook ID>`.
    Linking is accepted only in private. The bot sends a short verification
    code to XToys and holds the pending link for five minutes.
-5. **Player: verify.** Read the code in XToys and whisper `!xtoys verify <code>`
-   to the bot. Then run `!xtoys test`.
+5. **Player: verify.** Read the code in the script's **Veratown / script
+   output** control and whisper `!xtoys verify <code>` to the bot within five
+   minutes. Then run `!xtoys test`; its receipt appears in that same output
+   control.
 6. **Player: select event sources.** Use `!xtoys mirror toy items activitySelf`
    and, if desired, `!xtoys mirror room activityOther`. Use
    `!xtoys game locations casino`. These are player choices constrained by the

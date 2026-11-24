@@ -59,6 +59,11 @@ function lastComponentAction(channel, action) {
 }
 
 variables.paused = "off";
+fire("bridgeVerify", { code: "123456" });
+assert.match(variables.status, /123456/);
+assert.match(variables.status, /!xtoys verify 123456/);
+assert.ok(calls.some((call) => call.type === "updateScript" && call.text === variables.status));
+calls.length = 0;
 fire("toyEvent", { assetGroupName: "ItemVulva", level: 2 });
 assert.equal(lastComponentAction("generic-1-a", "setVolume").percentVolume, 15);
 fire("itemRemoved", { assetGroupName: "ItemVulva" });
