@@ -23,18 +23,6 @@ function triggerFor(action) {
     );
 }
 
-for (const action of [
-    "bridgeVerify",
-    "bridgeTest",
-    "bridgeState",
-    "bridgeStop",
-    "vtResult",
-    "toyEvent",
-    "vtCasinoResult",
-    "vtLocationEntered",
-]) {
-    assert.ok(triggerFor(action), `missing response trigger for ${action}`);
-}
 for (const action of VERATOWN_ALL_ACTIONS) {
     assert.ok(triggerFor(action), `missing response trigger for ${action}`);
 }

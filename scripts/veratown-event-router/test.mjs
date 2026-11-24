@@ -14,7 +14,16 @@ assert.equal(script.customFunctions, source, "export must contain the current Ja
 assert.equal(script.channels["webhook-a"].type, "webhook");
 assert.equal(script.channels["part-estim-a"].type, "part-estim");
 assert.equal(script.controls.find((control) => control.id === "paused").value, "on");
+assert.equal(script.controls.find((control) => control.id === "status").type, "textarea");
+assert.equal(script.controls.some((control) => control.id === "routeConfig"), false);
 assert.ok(script.finalActions.some((action) => action.action === "setVolume" && action.percentVolume === "0"));
+const verifyTrigger = script.globalTriggers.find(
+    (trigger) => trigger.channel === "webhook-a" && trigger.action === "bridgeVerify",
+);
+assert.ok(verifyTrigger);
+assert.equal(verifyTrigger.actions[0].variable, "status");
+assert.match(verifyTrigger.actions[0].value, /\{trigger-code\}/);
+assert.match(verifyTrigger.actions[0].value, /!xtoys verify \{trigger-code\}/);
 
 const variables = Object.fromEntries(
     script.controls
@@ -59,37 +68,27 @@ function lastComponentAction(channel, action) {
 }
 
 variables.paused = "off";
-fire("bridgeVerify", { code: "123456" });
-assert.match(variables.status, /123456/);
-assert.match(variables.status, /!xtoys verify 123456/);
-assert.ok(calls.some((call) => call.type === "updateScript" && call.text === variables.status));
 calls.length = 0;
 fire("toyEvent", { assetGroupName: "ItemVulva", level: 2 });
-assert.equal(lastComponentAction("generic-1-a", "setVolume").percentVolume, 15);
+assert.equal(lastComponentAction("part-vibrator-a", "setVolume").percentVolume, 15);
 fire("itemRemoved", { assetGroupName: "ItemVulva" });
-assert.equal(lastComponentAction("generic-1-a", "setVolume").percentVolume, 0);
+assert.equal(lastComponentAction("part-vibrator-a", "setVolume").percentVolume, 0);
 
 variables.casinoPulses = "on";
 calls.length = 0;
 fire("vtCasinoResult", { outcome: "win" });
 assert.equal(calls.some((call) => call.type === "updateJob" && call.action === "start"), false);
 fire("vtCasinoResult", { outcome: "loss" });
-assert.ok(calls.some((call) => call.type === "updateJob" && call.job === "PulseA" && call.action === "start"));
+assert.ok(calls.some((call) => call.type === "updateJob" && call.job === "PulseI" && call.action === "start"));
 
-const routeConfig = JSON.parse(variables.routeConfig);
-routeConfig.groups.ItemButt = ["part-estim-a"];
-routeConfig.locations = [
-    { key: "test-forbidden-area", enter: ["part-vibrator-a"], leave: [], percent: 12, seconds: 1 },
-];
-variables.routeConfig = JSON.stringify(routeConfig);
-triggers.get("variableChange:routeConfig")();
 variables.paused = "off";
 variables.locationPulses = "on";
 calls.length = 0;
-fire("vtLocationEntered", { location: "not-the-configured-key" });
+fire("vtLocationEntered", { location: "not-asylum" });
 assert.equal(calls.some((call) => call.type === "updateJob" && call.action === "start"), false);
-fire("vtLocationEntered", { location: "test-forbidden-area" });
-assert.ok(calls.some((call) => call.type === "updateJob" && call.job === "PulseB" && call.action === "start"));
+fire("vtLocationEntered", { location: "asylum" });
+assert.ok(calls.some((call) => call.type === "updateJob" && call.job === "PulseI" && call.action === "start"));
+assert.equal(lastComponentAction("part-estim-a", "setVolume").percentVolume, 15);
 
 variables.allowShockEvents = "on";
 variables.shockCap = 10;

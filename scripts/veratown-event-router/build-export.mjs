@@ -1,6 +1,7 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { installVeratownWebhook, VERATOWN_LIFECYCLE_ACTIONS } from "../shared/veratown-webhook.mjs";
 
 const directory = dirname(fileURLToPath(import.meta.url));
 const scriptPath = join(directory, "veratown-event-router.json");
@@ -101,9 +102,20 @@ function makeExport(template) {
         ]),
     );
     script.channels = {
-        "webhook-a": { type: "webhook", outbound: false, hideWebhookInfo: false },
         ...outputChannels,
     };
+    script.controls = script.controls.filter((control) => control.id !== "routeConfig");
+    const header = script.controls.find(
+        (control) => control.type === "header" && control.name === "Veratown event router",
+    );
+    if (!header) throw new Error("Missing Veratown event router header");
+    header.description = "Fixed body-group, event, and location routes; no Routing JSON variable.";
+    const statusControl = script.controls.find((control) => control.id === "status");
+    if (!statusControl) throw new Error("Missing visible status control");
+    statusControl.type = "textarea";
+    statusControl.name = "Latest Veratown response";
+    statusControl.description = "Verification code and latest Veratown response.";
+    installVeratownWebhook(script, "status", VERATOWN_LIFECYCLE_ACTIONS);
     script.initialActions = [{ type: "updateVariable", variable: "paused", value: "on" }];
     script.finalActions = [];
     script.jobs = {};
@@ -189,34 +201,6 @@ function makeExport(template) {
         { type: "updateVariable", variable: "idleSeconds", value: "120" },
     );
     script.jobs.IdleStop = timeoutJob("IdleStop", "idleSeconds", "onIdleTimeout();");
-    const routes = {
-        groups: {
-            ItemNeck: ["part-vibrator-a"],
-            ItemNeckAccessories: ["part-vibrator-a"],
-            ItemNipples: ["part-vibrator-b"],
-            ItemNipplesPiercings: ["part-vibrator-b"],
-            ItemBreast: ["part-vibrator-b"],
-            ItemArms: ["part-vibrator-c"],
-            ItemTorso: ["part-vibrator-c"],
-            ItemLegs: ["part-vibrator-d"],
-            ItemFeet: ["part-vibrator-d"],
-            ItemBoots: ["part-vibrator-d"],
-            ItemPelvis: ["generic-1-a"],
-            ItemVulva: ["generic-1-a"],
-            ItemVulvaPiercings: ["generic-1-a"],
-            ItemButt: ["part-rotator-a"],
-        },
-        caps: Object.fromEntries(outputs.map((output) => [output.channel, output.kind === "estim" ? 15 : 30])),
-        events: {
-            roomJoin: ["generic-1-a"],
-            roomLeave: ["generic-1-a"],
-            casinoLoss: ["generic-1-a"],
-        },
-        locations: [],
-    };
-    const routeControl = script.controls.find((control) => control.id === "routeConfig");
-    if (!routeControl) throw new Error("Missing routeConfig control");
-    routeControl.value = JSON.stringify(routes);
     script.customFunctions = source;
     return script;
 }

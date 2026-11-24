@@ -14,7 +14,25 @@ var OUTPUTS = [
   { channel: "part-estim-e", job: "PulseM", seconds: "pulseSecondsM", kind: "estim", shockJob: "ShockM", shockSeconds: "shockSecondsM" }
 ];
 
-var config = null;
+var GROUP_ROUTES = {
+  ItemVulva: ["part-vibrator-a"],
+  ItemVulvaPiercings: ["part-vibrator-a"],
+  ItemButt: ["part-vibrator-b"],
+  ItemNipples: ["part-vibrator-c"],
+  ItemNipplesPiercings: ["part-vibrator-c"],
+  ItemBreast: ["part-vibrator-c"],
+  ItemNeck: ["part-vibrator-d"],
+  ItemPelvis: ["part-vibrator-a"],
+  ItemTorso: ["part-vibrator-c"]
+};
+var EVENT_ROUTES = {
+  roomJoin: ["part-vibrator-a"],
+  roomLeave: ["part-vibrator-a", "part-vibrator-b", "part-vibrator-c", "part-vibrator-d"],
+  casinoLoss: ["part-estim-a"]
+};
+var LOCATION_ROUTES = [
+  { key: "asylum", channels: ["part-estim-a"], percent: 100, seconds: 1 }
+];
 var groupLevels = {};
 var outputsByChannel = {};
 var pulseLevels = {};
@@ -38,77 +56,12 @@ function setStatus(message) {
   callAction({ type: "updateScript", action: "setText", text: message });
 }
 
-function validChannel(channel) {
-  for (var i = 0; i < OUTPUTS.length; i++) {
-    if (OUTPUTS[i].channel === channel) return true;
-  }
-  return false;
-}
-
-function validateRoutes(candidate) {
-  if (!candidate || typeof candidate !== "object" || Array.isArray(candidate)) return false;
-  if (!candidate.groups || typeof candidate.groups !== "object" || Array.isArray(candidate.groups)) {
-    return false;
-  }
-  if (!candidate.caps || typeof candidate.caps !== "object" || Array.isArray(candidate.caps)) {
-    return false;
-  }
-  if (!candidate.events || typeof candidate.events !== "object" || Array.isArray(candidate.events)) {
-    return false;
-  }
-  if (!Array.isArray(candidate.locations)) return false;
-
-  var key;
-  for (key in candidate.groups) {
-    if (!candidate.groups.hasOwnProperty(key)) continue;
-    if (!/^[A-Za-z0-9_]{1,64}$/.test(key) || !Array.isArray(candidate.groups[key])) return false;
-    for (var i = 0; i < candidate.groups[key].length; i++) {
-      if (!validChannel(candidate.groups[key][i])) return false;
-    }
-  }
-  for (key in candidate.caps) {
-    if (!candidate.caps.hasOwnProperty(key)) continue;
-    if (!validChannel(key) || !isFinite(Number(candidate.caps[key])) ||
-        Number(candidate.caps[key]) < 0 || Number(candidate.caps[key]) > 100) return false;
-  }
-  var eventName;
-  for (eventName in candidate.events) {
-    if (!candidate.events.hasOwnProperty(eventName)) continue;
-    if (!Array.isArray(candidate.events[eventName])) return false;
-    for (var j = 0; j < candidate.events[eventName].length; j++) {
-      if (!validChannel(candidate.events[eventName][j])) return false;
-    }
-  }
-  for (var locationIndex = 0; locationIndex < candidate.locations.length; locationIndex++) {
-    var location = candidate.locations[locationIndex];
-    if (!location || typeof location.key !== "string" ||
-        !/^[A-Za-z0-9_.:-]{1,64}$/.test(location.key)) return false;
-    if (location.percent !== undefined && (!isFinite(Number(location.percent)) ||
-        Number(location.percent) < 0 || Number(location.percent) > 100)) return false;
-    if (location.seconds !== undefined && (!isFinite(Number(location.seconds)) ||
-        Number(location.seconds) < 0.25 || Number(location.seconds) > 10)) return false;
-    if (location.enter !== undefined && !Array.isArray(location.enter)) return false;
-    if (location.leave !== undefined && !Array.isArray(location.leave)) return false;
-    var sides = [location.enter || [], location.leave || []];
-    for (var side = 0; side < sides.length; side++) {
-      if (!Array.isArray(sides[side])) return false;
-      for (var channelIndex = 0; channelIndex < sides[side].length; channelIndex++) {
-        if (!validChannel(sides[side][channelIndex])) return false;
-      }
-    }
-  }
-  return true;
-}
-
 function outputCap(output) {
-  var value = config && config.caps ? config.caps[output.channel] : undefined;
-  var fallback = output.kind === "estim" ? 15 : 30;
-  return clamp(asNumber(value, fallback), 0, 100);
+  return output.kind === "estim" ? 15 : 30;
 }
 
 function groupTargets(group) {
-  if (!config || !config.groups || !Array.isArray(config.groups[group])) return [];
-  return config.groups[group];
+  return GROUP_ROUTES[group] || [];
 }
 
 function setOutput(channel, level, rampSeconds) {
@@ -196,37 +149,10 @@ function onIdleTimeout() {
   setStatus("No recent Veratown events; outputs stopped by idle safety timer.");
 }
 
-function loadConfig() {
-  var candidate;
-  try {
-    candidate = JSON.parse(String(getVariable("routeConfig")));
-  } catch (error) {
-    config = null;
-    setVariable("paused", "on");
-    stopAllOutputs();
-    setStatus("Route JSON invalid; paused and outputs stopped.");
-    return false;
-  }
-  if (!validateRoutes(candidate)) {
-    config = null;
-    setVariable("paused", "on");
-    stopAllOutputs();
-    setStatus("Route JSON has an invalid group, channel, cap, or location key; paused.");
-    return false;
-  }
-
-  config = candidate;
-  outputsByChannel = {};
-  for (var i = 0; i < OUTPUTS.length; i++) {
-    outputsByChannel[OUTPUTS[i].channel] = OUTPUTS[i];
-  }
-  setStatus("Routes loaded. Check device caps, then turn Pause off to start.");
-  return true;
-}
-
 function pulseOutput(channel, percent, seconds) {
-  if (!config || isOn("paused") || !validChannel(channel)) return;
+  if (isOn("paused")) return;
   var output = outputsByChannel[channel];
+  if (!output) return;
   var level = clamp(asNumber(percent, 0), 0, outputCap(output));
   if (level <= 0) return;
 
@@ -238,7 +164,7 @@ function pulseOutput(channel, percent, seconds) {
 }
 
 function shockOutput(channel, percent, seconds) {
-  if (!config || isOn("paused") || !validChannel(channel)) return;
+  if (isOn("paused")) return;
   var output = outputsByChannel[channel];
   if (!output || output.kind !== "estim") return;
   var cap = Math.min(outputCap(output), clamp(asNumber(getVariable("shockCap"), 0), 0, 20));
@@ -269,21 +195,14 @@ function pulseTargets(channels, percent, seconds) {
   }
 }
 
-function shockTargets(channels, percent, seconds) {
-  if (!Array.isArray(channels)) return;
-  for (var i = 0; i < channels.length; i++) {
-    shockOutput(channels[i], percent, seconds);
-  }
-}
-
 function finishPulse(channel) {
-  if (!validChannel(channel)) return;
+  if (!outputsByChannel[channel]) return;
   pulseLevels[channel] = 0;
   refreshOutput(channel, getVariable("rampSeconds"));
 }
 
 function finishShock(channel) {
-  if (!validChannel(channel)) return;
+  if (!outputsByChannel[channel]) return;
   shockActive[channel] = false;
   callAction({
     type: "updateComponent",
@@ -298,7 +217,7 @@ function finishShock(channel) {
 }
 
 function onToyEvent(data, inflation) {
-  if (!config || isOn("paused") || !isOn("followToyEvents")) return;
+  if (isOn("paused") || !isOn("followToyEvents")) return;
   if (String(data["trigger-origin"] || "") === "bridge") return;
   if (inflation && !isOn("followInflation")) return;
   var group = String(data["trigger-assetGroupName"] || "");
@@ -310,14 +229,14 @@ function onToyEvent(data, inflation) {
 }
 
 function onItemAdded(data) {
-  if (!config || isOn("paused") || !isOn("itemPulses")) return;
+  if (isOn("paused") || !isOn("itemPulses")) return;
   var group = String(data["trigger-assetGroupName"] || "");
   var channels = groupTargets(group);
   pulseTargets(channels, getVariable("itemPercent"), getVariable("itemSeconds"));
 }
 
 function onItemRemoved(data) {
-  if (!config || isOn("paused")) return;
+  if (isOn("paused")) return;
   var group = String(data["trigger-assetGroupName"] || "");
   if (!group) return;
   groupLevels[group] = 0;
@@ -326,17 +245,17 @@ function onItemRemoved(data) {
 }
 
 function onActivity(data, isOther) {
-  if (!config || isOn("paused")) return;
+  if (isOn("paused")) return;
   var actionName = String(data["trigger-actionName"] || "");
   var group = String(data["trigger-assetGroupName"] || "");
   if (!group) return;
 
   if (actionName === "ShockLow" || actionName === "ShockMed" || actionName === "ShockHigh") {
-    if (!isOn("allowShockEvents") || isOther) return;
+    if (!isOn("allowShockEvents") || isOther || !groupTargets(group).length) return;
     var fraction = actionName === "ShockLow" ? 1 / 3 :
       (actionName === "ShockMed" ? 2 / 3 : 1);
-    shockTargets(
-      groupTargets(group),
+    shockOutput(
+      "part-estim-a",
       asNumber(getVariable("shockCap"), 10) * fraction,
       getVariable("shockSeconds")
     );
@@ -347,27 +266,24 @@ function onActivity(data, isOther) {
 }
 
 function onRoomEvent(data, eventName) {
-  if (!config || isOn("paused") || !isOn("roomPulses")) return;
+  if (isOn("paused") || !isOn("roomPulses")) return;
   if (String(data["trigger-who"] || "") !== "other") return;
-  pulseTargets(config.events[eventName] || [], getVariable("eventPercent"), getVariable("eventSeconds"));
+  pulseTargets(EVENT_ROUTES[eventName] || [], getVariable("eventPercent"), getVariable("eventSeconds"));
 }
 
 function onCasinoResult(data) {
-  if (!config || isOn("paused") || !isOn("casinoPulses")) return;
+  if (isOn("paused") || !isOn("casinoPulses")) return;
   if (String(data["trigger-outcome"] || "") !== "loss") return;
-  pulseTargets(config.events.casinoLoss || [], getVariable("eventPercent"), getVariable("eventSeconds"));
+  pulseTargets(EVENT_ROUTES.casinoLoss, getVariable("eventPercent"), getVariable("eventSeconds"));
 }
 
 function onLocation(data, entered) {
-  if (!config || isOn("paused") || !isOn("locationPulses")) return;
+  if (isOn("paused") || !isOn("locationPulses")) return;
   var key = String(data["trigger-location"] || "");
-  for (var i = 0; i < config.locations.length; i++) {
-    var rule = config.locations[i];
+  for (var i = 0; i < LOCATION_ROUTES.length; i++) {
+    var rule = LOCATION_ROUTES[i];
     if (rule.key !== key) continue;
-    var channels = entered ? (rule.enter || []) : (rule.leave || []);
-    var percent = rule.percent === undefined ? getVariable("eventPercent") : rule.percent;
-    var seconds = rule.seconds === undefined ? getVariable("eventSeconds") : rule.seconds;
-    pulseTargets(channels, percent, seconds);
+    pulseTargets(rule.channels, rule.percent, rule.seconds);
   }
 }
 
@@ -411,31 +327,11 @@ function initVeratownRouter() {
   registerWebhook("vtCasinoResult", onCasinoResult);
   registerWebhook("vtLocationEntered", function (data) { onLocation(data, true); });
   registerWebhook("vtLocationLeft", function (data) { onLocation(data, false); });
-  registerWebhook("bridgeVerify", function (data) {
-    var code = String(data["trigger-code"] || "");
-    if (!code) {
-      setStatus("Verification event received without a code. Check the webhook connection and relink.");
-      return;
-    }
-    setStatus("Veratown verification code: " + code + " - whisper !xtoys verify " + code + " within 5 minutes.");
-  });
-  registerWebhook("bridgeTest", function () { setStatus("Veratown bridge test received."); });
   registerWebhook("bridgeStop", handleBridgeStop);
-  registerWebhook("bridgeState", function () { setStatus("Veratown state response received."); });
-  registerWebhook("vtResult", function (data) {
-    setStatus("Veratown control result: " + String(data["trigger-status"] || "received"));
-  });
   registerTrigger({ type: "variableChange", variable: "paused", valueChange: null }, onPauseChanged);
-  registerTrigger({ type: "variableChange", variable: "routeConfig", valueChange: null }, function () {
-    setVariable("paused", "on");
-    stopAllOutputs();
-    loadConfig();
-  });
-
-  loadConfig();
   setVariable("paused", "on");
   stopAllOutputs();
-  setStatus("Configured safely: paused, all outputs zero.");
+  setStatus("Fixed routes loaded safely: paused, all outputs zero.");
 }
 
 initVeratownRouter();

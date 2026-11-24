@@ -1,0 +1,1931 @@
+[{
+  "initialActions": [
+    {
+      "job": "Setup",
+      "type": "updateJob",
+      "action": "start",
+      "restart": false
+    },
+    {
+      "type": "updateVariable",
+      "value": "{StartingLevel}",
+      "variable": "Level"
+    },
+    {
+      "type": "updateVariable",
+      "value": "No",
+      "variable": "DoIncrease"
+    },
+    {
+      "type": "updateVariable",
+      "value": "{StartingLevel}",
+      "variable": "NextLevel"
+    },
+    {
+      "type": "updateVariable",
+      "value": "{DurationMins}",
+      "variable": "ActualDurationMins"
+    },
+    {
+      "type": "updateVariable",
+      "value": "{ActualDurationMins}*60",
+      "variable": "Duration"
+    }
+  ],
+  "finalActions": [
+    {
+      "type": "updateComponent",
+      "action": "setVolume",
+      "channel": "part-estim|part-estim-a",
+      "rampTime": 0,
+      "actionChannel": "all",
+      "percentVolume": "0"
+    },
+    {
+      "type": "updateComponent",
+      "action": "setVolume",
+      "channel": "part-estim-a",
+      "rampTime": 0,
+      "percentVolume": "0"
+    },
+    {
+      "time": "1",
+      "type": "updateComponent",
+      "shock": false,
+      "action": "setShock2",
+      "channel": "shockcollar-a",
+      "percentVolume": "0"
+    }
+  ],
+  "globalTriggers": [],
+  "jobs": {
+    "Intro": {
+      "steps": {
+        "Say": {
+          "actions": [
+            {
+              "text": "{Speech}",
+              "type": "updateComponent",
+              "action": "setText",
+              "channel": "speech-synthesis-a"
+            },
+            {
+              "type": "updateVariable",
+              "value": "{Speech}\n\n{Log}",
+              "variable": "Log"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "7",
+              "actions": [
+                {
+                  "job": "Punish",
+                  "step": "Torture",
+                  "type": "updateJob",
+                  "action": "goTo"
+                }
+              ],
+              "parsedAmount": 7
+            }
+          ]
+        },
+        "START": {
+          "actions": [
+            {
+              "job": "Intro",
+              "step": "Intro(1|2|3|4|5|6|7|8|9|10|11)",
+              "type": "updateJob",
+              "action": "goTo"
+            }
+          ],
+          "triggers": []
+        },
+        "Intro1": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "Today you are going to be punished for {Reason1}. Your punishment is {ActualDurationMins} minutes of electro torture. ",
+              "variable": "Speech"
+            },
+            {
+              "job": "Intro",
+              "step": "Say",
+              "type": "updateJob",
+              "action": "goTo"
+            }
+          ],
+          "triggers": []
+        },
+        "Intro2": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "You are going to punished with electro torture for {ActualDurationMins} minutes. This punishment is for {Reason1}. ",
+              "variable": "Speech"
+            },
+            {
+              "job": "Intro",
+              "step": "Say",
+              "type": "updateJob",
+              "action": "goTo"
+            }
+          ],
+          "triggers": []
+        },
+        "Intro3": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "Today you will be punished for {ActualDurationMins} minutes for {Reason1}. ",
+              "variable": "Speech"
+            },
+            {
+              "job": "Intro",
+              "step": "Say",
+              "type": "updateJob",
+              "action": "goTo"
+            }
+          ],
+          "triggers": []
+        },
+        "Intro4": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "Because you {Reason2}, you have been sentenced to {ActualDurationMins} minutes of punishment by electro torture.",
+              "variable": "Speech"
+            },
+            {
+              "job": "Intro",
+              "step": "Say",
+              "type": "updateJob",
+              "action": "goTo"
+            }
+          ],
+          "triggers": []
+        },
+        "Intro5": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "I'm going to make you regret {Reason1}. You have been sentenced to {ActualDurationMins} minutes of punishment electro torture. ",
+              "variable": "Speech"
+            },
+            {
+              "job": "Intro",
+              "step": "Say",
+              "type": "updateJob",
+              "action": "goTo"
+            }
+          ],
+          "triggers": []
+        },
+        "Intro6": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "You have been sentenced to {ActualDurationMins} minutes of electro torture. I'm going to make you suffer for {Reason1}.",
+              "variable": "Speech"
+            },
+            {
+              "job": "Intro",
+              "step": "Say",
+              "type": "updateJob",
+              "action": "goTo"
+            }
+          ],
+          "triggers": []
+        },
+        "Intro7": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "You are going to be punished with electro torture for {ActualDurationMins} minutes. You're going to regret {Reason1}.",
+              "variable": "Speech"
+            },
+            {
+              "job": "Intro",
+              "step": "Say",
+              "type": "updateJob",
+              "action": "goTo"
+            }
+          ],
+          "triggers": []
+        },
+        "Intro8": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "Today you are going to be punished for {Reason1}. You will be punished with {ActualDurationMins} minutes of electro torture. ",
+              "variable": "Speech"
+            },
+            {
+              "job": "Intro",
+              "step": "Say",
+              "type": "updateJob",
+              "action": "goTo"
+            }
+          ],
+          "triggers": []
+        },
+        "Intro9": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "You have been sentenced to punishment electro torture for {Reason1}.",
+              "variable": "Speech"
+            },
+            {
+              "job": "Intro",
+              "step": "Say",
+              "type": "updateJob",
+              "action": "goTo"
+            }
+          ],
+          "triggers": []
+        },
+        "Intro10": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "You have been sentenced to punishment electro torture. I'm going to make you suffer for {Reason1}.",
+              "variable": "Speech"
+            },
+            {
+              "job": "Intro",
+              "step": "Say",
+              "type": "updateJob",
+              "action": "goTo"
+            }
+          ],
+          "triggers": []
+        },
+        "Intro11": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "I'm going to make you regret {Reason1}. You have been sentenced to punishment electro torture. ",
+              "variable": "Speech"
+            },
+            {
+              "job": "Intro",
+              "step": "Say",
+              "type": "updateJob",
+              "action": "goTo"
+            }
+          ],
+          "triggers": []
+        }
+      }
+    },
+    "Setup": {
+      "steps": {
+        "START": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "[Pause - {Delay}s]\n",
+              "variable": "Log",
+              "requiredExpression": "{Delay}>0"
+            },
+            {
+              "type": "updateVariable",
+              "value": "[Starting]\n",
+              "variable": "Log",
+              "requiredExpression": "{Delay}<=0"
+            },
+            {
+              "job": "Setup",
+              "step": "StartAll",
+              "type": "updateJob",
+              "action": "goTo",
+              "requiredExpression": "{Delay}<=0"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{Delay}",
+              "actions": [
+                {
+                  "job": "Setup",
+                  "step": "StartAll",
+                  "type": "updateJob",
+                  "action": "goTo"
+                }
+              ],
+              "requiredExpression": "{Delay}>0"
+            }
+          ]
+        },
+        "StartAll": {
+          "actions": [
+            {
+              "job": "Intro",
+              "type": "updateJob",
+              "action": "start",
+              "restart": false
+            },
+            {
+              "job": "Timer",
+              "type": "updateJob",
+              "action": "start",
+              "restart": false
+            },
+            {
+              "job": "IncreaseTimer",
+              "type": "updateJob",
+              "action": "start",
+              "restart": false,
+              "requiredExpression": "{UseIncrease}==\"Yes\""
+            }
+          ],
+          "triggers": []
+        }
+      }
+    },
+    "Timer": {
+      "steps": {
+        "Say": {
+          "actions": [
+            {
+              "text": "{Speech}",
+              "type": "updateComponent",
+              "action": "setText",
+              "channel": "speech-synthesis-a"
+            },
+            {
+              "type": "updateVariable",
+              "value": "{Speech}\n\n{Log}",
+              "variable": "Log"
+            }
+          ],
+          "triggers": []
+        },
+        "Say1": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "That completes your punishment for {Reason1}.",
+              "variable": "Speech"
+            },
+            {
+              "job": "Timer",
+              "step": "Say",
+              "type": "updateJob",
+              "action": "goTo"
+            }
+          ],
+          "triggers": []
+        },
+        "Say2": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "That's  {ActualDurationMins} minutes of electro torture. \nI hope you learnt your lesson.",
+              "variable": "Speech"
+            },
+            {
+              "job": "Timer",
+              "step": "Say",
+              "type": "updateJob",
+              "action": "goTo"
+            }
+          ],
+          "triggers": []
+        },
+        "Say3": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "{Reason3} again and your punishment will be even harder next time.",
+              "variable": "Speech"
+            },
+            {
+              "job": "Timer",
+              "step": "Say",
+              "type": "updateJob",
+              "action": "goTo"
+            }
+          ],
+          "triggers": []
+        },
+        "Pause": {
+          "actions": [],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "(2-3)",
+              "actions": [
+                {
+                  "job": "Timer",
+                  "step": "Say(1|2|3)",
+                  "type": "updateJob",
+                  "action": "goTo"
+                }
+              ]
+            }
+          ]
+        },
+        "START": {
+          "actions": [],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{Duration}",
+              "actions": [
+                {
+                  "job": "Punish",
+                  "type": "updateJob",
+                  "action": "stop"
+                },
+                {
+                  "type": "updateVariable",
+                  "value": "[Timer ends]\n\n{Log}",
+                  "variable": "Log"
+                },
+                {
+                  "type": "updateComponent",
+                  "action": "setVolume",
+                  "channel": "part-estim|part-estim-a",
+                  "rampTime": 0,
+                  "actionChannel": "all",
+                  "percentVolume": "0"
+                },
+                {
+                  "type": "updateComponent",
+                  "action": "setVolume",
+                  "channel": "part-estim-a",
+                  "rampTime": 0,
+                  "percentVolume": "0"
+                },
+                {
+                  "time": "1",
+                  "type": "updateComponent",
+                  "shock": false,
+                  "action": "setShock2",
+                  "channel": "shockcollar-a",
+                  "percentVolume": "0"
+                },
+                {
+                  "job": "Timer",
+                  "step": "Pause",
+                  "type": "updateJob",
+                  "action": "goTo"
+                }
+              ],
+              "parsedAmount": 2400
+            }
+          ]
+        }
+      }
+    },
+    "Punish": {
+      "steps": {
+        "Say0": {
+          "actions": [],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "(0.5-1.5)",
+              "actions": [
+                {
+                  "job": "Punish",
+                  "step": "Torture",
+                  "type": "updateJob",
+                  "action": "goTo"
+                }
+              ]
+            }
+          ]
+        },
+        "Say1": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "Having fun?",
+              "variable": "Say"
+            },
+            {
+              "text": "{Say}",
+              "type": "updateComponent",
+              "action": "setText",
+              "channel": "speech-synthesis-a"
+            },
+            {
+              "type": "updateVariable",
+              "value": "{Say}\n{Log}",
+              "variable": "Log"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "1.5",
+              "actions": [
+                {
+                  "job": "Punish",
+                  "step": "Torture",
+                  "type": "updateJob",
+                  "action": "goTo"
+                }
+              ]
+            }
+          ]
+        },
+        "Say2": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "I think I'll keep going until you pass out.",
+              "variable": "Say"
+            },
+            {
+              "text": "{Say}",
+              "type": "updateComponent",
+              "action": "setText",
+              "channel": "speech-synthesis-a"
+            },
+            {
+              "type": "updateVariable",
+              "value": "{Say}\n{Log}",
+              "variable": "Log"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "2",
+              "actions": [
+                {
+                  "job": "Punish",
+                  "step": "Torture",
+                  "type": "updateJob",
+                  "action": "goTo"
+                }
+              ]
+            }
+          ]
+        },
+        "Say3": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "This is what you get for {Reason1}.",
+              "variable": "Say"
+            },
+            {
+              "text": "{Say}",
+              "type": "updateComponent",
+              "action": "setText",
+              "channel": "speech-synthesis-a"
+            },
+            {
+              "type": "updateVariable",
+              "value": "{Say}\n{Log}",
+              "variable": "Log"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "3",
+              "actions": [
+                {
+                  "job": "Punish",
+                  "step": "Torture",
+                  "type": "updateJob",
+                  "action": "goTo"
+                }
+              ]
+            }
+          ]
+        },
+        "Say4": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "This is what happens when you {Reason3}.",
+              "variable": "Say"
+            },
+            {
+              "text": "{Say}",
+              "type": "updateComponent",
+              "action": "setText",
+              "channel": "speech-synthesis-a"
+            },
+            {
+              "type": "updateVariable",
+              "value": "{Say}\n{Log}",
+              "variable": "Log"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "3",
+              "actions": [
+                {
+                  "job": "Punish",
+                  "step": "Torture",
+                  "type": "updateJob",
+                  "action": "goTo"
+                }
+              ]
+            }
+          ]
+        },
+        "Say5": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "Oh does it hurt? Do you want me to stop?",
+              "variable": "Say"
+            },
+            {
+              "text": "{Say}",
+              "type": "updateComponent",
+              "action": "setText",
+              "channel": "speech-synthesis-a"
+            },
+            {
+              "type": "updateVariable",
+              "value": "{Say}\n{Log}",
+              "variable": "Log"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "2",
+              "actions": [
+                {
+                  "job": "Punish",
+                  "step": "Torture",
+                  "type": "updateJob",
+                  "action": "goTo"
+                }
+              ]
+            }
+          ]
+        },
+        "Say6": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "Are you going to {Reason3} again?",
+              "variable": "Say"
+            },
+            {
+              "text": "{Say}",
+              "type": "updateComponent",
+              "action": "setText",
+              "channel": "speech-synthesis-a"
+            },
+            {
+              "type": "updateVariable",
+              "value": "{Say}\n{Log}",
+              "variable": "Log"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "3",
+              "actions": [
+                {
+                  "job": "Punish",
+                  "step": "Torture",
+                  "type": "updateJob",
+                  "action": "goTo"
+                }
+              ]
+            }
+          ]
+        },
+        "Say7": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "Is it worth it {Reason1}?",
+              "variable": "Say"
+            },
+            {
+              "text": "{Say}",
+              "type": "updateComponent",
+              "action": "setText",
+              "channel": "speech-synthesis-a"
+            },
+            {
+              "type": "updateVariable",
+              "value": "{Say}\n{Log}",
+              "variable": "Log"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "3",
+              "actions": [
+                {
+                  "job": "Punish",
+                  "step": "Torture",
+                  "type": "updateJob",
+                  "action": "goTo"
+                }
+              ]
+            }
+          ]
+        },
+        "Say8": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "I can make you suffer just by doing this.",
+              "variable": "Say"
+            },
+            {
+              "text": "{Say}",
+              "type": "updateComponent",
+              "action": "setText",
+              "channel": "speech-synthesis-a"
+            },
+            {
+              "type": "updateVariable",
+              "value": "{Say}\n{Log}",
+              "variable": "Log"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "2",
+              "actions": [
+                {
+                  "job": "Punish",
+                  "step": "Torture",
+                  "type": "updateJob",
+                  "action": "goTo"
+                }
+              ]
+            }
+          ]
+        },
+        "Say9": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "I'm going to make you cry.",
+              "variable": "Say"
+            },
+            {
+              "text": "{Say}",
+              "type": "updateComponent",
+              "action": "setText",
+              "channel": "speech-synthesis-a"
+            },
+            {
+              "type": "updateVariable",
+              "value": "{Say}\n{Log}",
+              "variable": "Log"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "2",
+              "actions": [
+                {
+                  "job": "Punish",
+                  "step": "Torture",
+                  "type": "updateJob",
+                  "action": "goTo"
+                }
+              ]
+            }
+          ]
+        },
+        "START": {
+          "actions": [],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "(1-2)",
+              "actions": [
+                {
+                  "job": "Punish",
+                  "step": "Say(0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16)",
+                  "type": "updateJob",
+                  "action": "goTo",
+                  "requiredExpression": "{DoIncrease}==\"No\""
+                },
+                {
+                  "job": "Punish",
+                  "step": "Increase(1|2|3)",
+                  "type": "updateJob",
+                  "action": "goTo",
+                  "requiredExpression": "{DoIncrease}==\"Yes\""
+                }
+              ]
+            }
+          ]
+        },
+        "Say10": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "There's nothing you can do to stop this. ",
+              "variable": "Say"
+            },
+            {
+              "text": "{Say}",
+              "type": "updateComponent",
+              "action": "setText",
+              "channel": "speech-synthesis-a"
+            },
+            {
+              "type": "updateVariable",
+              "value": "{Say}\n{Log}",
+              "variable": "Log"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "2",
+              "actions": [
+                {
+                  "job": "Punish",
+                  "step": "Torture",
+                  "type": "updateJob",
+                  "action": "goTo"
+                }
+              ]
+            }
+          ]
+        },
+        "Say11": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "What do you think, should I turn it up higher?",
+              "variable": "Say"
+            },
+            {
+              "text": "{Say}",
+              "type": "updateComponent",
+              "action": "setText",
+              "channel": "speech-synthesis-a"
+            },
+            {
+              "type": "updateVariable",
+              "value": "{Say}\n{Log}",
+              "variable": "Log"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "3",
+              "actions": [
+                {
+                  "job": "Punish",
+                  "step": "Torture",
+                  "type": "updateJob",
+                  "action": "goTo"
+                }
+              ]
+            }
+          ]
+        },
+        "Say12": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "I'm enjoying doing this to you.",
+              "variable": "Say"
+            },
+            {
+              "text": "{Say}",
+              "type": "updateComponent",
+              "action": "setText",
+              "channel": "speech-synthesis-a"
+            },
+            {
+              "type": "updateVariable",
+              "value": "{Say}\n{Log}",
+              "variable": "Log"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "2",
+              "actions": [
+                {
+                  "job": "Punish",
+                  "step": "Torture",
+                  "type": "updateJob",
+                  "action": "goTo"
+                }
+              ]
+            }
+          ]
+        },
+        "Say13": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "Pathetic.",
+              "variable": "Say"
+            },
+            {
+              "text": "{Say}",
+              "type": "updateComponent",
+              "action": "setText",
+              "channel": "speech-synthesis-a"
+            },
+            {
+              "type": "updateVariable",
+              "value": "{Say}\n{Log}",
+              "variable": "Log"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "2",
+              "actions": [
+                {
+                  "job": "Punish",
+                  "step": "Torture",
+                  "type": "updateJob",
+                  "action": "goTo"
+                }
+              ]
+            }
+          ]
+        },
+        "Say14": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "Disgusting. ",
+              "variable": "Say"
+            },
+            {
+              "text": "{Say}",
+              "type": "updateComponent",
+              "action": "setText",
+              "channel": "speech-synthesis-a"
+            },
+            {
+              "type": "updateVariable",
+              "value": "{Say}\n{Log}",
+              "variable": "Log"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "2",
+              "actions": [
+                {
+                  "job": "Punish",
+                  "step": "Torture",
+                  "type": "updateJob",
+                  "action": "goTo"
+                }
+              ]
+            }
+          ]
+        },
+        "Say15": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "Enjoying this punishment?",
+              "variable": "Say"
+            },
+            {
+              "text": "{Say}",
+              "type": "updateComponent",
+              "action": "setText",
+              "channel": "speech-synthesis-a"
+            },
+            {
+              "type": "updateVariable",
+              "value": "{Say}\n{Log}",
+              "variable": "Log"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "2",
+              "actions": [
+                {
+                  "job": "Punish",
+                  "step": "Torture",
+                  "type": "updateJob",
+                  "action": "goTo"
+                }
+              ]
+            }
+          ]
+        },
+        "Say16": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "This is what you deserve.",
+              "variable": "Say"
+            },
+            {
+              "text": "{Say}",
+              "type": "updateComponent",
+              "action": "setText",
+              "channel": "speech-synthesis-a"
+            },
+            {
+              "type": "updateVariable",
+              "value": "{Say}\n{Log}",
+              "variable": "Log"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "2",
+              "actions": [
+                {
+                  "job": "Punish",
+                  "step": "Torture",
+                  "type": "updateJob",
+                  "action": "goTo"
+                }
+              ]
+            }
+          ]
+        },
+        "Torture": {
+          "actions": [
+            {
+              "job": "Punish",
+              "step": "Torture(1|1|2|2|2|3|3|3)",
+              "type": "updateJob",
+              "action": "goTo"
+            }
+          ],
+          "triggers": []
+        },
+        "Torture1": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "(2.0-4.0)",
+              "variable": "Length"
+            },
+            {
+              "type": "updateComponent",
+              "action": "setVolume",
+              "channel": "part-estim|part-estim-a",
+              "rampTime": 0,
+              "actionChannel": "all",
+              "percentVolume": "{Level}"
+            },
+            {
+              "type": "updateComponent",
+              "action": "setVolume",
+              "channel": "part-estim-a",
+              "rampTime": 0,
+              "percentVolume": "{Level}"
+            },
+            {
+              "time": "{Length}",
+              "type": "updateComponent",
+              "shock": true,
+              "action": "setShock2",
+              "channel": "shockcollar-a",
+              "percentVolume": "{Level}"
+            },
+            {
+              "type": "updateVariable",
+              "value": "[AB - {Level}%]\n{Log}",
+              "variable": "Log"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{Length}",
+              "actions": [
+                {
+                  "type": "updateComponent",
+                  "action": "setVolume",
+                  "channel": "part-estim|part-estim-a",
+                  "rampTime": 0,
+                  "actionChannel": "all",
+                  "percentVolume": "0"
+                },
+                {
+                  "type": "updateComponent",
+                  "action": "setVolume",
+                  "channel": "part-estim-a",
+                  "rampTime": 0,
+                  "percentVolume": "0"
+                },
+                {
+                  "job": "Punish",
+                  "step": "START",
+                  "type": "updateJob",
+                  "action": "goTo"
+                }
+              ]
+            }
+          ]
+        },
+        "Torture2": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "(1.5-4.0)",
+              "variable": "Length"
+            },
+            {
+              "type": "updateComponent",
+              "action": "setVolume",
+              "channel": "part-estim|part-estim-a",
+              "rampTime": 0,
+              "actionChannel": "1",
+              "percentVolume": "{Level}"
+            },
+            {
+              "type": "updateComponent",
+              "action": "setVolume",
+              "channel": "part-estim-a",
+              "rampTime": 0,
+              "percentVolume": "{Level}"
+            },
+            {
+              "time": "{Length}",
+              "type": "updateComponent",
+              "shock": true,
+              "action": "setShock2",
+              "channel": "shockcollar-a",
+              "percentVolume": "{Level}"
+            },
+            {
+              "type": "updateVariable",
+              "value": "[A - {Level}%]\n{Log}",
+              "variable": "Log"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{Length}",
+              "actions": [
+                {
+                  "type": "updateComponent",
+                  "action": "setVolume",
+                  "channel": "part-estim|part-estim-a",
+                  "rampTime": 0,
+                  "actionChannel": "all",
+                  "percentVolume": "0"
+                },
+                {
+                  "type": "updateComponent",
+                  "action": "setVolume",
+                  "channel": "part-estim-a",
+                  "rampTime": 0,
+                  "percentVolume": "0"
+                },
+                {
+                  "job": "Punish",
+                  "step": "START",
+                  "type": "updateJob",
+                  "action": "goTo"
+                }
+              ]
+            }
+          ]
+        },
+        "Torture3": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "(1.5-4.0)",
+              "variable": "Length"
+            },
+            {
+              "type": "updateComponent",
+              "action": "setVolume",
+              "channel": "part-estim|part-estim-a",
+              "rampTime": 0,
+              "actionChannel": "2",
+              "percentVolume": "{Level}"
+            },
+            {
+              "type": "updateComponent",
+              "action": "setVolume",
+              "channel": "part-estim-a",
+              "rampTime": 0,
+              "percentVolume": "{Level}"
+            },
+            {
+              "time": "{Length}",
+              "type": "updateComponent",
+              "shock": true,
+              "action": "setShock2",
+              "channel": "shockcollar-a",
+              "percentVolume": "{Level}"
+            },
+            {
+              "type": "updateVariable",
+              "value": "[B - {Level}%]\n{Log}",
+              "variable": "Log"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{Length}",
+              "actions": [
+                {
+                  "type": "updateComponent",
+                  "action": "setVolume",
+                  "channel": "part-estim|part-estim-a",
+                  "rampTime": 0,
+                  "actionChannel": "all",
+                  "percentVolume": "0"
+                },
+                {
+                  "type": "updateComponent",
+                  "action": "setVolume",
+                  "channel": "part-estim-a",
+                  "rampTime": 0,
+                  "percentVolume": "0"
+                },
+                {
+                  "job": "Punish",
+                  "step": "START",
+                  "type": "updateJob",
+                  "action": "goTo"
+                }
+              ]
+            }
+          ]
+        },
+        "Increase1": {
+          "actions": [
+            {
+              "text": "Let's increase the level a bit shall we?",
+              "type": "updateComponent",
+              "action": "setText",
+              "channel": "speech-synthesis-a"
+            },
+            {
+              "type": "updateVariable",
+              "value": "Let's increase the level a bit shall we?\n{Log}",
+              "variable": "Log"
+            },
+            {
+              "type": "updateVariable",
+              "value": "{NextLevel}",
+              "variable": "Level"
+            },
+            {
+              "type": "updateVariable",
+              "value": "No",
+              "variable": "DoIncrease"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "3",
+              "actions": [
+                {
+                  "job": "Punish",
+                  "step": "Torture",
+                  "type": "updateJob",
+                  "action": "goTo"
+                }
+              ]
+            }
+          ]
+        },
+        "Increase2": {
+          "actions": [
+            {
+              "text": "I think the punishment needs to be harder.",
+              "type": "updateComponent",
+              "action": "setText",
+              "channel": "speech-synthesis-a"
+            },
+            {
+              "type": "updateVariable",
+              "value": "I think the punishment needs to be harder.\n{Log}",
+              "variable": "Log"
+            },
+            {
+              "type": "updateVariable",
+              "value": "{NextLevel}",
+              "variable": "Level"
+            },
+            {
+              "type": "updateVariable",
+              "value": "No",
+              "variable": "DoIncrease"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "3",
+              "actions": [
+                {
+                  "job": "Punish",
+                  "step": "Torture",
+                  "type": "updateJob",
+                  "action": "goTo"
+                }
+              ]
+            }
+          ]
+        },
+        "Increase3": {
+          "actions": [
+            {
+              "text": "Let's see how you like this new level.",
+              "type": "updateComponent",
+              "action": "setText",
+              "channel": "speech-synthesis-a"
+            },
+            {
+              "type": "updateVariable",
+              "value": "Let's see how you like this new level.\n{Log}",
+              "variable": "Log"
+            },
+            {
+              "type": "updateVariable",
+              "value": "{NextLevel}",
+              "variable": "Level"
+            },
+            {
+              "type": "updateVariable",
+              "value": "No",
+              "variable": "DoIncrease"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "3",
+              "actions": [
+                {
+                  "job": "Punish",
+                  "step": "Torture",
+                  "type": "updateJob",
+                  "action": "goTo"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "IncreaseTimer": {
+      "steps": {
+        "START": {
+          "actions": [
+            {
+              "type": "updateVariable",
+              "value": "{IncreaseTime}*60",
+              "variable": "NextIncreaseTime"
+            },
+            {
+              "type": "updateVariable",
+              "value": "{Level}+{Increase}",
+              "variable": "NextLevel"
+            },
+            {
+              "type": "updateVariable",
+              "value": "100",
+              "variable": "NextLevel",
+              "requiredExpression": "{NextLevel}>100"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{NextIncreaseTime}",
+              "actions": [
+                {
+                  "type": "updateVariable",
+                  "value": "Yes",
+                  "variable": "DoIncrease",
+                  "requiredExpression": ""
+                },
+                {
+                  "job": "IncreaseTimer",
+                  "type": "updateJob",
+                  "action": "restartStep"
+                }
+              ],
+              "parsedAmount": 360,
+              "requiredExpression": "{Level}<100"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "queues": [],
+  "channels": {
+    "part-estim-a": {
+      "name": null,
+      "type": "part-estim"
+    },
+    "shockcollar-a": {
+      "name": null,
+      "type": "shockcollar"
+    },
+    "speech-synthesis-a": {
+      "name": null,
+      "type": "speech-synthesis"
+    },
+    "part-estim|part-estim-a": {
+      "name": null,
+      "type": "part-estim|part-estim"
+    }
+  },
+  "controls": [
+    {
+      "id": "Delay",
+      "name": "Initial delay",
+      "type": "timer",
+      "value": 120
+    },
+    {
+      "id": "ShowLog",
+      "up": "No",
+      "down": "Yes",
+      "name": "Show log",
+      "type": "toggle",
+      "value": "Yes"
+    },
+    {
+      "id": "Log",
+      "name": "Log",
+      "type": "textarea",
+      "requiredExpression": "{ShowLog}==\"Yes\""
+    },
+    {
+      "id": "Reason1",
+      "name": "Reason (present participle): This is what you get for ...",
+      "type": "input",
+      "value": "lying to me"
+    },
+    {
+      "id": "Reason2",
+      "name": "Reason (past tense): This is because you ...",
+      "type": "input",
+      "value": "lied to me"
+    },
+    {
+      "id": "Reason3",
+      "name": "Reason (infinitive): Are you going to ... again?",
+      "type": "input",
+      "value": "lie to me"
+    },
+    {
+      "id": "UseIncrease",
+      "up": "No",
+      "down": "Yes",
+      "name": "Increase intensity over time",
+      "type": "toggle",
+      "value": "Yes"
+    },
+    {
+      "id": "StartingLevel",
+      "name": "Starting level",
+      "type": "input",
+      "value": "70"
+    },
+    {
+      "id": "Increase",
+      "name": "Increase amount",
+      "type": "input",
+      "value": "(5-8)",
+      "requiredExpression": "{UseIncrease}==\"Yes\""
+    },
+    {
+      "id": "IncreaseTime",
+      "name": "Increase time (mins)",
+      "type": "input",
+      "value": "(4-7)",
+      "requiredExpression": "{UseIncrease}==\"Yes\""
+    },
+    {
+      "id": "DurationMins",
+      "name": "Duration (mins)",
+      "type": "input",
+      "value": "(20|30|40|45|50|60)"
+    }
+  ],
+  "controlPresets": [],
+  "media": {
+    "audio": {},
+    "voices": {},
+    "patterns": {}
+  },
+  "customFunctions": ""
+},
+{
+  "initialActions": [
+    {
+      "job": "Main",
+      "type": "updateJob",
+      "action": "start"
+    }
+  ],
+  "finalActions": [
+    {
+      "type": "updateComponent",
+      "action": "setVolume",
+      "channel": "generic-1-a",
+      "rampTime": 0,
+      "percentVolume": "0"
+    }
+  ],
+  "globalTriggers": [],
+  "jobs": {
+    "Main": {
+      "steps": {
+        "START": {
+          "actions": [],
+          "triggers": []
+        }
+      }
+    }
+  },
+  "queues": [],
+  "channels": {
+    "generic-1-a": {
+      "name": null,
+      "type": "generic-1"
+    },
+    "heart-rate-a": {
+      "name": null,
+      "type": "heart-rate"
+    },
+    "part-button-a": {
+      "name": null,
+      "type": "part-button"
+    }
+  },
+  "controls": [
+    {
+      "name": "Heart Rate Setup",
+      "type": "header"
+    },
+    {
+      "id": "hrLow",
+      "max": 100,
+      "min": 40,
+      "name": "HR Minimum (BPM)",
+      "type": "slider",
+      "value": 60,
+      "description": "Lower heart rate limit for intensity control (BPM)."
+    },
+    {
+      "id": "hrHigh",
+      "max": 160,
+      "min": 100,
+      "name": "HR Maximum (BPM)",
+      "type": "slider",
+      "value": 130,
+      "description": "Upper heart rate limit for intensity control (BPM)."
+    },
+    {
+      "id": "intLowHR",
+      "max": 100,
+      "min": 0,
+      "name": "Intensity at Low HR (%)",
+      "type": "slider",
+      "value": 70,
+      "description": "Output intensity at minimum heart rate (%)."
+    },
+    {
+      "id": "intHighHR",
+      "max": 100,
+      "min": 0,
+      "name": "Intensity at High HR (%)",
+      "type": "slider",
+      "value": 15,
+      "description": "Output intensity at maximum heart rate (%)."
+    },
+    {
+      "id": "forceLeadMinutes",
+      "max": 15,
+      "min": 0,
+      "name": "Launch of FORCE mode (min)",
+      "type": "slider",
+      "value": 10,
+      "description": "Time to Activate FORCE Mode Before the End"
+    },
+    {
+      "id": "forceProbability",
+      "max": 100,
+      "min": 0,
+      "name": "FORCE mode Probability (%)",
+      "type": "slider",
+      "value": 50,
+      "description": "the probability that FORCE mode will be activated at all during a given session."
+    },
+    {
+      "name": "Emergency MAX Heartrate Setup",
+      "type": "header"
+    },
+    {
+      "id": "emergencyHR",
+      "max": 180,
+      "min": 120,
+      "name": "Emergency Stop HR (BPM)",
+      "type": "slider",
+      "value": 150,
+      "description": "Heart rate threshold that triggers an immediate emergency stop (BPM)."
+    },
+    {
+      "id": "emergencyReleaseHR",
+      "max": 130,
+      "min": 80,
+      "name": "Emergency Release HR (BPM)",
+      "type": "slider",
+      "value": 115,
+      "description": "Heart rate threshold below which emergency recovery is allowed (BPM)."
+    },
+    {
+      "id": "emergencyReleaseDelay",
+      "max": 15,
+      "min": 0,
+      "name": "Emergency Release Delay (s)",
+      "type": "slider",
+      "value": 8,
+      "description": "Waiting time before recovery after heart rate drops below the release threshold (seconds)."
+    },
+    {
+      "id": "watchdogTimeout",
+      "max": 30,
+      "min": 3,
+      "name": "HR Watchdog Timeout (s)",
+      "type": "slider",
+      "value": 10,
+      "description": "Maximum time without a valid heart rate signal before output is stopped (seconds)."
+    },
+    {
+      "id": "recoveryRamp",
+      "max": 30,
+      "min": 1,
+      "name": "Recovery Ramp (s)",
+      "type": "slider",
+      "value": 12,
+      "description": "Time to restore output intensity after startup, Paw, Emergency Stop or HR signal recovery (seconds)."
+    },
+    {
+      "name": "DG-Lab PawPrints Setup",
+      "type": "header"
+    },
+    {
+      "id": "pawStartDelay",
+      "max": 60,
+      "min": 0,
+      "name": "Paw Start Delay (min)",
+      "type": "slider",
+      "value": 10,
+      "description": "Time after script start before Paw becomes active (minutes)."
+    },
+    {
+      "id": "pawDownRamp",
+      "max": 5,
+      "min": 0,
+      "name": "Paw Down Ramp (s)",
+      "type": "slider",
+      "value": 1,
+      "description": "Time to reduce output intensity to zero after Paw activation (seconds)."
+    },
+    {
+      "id": "pawHoldTime",
+      "max": 30,
+      "min": 1,
+      "name": "Paw Hold Time (s)",
+      "type": "slider",
+      "value": 8,
+      "description": "Time the output remains at zero after Paw activation (seconds)."
+    },
+    {
+      "id": "pawRearmTime",
+      "max": 120,
+      "min": 20,
+      "name": "Paw Rearm Time (s)",
+      "type": "slider",
+      "value": 30,
+      "description": "Minimum time between accepted Paw activations (seconds)."
+    },
+    {
+      "name": "Other Setup",
+      "type": "header"
+    },
+    {
+      "id": "sessionDuration",
+      "name": "Session Duration (min)",
+      "type": "input",
+      "value": "60"
+    }
+  ],
+  "controlPresets": [],
+  "media": {
+    "audio": {},
+    "voices": {},
+    "patterns": {}
+  },
+  "customFunctions": "// XToys HR + Paw — Production v1.9 — FORCE mode\n// FORCE starts when remaining time <= forceLeadMinutes (slider).\n// Probability controlled by forceProbability (0-100%).\n// Debug console.logs kept for testing.\n// Check is done both on timer and on every HR event (HR path is the reliable one).\n\nvar OUT_CHANNEL = 'generic-1-a';\n\nfunction controlNumber(name, fallback, min, max) {\n    var value;\n    try { value = getVariable(name); } catch (e) { return fallback; }\n    if (value === null || value === undefined || value === '') return fallback;\n    var n = Number(value);\n    if (!isFinite(n)) return fallback;\n    return Math.max(min, Math.min(max, n));\n}\nfunction readHrCurve() {\n    var low = controlNumber('hrLow', 60, 40, 100);\n    var high = controlNumber('hrHigh', 130, 100, 160);\n    var atLow = controlNumber('intLowHR', 70, 0, 100);\n    var atHigh = controlNumber('intHighHR', 15, 0, 100);\n    if (high <= low) { low = 60; high = 130; }\n    if (atHigh > atLow) atHigh = atLow;\n    return {low:low, high:high, atLow:atLow, atHigh:atHigh};\n}\n\nvar PAW_START_DELAY_MIN = 10;\nvar scriptStartedAt = Date.now();\nvar sessionMinutes = controlNumber('sessionDuration', 30, 1, 180);\nvar sessionDeadline = scriptStartedAt + sessionMinutes * 60000;\n\nvar sessionEnded = false;\nvar forceMode = false;\nvar forceDecisionMade = false;\nvar forceWillTrigger = false;\nvar forceRampUntil = 0;\nvar pawButtonHeld = false;\n\nfunction readSettings() {\n    var v = {\n        pawDownRamp: controlNumber('pawDownRamp', 1, 0, 5),\n        pawHoldTime: controlNumber('pawHoldTime', 8, 1, 30),\n        pawRearmTime: controlNumber('pawRearmTime', 30, 20, 120),\n        emergencyHR: controlNumber('emergencyHR', 150, 120, 180),\n        emergencyReleaseHR: controlNumber('emergencyReleaseHR', 115, 80, 130),\n        emergencyReleaseDelay: controlNumber('emergencyReleaseDelay', 8, 0, 15),\n        recoveryRamp: controlNumber('recoveryRamp', 12, 1, 30),\n        watchdogTimeout: controlNumber('watchdogTimeout', 10, 3, 30),\n        forceLeadMinutes: controlNumber('forceLeadMinutes', 10, 0, 60),\n        forceProbability: controlNumber('forceProbability', 100, 0, 100)\n    };\n    if (v.emergencyReleaseHR >= v.emergencyHR)\n        v.emergencyReleaseHR = v.emergencyHR - 1;\n    var sequenceSeconds = v.pawHoldTime + v.recoveryRamp;\n    if (v.pawRearmTime < sequenceSeconds)\n        v.pawRearmTime = sequenceSeconds;\n    return v;\n}\n\nvar lastBpm = null, lastValidHrAt = 0;\nvar mode = 'WAIT_HR';\nvar phaseId = 0;\nvar lastPawAt = 0;\nvar lastPawRearmMs = 0;\nvar emergencyCheckRunning = false;\n\nfunction output(percent, seconds) {\n    if (sessionEnded || Date.now() >= sessionDeadline) {\n        sessionEnded = true;\n        percent = 0;\n        seconds = 0;\n    }\n    var p = Math.max(0, Math.min(100, Math.round(percent)));\n    callAction({\"type\":\"updateComponent\",\"action\":\"setVolume\",\"channel\":OUT_CHANNEL,\n                \"rampTime\":String(seconds),\"percentVolume\":String(p)});\n}\nfunction hrTarget(bpm) {\n    var c = readHrCurve();\n    var t = Math.max(0, Math.min(1, (bpm - c.low)/(c.high - c.low)));\n    return c.atLow + (c.atHigh - c.atLow)*t;\n}\nfunction getBpm(data) {\n    var a = [];\n    if (data) a = [data['trigger-result'],data['trigger'],data.bpm,data.value,data.heartRate,data.heartrate];\n    for (var i=0; i<a.length; i++) {\n        var v = a[i];\n        if (v && typeof v === 'object') {\n            if (v.bpm !== undefined) v=v.bpm;\n            else if (v.value !== undefined) v=v.value;\n            else if (v.heartRate !== undefined) v=v.heartRate;\n        }\n        var n = Number(v);\n        if (isFinite(n) && n>0) return n;\n    }\n    return null;\n}\nfunction armClock() {\n    callAction({\"type\":\"updateScript\",\"part\":\"timer\",\"seconds\":\"1\",\n                \"setVariable\":null,\"goToPage\":null});\n}\nfunction endSession() {\n    if (sessionEnded) return;\n    sessionEnded = true;\n    phaseId++;\n    mode = 'SESSION_END';\n    output(0, 0);\n    console.log('SESSION_END');\n}\nfunction checkSession() {\n    if (sessionEnded) return true;\n    if (Date.now() >= sessionDeadline) {\n        endSession();\n        return true;\n    }\n    return false;\n}\nfunction decideForceProbability() {\n    if (forceDecisionMade) return;\n    forceDecisionMade = true;\n    var prob = readSettings().forceProbability;\n    forceWillTrigger = (Math.random() * 100) < prob;\n    console.log('FORCE probability decision: ' + prob + '% → willTrigger=' + forceWillTrigger);\n    setVariable('forceDebug', 'PROB_DECIDED_' + (forceWillTrigger ? 'YES' : 'NO'));\n}\nfunction enterForceMode() {\n    if (forceMode || sessionEnded) return;\n    var settings = readSettings();\n    if (settings.forceLeadMinutes <= 0) return;\n\n    var remainingMs = sessionDeadline - Date.now();\n    var leadMs = settings.forceLeadMinutes * 60000;\n    if (remainingMs > leadMs) return;\n\n    decideForceProbability();\n    if (!forceWillTrigger) return;\n\n    console.log('FORCE ENTERING, remainingMs=' + remainingMs + ', lead=' + settings.forceLeadMinutes + 'min');\n    phaseId++;\n    forceMode = true;\n    mode = 'FORCE';\n    var rampSeconds = settings.recoveryRamp;\n    forceRampUntil = Date.now() + rampSeconds * 1000;\n    output(100, rampSeconds);\n    setVariable('forceDebug', 'FORCE_ENTERED');\n}\nfunction enterEmergency() {\n    if (forceMode) return;\n    if (mode !== 'EMERGENCY') {\n        phaseId++;\n        mode = 'EMERGENCY';\n    }\n    output(0,0);\n}\nfunction enterLost() {\n    if (forceMode) return;\n    phaseId++;\n    mode = 'HR_LOST';\n    lastBpm = null;\n    output(0,0);\n}\nfunction beginRamp(newMode) {\n    if (checkSession()) return;\n    if (forceMode) return;\n    if (lastBpm === null) return;\n    phaseId++;\n    var mine = phaseId;\n    mode = newMode;\n    var rampSeconds = readSettings().recoveryRamp;\n    output(hrTarget(lastBpm),rampSeconds);\n    sleep(rampSeconds * 1000);\n    if (checkSession() || phaseId !== mine || mode !== newMode) return;\n    mode = 'NORMAL';\n    if (lastBpm !== null) output(hrTarget(lastBpm),0);\n}\nfunction emergencyReleaseCheck() {\n    if (checkSession()) return;\n    if (forceMode) return;\n    if (emergencyCheckRunning || mode !== 'EMERGENCY') return;\n    emergencyCheckRunning = true;\n    var waitMs = readSettings().emergencyReleaseDelay * 1000;\n    sleep(waitMs);\n    emergencyCheckRunning = false;\n    if (checkSession() || mode !== 'EMERGENCY') return;\n    if (lastBpm === null || lastBpm > readSettings().emergencyReleaseHR) return;\n    if (Date.now() - lastValidHrAt >= readSettings().watchdogTimeout * 1000) {\n        enterLost();\n        return;\n    }\n    beginRamp('RECOVERY');\n}\nfunction onHeartRate(data) {\n    if (checkSession()) return;\n    enterForceMode();\n    var bpm = getBpm(data);\n    if (bpm === null) return;\n    lastBpm = bpm;\n    lastValidHrAt = Date.now();\n    if (forceMode) return;\n    var safety = readSettings();\n    if (bpm >= safety.emergencyHR) {\n        enterEmergency();\n        return;\n    }\n    if (mode === 'EMERGENCY') {\n        output(0,0);\n        if (bpm <= safety.emergencyReleaseHR) emergencyReleaseCheck();\n        return;\n    }\n    if (mode === 'WAIT_HR' || mode === 'HR_LOST') {\n        beginRamp('STARTUP');\n        return;\n    }\n    if (mode === 'STARTUP' || mode === 'RECOVERY' || mode === 'PAW') return;\n    if (mode === 'NORMAL') output(hrTarget(bpm),0);\n}\nfunction onTimerElapsed(data) {\n    if (checkSession()) return;\n    armClock();\n    enterForceMode();\n    if (forceMode && mode === 'FORCE' && Date.now() >= forceRampUntil) output(100, 0);\n    if (!lastValidHrAt) return;\n    if (Date.now() - lastValidHrAt < readSettings().watchdogTimeout * 1000) return;\n    if (mode !== 'HR_LOST' && !forceMode) enterLost();\n}\nfunction onPawDown(data) {\n    if (checkSession()) return;\n    var now = Date.now();\n    if (pawButtonHeld) return;\n    pawButtonHeld = true;\n    var pawStartMinutes = controlNumber('pawStartDelay', PAW_START_DELAY_MIN, 0, 60);\n    if (now - scriptStartedAt < pawStartMinutes * 60000) return;\n    if (mode !== 'NORMAL' && mode !== 'FORCE') return;\n    var pawSettings = readSettings();\n    if (lastPawAt && now - lastPawAt < lastPawRearmMs) return;\n    lastPawAt = now;\n    lastPawRearmMs = pawSettings.pawRearmTime * 1000;\n    phaseId++;\n    var mine = phaseId;\n    mode = 'PAW';\n    output(0,pawSettings.pawDownRamp);\n    sleep(pawSettings.pawHoldTime * 1000);\n    if (checkSession() || phaseId !== mine || mode !== 'PAW') return;\n    var targetPercent = forceMode ? 100 : (lastBpm === null ? 0 : hrTarget(lastBpm));\n    if (!forceMode && lastBpm === null) { enterLost(); return; }\n    var rampSeconds = pawSettings.recoveryRamp;\n    output(targetPercent, rampSeconds);\n    sleep(rampSeconds * 1000);\n    if (checkSession() || phaseId !== mine || mode !== 'PAW') return;\n    if (forceMode) {\n        mode = 'FORCE';\n        forceRampUntil = Date.now();\n        output(100, 0);\n    } else {\n        mode = 'NORMAL';\n        if (lastBpm !== null) output(hrTarget(lastBpm),0);\n    }\n}\nfunction onPawUp(data) {\n    pawButtonHeld = false;\n}\n\nregisterTrigger({\"type\":\"componentState\",\"channel\":\"heart-rate-a\",\"event\":\"any\"},onHeartRate);\nregisterTrigger({\"type\":\"componentState\",\"channel\":\"part-button-a\",\"state\":\"down\"},onPawDown);\nregisterTrigger({\"type\":\"componentState\",\"channel\":\"part-button-a\",\"state\":\"up\"},onPawUp);\nregisterTrigger({\"type\":\"scriptState\",\"part\":\"timer\",\"amount\":\"1\"},onTimerElapsed);\noutput(0,0);\narmClock();\nconsole.log('Script started, session=' + sessionMinutes + ' min');\n"
+},
+{
+  "initialActions": [
+    {
+      "job": "Main",
+      "type": "updateJob",
+      "action": "start"
+    }
+  ],
+  "finalActions": [
+    {
+      "type": "updateComponent",
+      "action": "setVolume",
+      "channel": "part-linear-actuator-a",
+      "rampTime": 0,
+      "percentVolume": "0"
+    }
+  ],
+  "globalTriggers": [],
+  "jobs": {
+    "Main": {
+      "steps": {
+        "START": {
+          "actions": []
+        }
+      }
+    }
+  },
+  "queues": [],
+  "channels": {
+    "part-pressure-a": {
+      "name": "Pressure Sensor (Civet)",
+      "type": "part-pressure"
+    },
+    "part-linear-actuator-a": {
+      "name": "Stroker/Milker Speed (TremblR)",
+      "type": "part-linear-actuator"
+    }
+  },
+  "controls": [
+    {
+      "id": "deniedOrgasms",
+      "name": "Denied Orgasms",
+      "type": "input",
+      "value": "0",
+      "description": "Number of denied orgasms so far (not meant to be edited)"
+    },
+    {
+      "id": "cooldownThreshold",
+      "max": 100,
+      "min": 1,
+      "name": "Cooldown Threshold (%)",
+      "type": "slider",
+      "value": 70,
+      "description": "Enter cooldown phase when above"
+    },
+    {
+      "id": "stimulationThreshold",
+      "max": 100,
+      "min": 1,
+      "name": "Stimulation Threshold (%)",
+      "type": "slider",
+      "value": 40,
+      "description": "Enter stimulation phase when below"
+    },
+    {
+      "id": "cooldownSec",
+      "max": 60,
+      "min": 1,
+      "name": "Cooldown (sec)",
+      "type": "input",
+      "value": 10,
+      "description": "Amount of time the script will wait before resuming stimulation once the stimulation threshold is reached"
+    },
+    {
+      "id": "maxSpeed",
+      "max": 100,
+      "min": 1,
+      "name": "Speed (%)",
+      "type": "slider",
+      "value": 50,
+      "description": "Speed at which the milker/stroker will operate in stimulation phase"
+    },
+    {
+      "id": "RampToggle",
+      "up": "false",
+      "down": "true",
+      "name": "Ramp Up",
+      "type": "toggle",
+      "value": "false",
+      "description": "Increase gradually the speed of the milker/stroker"
+    },
+    {
+      "id": "rampPerSec",
+      "max": 10,
+      "min": 1,
+      "name": "Ramp Up Speed (%/sec)",
+      "type": "slider",
+      "value": 3,
+      "requiredExpression": "{RampToggle} == true"
+    },
+    {
+      "id": "AllowClimax",
+      "up": "false",
+      "down": "true",
+      "name": "Allow climax after edge count",
+      "type": "toggle",
+      "value": "false",
+      "description": "After experiencing multiple \"stimulation-edging\" cycles a certain number of times, the user will enter climax phase the next time when orgasm-edging determination is triggered."
+    },
+    {
+      "id": "edgesTarget",
+      "max": 100,
+      "min": 1,
+      "name": "Edges target",
+      "type": "input",
+      "value": 30,
+      "requiredExpression": "{AllowClimax} == true"
+    },
+    {
+      "id": "cumSpeed",
+      "max": 100,
+      "min": 1,
+      "name": "Cum Speed (%)",
+      "type": "slider",
+      "value": 70,
+      "description": "Speed at which the milker/stroker will operate in climax phase",
+      "requiredExpression": "{AllowClimax} == true"
+    },
+    {
+      "id": "stop",
+      "up": "1",
+      "down": "0",
+      "name": "EMERGENCY STOP",
+      "type": "push",
+      "value": "0"
+    }
+  ],
+  "controlPresets": [],
+  "media": {
+    "audio": {},
+    "voices": {},
+    "patterns": {}
+  },
+  "customFunctions": "var STOP_VARIABLE = \"stop\";\nvar TICK_VARIABLE = \"time-elapsed\";\nvar TICK_MIN_MS = 250;\n\nvar CIVET_TRIGGER = {\n  \"type\": \"componentState\",\n  \"channel\": \"part-pressure-a\",\n  \"event\": \"any\"\n};\n\nvar DEFAULTS = {\n  cooldownThreshold: 70,\n  stimulationThreshold: 40,\n  cooldownSec: 20,\n  RampToggle: true,\n  minSpeed: 15,\n  maxSpeed: 80,\n  rampPerSec: 1.5,\n  AllowClimax: false,\n  edgesTarget: 5,\n  cumSpeed: 100\n};\n\nvar PRESSURE_KEYS = [\"trigger-result\", \"value\", \"pressure\", \"level\", \"percent\"];\n\nvar state = \"\";\nvar speed = 0;\nvar rampSpeed = 0;\nvar lastSent = -1;\nvar lastTick = Date.now();\nvar stateSince = lastTick;\nvar edges = 0;\nvar resumeSpeed = DEFAULTS.minSpeed;\nvar pressure = NaN;\nvar pressureKey = null;\nvar published = {};\nvar debugCount = 0;\nvar sampleCount = 0;\nvar tickCount = 0;\n\nfunction cfg(name) {\n  var n = parseFloat(getVariable(name));\n  return isNaN(n) ? DEFAULTS[name] : n;\n}\n\nfunction flag(name) {\n  var v = getVariable(name);\n  if (v === true || v === \"true\") return true;\n  if (v === false || v === \"false\") return false;\n  return DEFAULTS[name];\n}\n\nfunction isTrue(v) {\n  return v === true || v === \"true\" || v === 1 || v === \"1\";\n}\n\nfunction publish(name, value) {\n  if (published[name] !== value) {\n    published[name] = value;\n    setVariable(name, value);\n  }\n}\n\nfunction extractPressure(data) {\n  if (data === null || data === undefined) return NaN;\n  if (typeof data === \"number\" || typeof data === \"string\") return parseFloat(data);\n  if (pressureKey !== null && data[pressureKey] !== undefined) return parseFloat(data[pressureKey]);\n  for (var i = 0; i < PRESSURE_KEYS.length; i++) {\n    if (data[PRESSURE_KEYS[i]] !== undefined) {\n      pressureKey = PRESSURE_KEYS[i];\n      return parseFloat(data[pressureKey]);\n    }\n  }\n  for (var k in data) {\n    var n = parseFloat(data[k]);\n    if (!isNaN(n)) {\n      pressureKey = k;\n      console.log(\"Pressure read from field: \" + k);\n      return n;\n    }\n  }\n  return NaN;\n}\n\nfunction setSpeed(pct, force) {\n  rampSpeed = Math.max(0, Math.min(100, pct));\n  speed = Math.round(rampSpeed);\n  if (force || speed !== lastSent) {\n    lastSent = speed;\n    callAction({\n      \"type\": \"updateComponent\",\n      \"channel\": \"part-linear-actuator-a\",\n      \"action\": \"setVolume\",\n      \"rampTime\": 0,\n      \"percentVolume\": String(speed)\n    });\n  }\n  publish(\"speed\", speed);\n}\n\nfunction goTo(newState) {\n  console.log(\"State: \" + state + \" -> \" + newState);\n  state = newState;\n  stateSince = Date.now();\n  publish(\"state\", newState);\n}\n\nfunction emergencyStop() {\n  setSpeed(0, true);\n  if (state !== \"STOPPED\") goTo(\"STOPPED\");\n}\n\nfunction startStimulation() {\n  setSpeed(flag(\"RampToggle\") ? resumeSpeed : cfg(\"maxSpeed\"));\n  goTo(\"STIMULATION\");\n}\n\nfunction tick() {\n  var now = Date.now();\n  var dt = (now - lastTick) / 1000;\n  lastTick = now;\n  if (isNaN(pressure)) return;\n  publish(\"pressure\", Math.round(pressure));\n\n  if (++sampleCount % 20 === 0) {\n    console.log(\"pressure=\" + Math.round(pressure) + \" state=\" + state + \" speed=\" + speed + \" edges=\" + edges);\n  }\n\n  if (state === \"STOPPED\") return;\n  if (isTrue(getVariable(STOP_VARIABLE))) {\n    emergencyStop();\n    return;\n  }\n\n  if (state === \"STIMULATION\") {\n    if (pressure >= cfg(\"cooldownThreshold\")) {\n      edges++;\n      publish(\"deniedOrgasms\", edges);\n      console.log(\"Edge #\" + edges);\n      resumeSpeed = Math.max(cfg(\"minSpeed\"), speed * 0.6);\n      setSpeed(0);\n      goTo(\"RECOVERY\");\n    } else if (flag(\"RampToggle\")) {\n      setSpeed(Math.min(cfg(\"maxSpeed\"), rampSpeed + cfg(\"rampPerSec\") * dt));\n    } else {\n      setSpeed(cfg(\"maxSpeed\"));\n    }\n  } else if (state === \"RECOVERY\") {\n    if (pressure <= cfg(\"stimulationThreshold\")) goTo(\"COOLDOWN\");\n  } else if (state === \"COOLDOWN\") {\n    if (pressure > cfg(\"stimulationThreshold\")) {\n      goTo(\"RECOVERY\");\n    } else if ((now - stateSince) / 1000 >= cfg(\"cooldownSec\")) {\n      if (flag(\"AllowClimax\") && edges >= cfg(\"edgesTarget\")) {\n        setSpeed(cfg(\"cumSpeed\"));\n        goTo(\"CLIMAX\");\n      } else {\n        startStimulation();\n      }\n    }\n  } else if (state === \"CLIMAX\") {\n    setSpeed(cfg(\"cumSpeed\"));\n  }\n}\n\nfunction onPressure(data) {\n  try {\n    var raw = extractPressure(data);\n    if (debugCount < 5) {\n      console.log(\"Civet data: \" + JSON.stringify(data) + \" -> pressure = \" + raw);\n      debugCount++;\n    }\n    if (isNaN(raw)) return;\n    pressure = raw;\n    tick();\n  } catch (e) {\n    console.log(\"Error: \" + e);\n  }\n}\n\nfunction onTick() {\n  try {\n    if (state === \"STOPPED\" || Date.now() - lastTick < TICK_MIN_MS) return;\n    if (++tickCount === 1) console.log(\"Tick source OK: \" + TICK_VARIABLE);\n    tick();\n  } catch (e) {\n    console.log(\"Error: \" + e);\n  }\n}\n\nfunction onStopChange() {\n  try {\n    if (isTrue(getVariable(STOP_VARIABLE))) emergencyStop();\n  } catch (e) {\n    console.log(\"Error: \" + e);\n  }\n}\n\npublish(\"deniedOrgasms\", 0);\nresumeSpeed = cfg(\"minSpeed\");\nstartStimulation();\nregisterTrigger(CIVET_TRIGGER, onPressure);\nregisterTrigger({\"type\": \"variableChange\", \"variable\": STOP_VARIABLE}, onStopChange);\nregisterTrigger({\"type\": \"variableChange\", \"variable\": TICK_VARIABLE}, onTick);\nconsole.log(\"Edging ready.\");\n"
+}]

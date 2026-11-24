@@ -6,13 +6,12 @@ standalone [JavaScript source](./router.js) is embedded in the export's
 `customFunctions` field; after editing it, regenerate the export with
 `node scripts/veratown-event-router/build-export.mjs`.
 
-This script is a configurable receiver for the Veratown XToys bridge. It has
-one universal output, four vibrator outputs, three rotator outputs, and five
-DG-LAB e-stim channels, matching the block types in the supplied layout plus a
-universal output for the F-Machine Tremblr. Connect compatible Lovense
-vibrators (including Hush, Lush 4, or Gemini channels) to vibrator or
-universal blocks; use e-stim blocks for DG-LAB channels. Assign outputs to any
-observed Bondage Club body groups in the Routing JSON. It is not gender-locked.
+This script is a fixed-route receiver for the Veratown XToys bridge. It has one
+universal output, four vibrator outputs, three rotator outputs, and five
+DG-LAB e-stim channels. Connect compatible Lovense vibrators (including Hush,
+Lush 4, or Gemini channels) to vibrator or universal blocks; use e-stim blocks
+for DG-LAB channels. The body-group and event routes are fixed in the script;
+there is no large Routing JSON variable to edit. It is not gender-locked.
 
 ## What it can receive
 
@@ -24,9 +23,9 @@ observed Bondage Club body groups in the Routing JSON. It is not gender-locked.
 | `itemRemoved` | Clears that group's followed toy level. |
 | `activityEvent` | Optional pulse for an activity done to the linked player. |
 | `activityOnOtherEvent` | Optional pulse, disabled by default. |
-| `ShockLow`, `ShockMed`, `ShockHigh` | Only `activityEvent` shocks; explicit opt-in, routed only to mapped DG-LAB e-stim channels, and capped by the Shock strength control. |
+| `ShockLow`, `ShockMed`, `ShockHigh` | Only `activityEvent` shocks; explicit opt-in, sent only to DG-LAB channel A for fixed-route body groups, and capped by the Shock strength control. |
 | `vtCasinoResult` | Optional pulse only when `outcome` is `loss`; no wager amount is sent. |
-| `vtLocationEntered` / `vtLocationLeft` | Optional pulse for exact location keys listed in the JSON configuration. |
+| `vtLocationEntered` / `vtLocationLeft` | Optional pulse for the fixed `asylum` location key. |
 | `vtRoomJoin` / `vtRoomLeave` | Optional pulse when another member enters/leaves the room. These events do not signal the linked player's own room entry/exit. |
 | `bridgeVerify`, `bridgeTest`, `bridgeStop` | Shows link/test status; `bridgeStop` pauses and zeros all channels. |
 
@@ -50,76 +49,38 @@ bot can observe; prefer `toyEvent` for server-observed wearable levels.
    toys. Assign e-stim blocks only to the appropriate DG-LAB channels.
 5. Leave **Pause** on while configuring. Outputs start at zero; all reactions
    are off except wearable toy-level following, which remains gated by Pause.
-6. Edit **Routing JSON**. Map each BC group key to one or more output IDs, for
-   example:
+6. The routes are fixed:
 
-   ```json
-   {
-     "groups": {
-       "ItemVulva": ["generic-1-a"],
-       "ItemVulvaPiercings": ["generic-1-a"],
-       "ItemButt": ["part-rotator-a"],
-       "ItemNipples": ["part-vibrator-b"],
-       "ItemNipplesPiercings": ["part-vibrator-b"],
-       "ItemBreast": ["part-vibrator-b"],
-       "ItemNeck": ["part-vibrator-a"],
-       "ItemPelvis": ["generic-1-a"],
-       "ItemTorso": ["part-vibrator-c"]
-     },
-     "caps": {
-       "generic-1-a": 30,
-       "part-vibrator-a": 30,
-       "part-rotator-a": 25,
-       "part-estim-a": 15
-     },
-     "events": {
-       "roomJoin": ["generic-1-a"],
-       "roomLeave": ["generic-1-a"],
-       "casinoLoss": ["generic-1-a"]
-     },
-     "locations": []
-   }
-   ```
+    | Source | Output |
+    | --- | --- |
+    | Vulva, vulva piercings, pelvis | Vibrator A |
+    | Butt | Vibrator B |
+    | Nipples, nipple piercings, breast, torso | Vibrator C |
+    | Neck | Vibrator D |
+    | Another member joins | Vibrator A |
+    | Another member leaves | Vibrators A–D |
+    | Casino loss | DG-LAB channel A |
+    | Entering or leaving location key `asylum` | DG-LAB channel A, 1 second |
+    | An allowed BC shock event for a routed group | DG-LAB channel A |
 
-   Keep the root keys `groups`, `caps`, `events`, and `locations`.       Available outputs are `generic-1-a`, `part-vibrator-a` through
-   `part-vibrator-d`, `part-rotator-a` through `part-rotator-c`, and
-   `part-estim-a` through `part-estim-e`. Group names are exact BC keys such as `ItemButt`,
-   `ItemNipples`, `ItemVulva`, and `ItemNeck`. An output cap is applied to both
-   its followed level and pulses.
-7. Optionally add location rules. Replace the sample key below with the exact
-   location key configured in Veratown's map; list different outputs for entry
-   and exit if desired:
-
-   ```json
-   "locations": [
-     {
-       "key": "replace-with-location-key",
-       "enter": ["part-vibrator-a"],
-       "leave": ["part-vibrator-a"],
-       "percent": 10,
-       "seconds": 1
-     }
-   ]
-   ```
-
-   The event strength and duration are capped by their controls and the output
-   cap. Keys must match exactly. Leave this array empty until you have copied
-   real keys from the Veratown map configuration.
-8. Enable only the event toggles you intend to use. Keep **Allow BC shock
+    Outputs are capped at 30% for vibrator/rotator channels and 15% for
+    DG-LAB channels. To change the fixed routes or the `asylum` key, the source
+    code must be edited and the export regenerated; these are not user controls.
+7. Enable only the event toggles you intend to use. Keep **Allow BC shock
    events** off unless you and the wearer have explicitly agreed to this. Its
-   maximum starts at 10%; the script limits shock events to the two e-stim
-   channels and ignores them when the relevant body group is not mapped there.
-9. Test with **Pause** still on, then run `!xtoys test` from the linked
+   maximum starts at 10%; accepted shock events use only DG-LAB channel A and
+   only for body groups in the fixed route table.
+8. Test with **Pause** still on, then run `!xtoys test` from the linked
    Veratown account and confirm XToys reports the test event. The test event
    does not activate a toy.
-10. When ready, turn **Pause** off. The idle safety timer starts on the first
+9. When ready, turn **Pause** off. The idle safety timer starts on the first
     routed event and zeros outputs after 120 seconds without another one by
     default. Turning Pause on, stopping the script, or receiving `bridgeStop`
     also stops pulse/shock jobs and sets every output to zero.
 
-If the Routing JSON is invalid or references an unknown output, the script
-pauses and zeros outputs. After correcting it, the script remains paused until
-you explicitly turn Pause off.
+The large editable JSON routing field has been removed. This avoids passing a
+large nested JSON value through XToys' variable expansion. After importing the
+updated export, no routing field needs to be edited.
 
 To check the embedded JavaScript and the offline event-routing cases from the
 xtoys repository root, run:
@@ -164,7 +125,8 @@ An operator must enable the bridge; players cannot enable it themselves.
    stops the script outputs.
 
 The bridge is not a continuous pose feed. It sends map-location transitions
-only when Veratown publishes them; keys must be configured in the XToys JSON.
+only when Veratown publishes them; this script reacts only to the fixed
+`asylum` key.
 Room join/leave notifications refer to other room members, not the linked
 player. BC shock actions are observable only when the BC client broadcasts
 them; client-local shocks may not reach the bot.

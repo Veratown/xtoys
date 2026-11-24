@@ -49,7 +49,12 @@ function responseText(action) {
     }
 }
 
-export function installVeratownWebhook(script, responseVariable, actions = VERATOWN_LIFECYCLE_ACTIONS) {
+export function installVeratownWebhook(
+    script,
+    responseVariable,
+    actions = VERATOWN_LIFECYCLE_ACTIONS,
+    { outbound = false } = {},
+) {
     if (!script.channels || typeof script.channels !== "object") script.channels = {};
     if (!Array.isArray(script.controls)) {
         throw new Error("Script controls must include a visible Veratown response variable");
@@ -60,7 +65,7 @@ export function installVeratownWebhook(script, responseVariable, actions = VERAT
 
     script.channels["webhook-a"] = {
         type: "webhook",
-        outbound: false,
+        outbound,
         hideWebhookInfo: false,
     };
 
