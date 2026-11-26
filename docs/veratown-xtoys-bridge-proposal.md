@@ -1,8 +1,3 @@
----
-layout: default
-title: Veratown XToys bridge proposal
----
-
 # Veratown ↔ XToys bridge proposal
 
 **Status:** Proposed. Nothing in this document is implemented. Commands,
@@ -11,9 +6,9 @@ existing Veratown behavior. The design is written against
 `Rarsus/veratown-prototype` as inspected on 2026-11-21 and follows its proposal
 format, so it can be moved into `docs/proposals/` there on a topic branch.
 
-Background: [Veratown integration analysis](veratown-integration-analysis.html),
-[BC XToys plugin analysis](bc-xtoys-plugin-analysis.html), and
-[scripting guide §10 (webhooks)](../guides/scripting-guide.html#10-webhooks-driving-a-script-from-outside).
+Background: [Veratown integration analysis](veratown-integration-analysis.md),
+[BC XToys plugin analysis](bc-xtoys-plugin-analysis.md), and
+[scripting guide §10 (webhooks)](scripting-guide.md#10-webhooks-driving-a-script-from-outside).
 
 ## Contents
 
@@ -350,7 +345,7 @@ Additional rules:
 ### 8.1 BC mirror events (options 2 and 3)
 
 Byte-compatible with the
-[userscript contract](bc-xtoys-plugin-analysis.html#webhook-event-contract):
+[userscript contract](bc-xtoys-plugin-analysis.md#webhook-event-contract):
 `toyEvent`, `activityEvent`, `activityOnOtherEvent`, `itemAdded`,
 `itemRemoved`, and the remaining plugin events. Existing scripts keep working.
 
@@ -378,8 +373,8 @@ drops the rest rather than queueing them. XToys scripts should apply their own
 cooldown as well.
 
 A client-side sender for the same events already exists for players without
-the bridge: [`bc-room-chat-sender.user.js`](https://github.com/Veratown/xtoys/blob/main/tools/bc-room-chat-sender.user.js)
-([setup](../examples/example-reviews.html#room-and-chat-sender)). Because it runs in the
+the bridge: [`bc-room-chat-sender.user.js`](../tools/bc-room-chat-sender.user.js)
+([setup](../examples/README.md#room-and-chat-sender)). Because it runs in the
 player's own client, it also sees whispers to the player and sends them as
 `kind: "whisper"`. It does not send activities, which the BC XToys userscript
 already reports. The bridge should keep the same field names so one XToys
@@ -405,7 +400,7 @@ validated objects.
 
 A script consumes events with `componentState` triggers on the webhook channel;
 extra keys arrive as `trigger-<key>`. The
-[starter script](https://github.com/Veratown/xtoys/blob/main/examples/bc-webhook-starter.json) already handles
+[starter script](../examples/bc-webhook-starter.json) already handles
 `toyEvent` and `bridgeStop`. A Veratown script would add triggers for the
 `vt*` actions it wants and a `setText` action for `bridgeVerify`.
 

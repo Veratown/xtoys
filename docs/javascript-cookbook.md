@@ -1,12 +1,7 @@
----
-layout: default
-title: XToys JavaScript cookbook
----
-
 # XToys JavaScript cookbook
 
 Recipes for the custom JavaScript ("JS" button) of XToys scripts and teases.
-The [scripting guide](scripting-guide.html#9-custom-javascript) covers the basics;
+The [scripting guide](scripting-guide.md#9-custom-javascript) covers the basics;
 this page shows how to combine them. The recipes are derived from the official
 [JavaScript page](https://guide.xtoys.app/script-creation/javascript.html) and
 from the export patterns listed in [Sources](#sources).
@@ -708,6 +703,6 @@ Practical notes:
   keyboard, push-button, audio media, and shock collar blocks. The repository has
   no license file, so its code is described here, not copied.
 - ItsNorin, _Bondage-Club-XToys-Integration_, companion script `xtoys_script.json`
-  (see the   [plugin analysis](../architecture/bc-xtoys-plugin-analysis.html)); no license file.
+  (see the [plugin analysis](bc-xtoys-plugin-analysis.md)); no license file.
 - Four exports supplied by the repository owner, reviewed in the
-  [example reviews](../examples/example-reviews.html).
+  [example reviews](../examples/README.md).

@@ -1,11 +1,6 @@
----
-layout: default
-title: Veratown webhook setup
----
-
 # Veratown webhook setup script
 
-Import [`veratown-webhook-setup.json`](https://github.com/Veratown/xtoys/blob/main/scripts/veratown-webhook-setup/veratown-webhook-setup.json) into
+Import [`veratown-webhook-setup.json`](./veratown-webhook-setup.json) into
 XToys. This helper uses XToys' native webhook triggers and variables; it
 contains no JavaScript. It has one webhook channel and one visible response
 field, and does not connect to or activate toys.

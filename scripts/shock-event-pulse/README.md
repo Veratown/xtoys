@@ -1,11 +1,6 @@
----
-layout: default
-title: Shock event pulse
----
-
 # Shock event pulse
 
-Import [`shock-event-pulse.json`](https://github.com/Veratown/xtoys/blob/main/scripts/shock-event-pulse/shock-event-pulse.json) into XToys and
+Import [`shock-event-pulse.json`](./shock-event-pulse.json) into XToys and
 connect a vibration-compatible device to **Vibrator**. The script sends a short
 vibration cue when its webhook receives an `activityEvent` whose `actionName`
 is `ShockLow`, `ShockMed`, or `ShockHigh`.

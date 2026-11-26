@@ -1,8 +1,3 @@
----
-layout: default
-title: Veratown bridge scripting guide
----
-
 # Veratown bridge: event contract and scripting guide
 
 This guide documents the XToys webhook contract implemented by Veratown and
@@ -12,8 +7,8 @@ locations, game events, inbound controls, and delegation.
 
 The bridge is disabled until an operator configures its credential key,
 enables the room feature, and confirms the third-party notice. An importable
-[arousal-to-vibration example](../working-instructions/arousal-vibe.html) and a broader
-[event-control example](../working-instructions/veratown-event-control.html) are
+[arousal-to-vibration example](../scripts/arousal-vibe/README.md) and a broader
+[event-control example](../scripts/veratown-event-control/README.md) are
 available. The bridge and exports are offline-tested; the live XToys relay and
 physical-device behavior have not been verified.
 
@@ -180,7 +175,7 @@ delegated action succeeded; inspect `vtResult`.
 ## 5. Basic scripts: listen, inspect, and map
 
 Start with one event, one output, and a visible response control. Import the
-[arousal example](../working-instructions/arousal-vibe.html) if you want a ready-made
+[arousal example](../scripts/arousal-vibe/README.md) if you want a ready-made
 starter. The essential native trigger shape is:
 
 ```json
@@ -294,8 +289,8 @@ codes, member numbers, or sensitive text in script state or logs.
    editor before use.
 
 For XToys variable scope, expressions, action JSON, jobs, queues, and custom
-JavaScript limits, see the [scripting guide](scripting-guide.html), [script JSON
-reference](script-json-reference.html), and [JavaScript cookbook](javascript-cookbook.html).
+JavaScript limits, see the [scripting guide](scripting-guide.md), [script JSON
+reference](script-json-reference.md), and [JavaScript cookbook](javascript-cookbook.md).
 The authoritative bridge implementation and player commands are in the
 [Veratown bridge reference](https://github.com/Veratown/veratown-prototype/blob/main/docs/features/xtoys-bridge/README.md)
 and [help page](https://github.com/Veratown/veratown-prototype/blob/main/docs/features/xtoys-bridge/HELP.md).

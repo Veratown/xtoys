@@ -1,23 +1,18 @@
----
-layout: default
-title: Example script reviews
----
-
 # Example script reviews
 
 Scripts supplied by the repository owner (examples 1–5) and public scripts
 from the Amanda-Cook repository are reviewed here. Examples 1 and 2 were pasted
-into the conversation and are not stored. Examples 3–5 are local exports in the
-repository's `examples/` folder (`script1.json`, `tease2.json`, `tease1.json`), deliberately not
+into the conversation and are not stored. Examples 3–5 are local exports in this
+folder (`script1.json`, `tease2.json`, `tease1.json`) that are deliberately not
 committed because their authorship and licensing are unknown. Recipes distilled
-from these reviews are in the [JavaScript cookbook](../guides/javascript-cookbook.html).
+from these reviews are in the [JavaScript cookbook](../docs/javascript-cookbook.md).
 
 Severity: **High** = wrong or unsafe behaviour; **Medium** = a feature
 silently does not work; **Low** = cleanup.
 
 ## Example 1 – BC multi-toy router
 
-A webhook-driven script for the [BC XToys plugin](../architecture/bc-xtoys-plugin-analysis.html).
+A webhook-driven script for the [BC XToys plugin](../docs/bc-xtoys-plugin-analysis.md).
 It routes BC events to up to four e-stim channels (`part-estim-a…e`), several
 vibrators, and a rotator, based on body location.
 
@@ -145,7 +140,7 @@ or "pain"; the combination decides who gets vibration or a shock.
 A large tease (≈ 137 KB of custom JavaScript) that browses a remote video index,
 plays videos, and drives toys with funscript-like patterns synchronised to the
 video. It is the richest source for the
-[JavaScript cookbook](../guides/javascript-cookbook.html).
+[JavaScript cookbook](../docs/javascript-cookbook.md).
 
 ### How it is organised
 
@@ -211,7 +206,7 @@ Issues observed:
 
 ## Lessons for new scripts
 
-See the [safety and quality checklist](../guides/scripting-guide.html#13-safety-and-quality-checklist).
+See the [safety and quality checklist](../docs/scripting-guide.md#13-safety-and-quality-checklist).
 The recurring problems are copy-paste between jobs, unquoted strings, missing
 "all off" final actions, and consent or stop paths that can be bypassed.
 The larger scripts add a second group: unvalidated input from webhooks and
@@ -220,7 +215,7 @@ JavaScript, and dependencies on external hosts.
 
 ## Starter template
 
-[`bc-webhook-starter.json`](https://github.com/Veratown/xtoys/blob/main/examples/bc-webhook-starter.json) is a minimal script that
+[`bc-webhook-starter.json`](bc-webhook-starter.json) is a minimal script that
 can be imported into XToys. It listens for the plugin's `toyEvent` on a chosen
 body group, clamps `level` to 0–4, and scales it by a wearer-owned maximum.
 It also offers a pause toggle, zeroes the toy on stop, and handles the proposed
@@ -229,7 +224,7 @@ it in the editor before use.
 
 ## Tremblr and DG-LAB template
 
-[`tremblr-dglab-webhook.json`](https://github.com/Veratown/xtoys/blob/main/examples/tremblr-dglab-webhook.json) drives two devices
+[`tremblr-dglab-webhook.json`](tremblr-dglab-webhook.json) drives two devices
 from the same webhook events as the starter template:
 
 - an **F-Machine Tremblr** on a Generic Output block (`generic-1-a`). Generic
@@ -333,7 +328,7 @@ before use.
 
 The BC XToys userscript does not send room-entry or chat events; its only chat
 hook shows its own help text when the player enters a room. The
-[room and chat sender](https://github.com/Veratown/xtoys/blob/main/tools/bc-room-chat-sender.user.js) is a small
+[room and chat sender](../tools/bc-room-chat-sender.user.js) is a small
 userscript that fills this gap from the player's own BC client:
 
 | BC packet received by the player                                   | Event sent                                       |
@@ -372,7 +367,7 @@ shared webhook's token would have to be stored in the browser.
 
 The proposed Veratown bridge could send the same events for every linked
 player in its room
-([contract](../architecture/veratown-xtoys-bridge-proposal.html#81-bc-mirror-events-options-2-and-3)).
+([contract](../docs/veratown-xtoys-bridge-proposal.md#81-bc-mirror-events-options-2-and-3)).
 A bot cannot see whispers between other members, so through the bot,
 _Someone speaks to me_ cannot react to whispers.
 
@@ -384,7 +379,7 @@ live BC session or against a live XToys webhook.
 
 ## Veratown bridge test script
 
-[`veratown-bridge-test.json`](https://github.com/Veratown/xtoys/blob/main/examples/veratown-bridge-test.json) is a diagnostic script
+[`veratown-bridge-test.json`](veratown-bridge-test.json) is a diagnostic script
 for the Veratown bot's XToys bridge. It has one trigger for each event the bot
 sends, test controls for each control message the script can send to the bot,
 and an optional low-power vibrator. It does not use e-stim.
@@ -400,7 +395,7 @@ and an optional low-power vibrator. It does not use e-stim.
 
 ### Harness: test the script against XToys without the bot
 
-[`tools/veratown-bridge-harness.mjs`](https://github.com/Veratown/xtoys/blob/main/tools/veratown-bridge-harness.mjs)
+[`tools/veratown-bridge-harness.mjs`](../tools/veratown-bridge-harness.mjs)
 connects to your webhook in place of the bot (Node 22 or newer, no
 dependencies). Do not run it while the bot is linked to the same webhook.
 

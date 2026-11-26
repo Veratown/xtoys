@@ -1,9 +1,0 @@
-title: XToys scripting notes
-description: Guides, architecture, examples, and working instructions for XToys scripts.
-theme: jekyll-theme-architect
-markdown: kramdown
-header_pages:
-  - guides/index.md
-  - architecture/index.md
-  - examples/index.md
-  - working-instructions/index.md

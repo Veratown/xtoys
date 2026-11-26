@@ -1,13 +1,8 @@
----
-layout: default
-title: Veratown event router
----
-
 # Veratown event router
 
-Import [`veratown-event-router.json`](https://github.com/Veratown/xtoys/blob/main/scripts/veratown-event-router/veratown-event-router.json) into XToys.
-See the [script catalog](script-catalog.html) for the repository convention. The
-standalone [JavaScript source](https://github.com/Veratown/xtoys/blob/main/scripts/veratown-event-router/router.js) is embedded in the export's
+Import [`veratown-event-router.json`](./veratown-event-router.json) into XToys.
+The [script folder README](../README.md) defines the folder convention. The
+standalone [JavaScript source](./router.js) is embedded in the export's
 `customFunctions` field; after editing it, regenerate the export with
 `node scripts/veratown-event-router/build-export.mjs`.
 
