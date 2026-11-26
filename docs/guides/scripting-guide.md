@@ -1,15 +1,20 @@
+---
+layout: default
+title: XToys scripting guide
+---
+
 # XToys scripting guide
 
 This guide explains how XToys scripts work and how to write them. It is based on
 the official guide at <https://guide.xtoys.app>, on the export format of real
 scripts, and on the Bondage Club integration (see the
-[plugin analysis](bc-xtoys-plugin-analysis.md)). For a field-by-field list of
-the JSON format see the [script JSON reference](script-json-reference.md); for
-JavaScript recipes see the [JavaScript cookbook](javascript-cookbook.md).
+[plugin analysis](../architecture/bc-xtoys-plugin-analysis.html)). For a field-by-field list of
+the JSON format see the [script JSON reference](script-json-reference.html); for
+JavaScript recipes see the [JavaScript cookbook](javascript-cookbook.html).
 
 For Veratown-specific payloads, privacy rules, player defaults, and examples
 covering all bridge scenarios, see the
-[Veratown bridge scripting guide](veratown-bridge-scripting-guide.md).
+[Veratown bridge scripting guide](veratown-bridge-scripting-guide.html).
 
 ## 1. Mental model
 
@@ -174,7 +179,7 @@ recognizer filters NSFW words, so match neutral phrases.
 with the key code (`KeyA`, `Digit1`, `Space`, `Backspace`) in `{trigger}`; a
 `sound-level` block fires on `event: "any"` with the level in `{trigger}`; a
 `push-button` block fires on `state: "down"`. See the
-[cookbook](javascript-cookbook.md#15-input-blocks) for handling them.
+[cookbook](javascript-cookbook.html#15-input-blocks) for handling them.
 
 ## 7. Jobs and steps
 
@@ -238,7 +243,7 @@ top-level `queues` array _(observed)_, and jobs are added with:
 
 `{"type":"updateQueue","queue":"events","action":"clear"}` drops pending
 entries. A queue can also emulate `setTimeout` for JavaScript; see the
-[cookbook](javascript-cookbook.md#72-queue-based-timeout).
+[cookbook](javascript-cookbook.html#72-queue-based-timeout).
 
 ## 8. Controls
 
@@ -299,7 +304,7 @@ exact JSON for `callAction` and `registerTrigger`.
 delay, user input, a timer with blocking enabled, and speech with blocking
 enabled. Other actions return immediately.
 
-The [JavaScript cookbook](javascript-cookbook.md) has recipes for start-up
+The [JavaScript cookbook](javascript-cookbook.html) has recipes for start-up
 structure, configuration, menus, timers without `setTimeout`, persistent data,
 device detection, canvas drawing, patterns, and multi-user messaging.
 
@@ -323,7 +328,7 @@ Recommended structure for event-heavy scripts: keep **decision logic in
 JavaScript** (one `handleX` function per event type that sets variables) and keep
 **device output in jobs** (`callAction` starts an `OutputX` job that reads those
 variables). That is how the
-[BC example](../examples/README.md#example-1--bc-multi-toy-router) is organised.
+[BC example](../examples/example-reviews.html#example-1--bc-multi-toy-router) is organised.
 
 Validate untrusted input in handlers: check `typeof`, ranges, and known names
 before indexing arrays or calling actions.
@@ -355,7 +360,7 @@ The receiving trigger matches on `action`. Every other key becomes a
 `trigger-<key>` variable for that trigger's actions.
 
 The Bondage Club userscript uses this channel; its message catalogue is in the
-[plugin analysis](bc-xtoys-plugin-analysis.md#webhook-event-contract).
+[plugin analysis](../architecture/bc-xtoys-plugin-analysis.html#webhook-event-contract).
 
 ## 11. Scripted patterns
 
@@ -400,7 +405,7 @@ role; `multiUser` actions send named messages with `additionalData`, and
 Keep the host authoritative: only the host runs round timers
 (`requiredExpression: {multi-user-mode} == "host"`), and it sends the full
 state to every guest that joins. See the
-[cookbook](javascript-cookbook.md#14-multi-user-teases).
+[cookbook](javascript-cookbook.html#14-multi-user-teases).
 
 ## 13. Safety and quality checklist
 

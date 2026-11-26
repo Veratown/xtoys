@@ -1,6 +1,11 @@
+---
+layout: default
+title: Arousal-scaled vibration patterns
+---
+
 # Arousal-scaled vibration patterns
 
-Import [`arousal-vibe.json`](./arousal-vibe.json) into XToys and connect a
+Import [`arousal-vibe.json`](https://github.com/Veratown/xtoys/blob/main/scripts/arousal-vibe/arousal-vibe.json) into XToys and connect a
 Lovense Lush 4 (or another compatible vibe) to **Arousal Vibe**. When the
 Veratown bridge reports a new arousal bucket, the script scales that bucket
 proportionally to **Maximum power**. Both arousal and the default maximum are
@@ -40,7 +45,7 @@ This is preparation for a proposed Veratown bridge feature only. The current
 Veratown prototype does not support `vtRemoveItem`; requests may be rejected or
 ignored. Do not enable this expecting items to be removed until the bridge has
 implemented the capability and explicitly granted it. See the [bridge
-proposal](../../docs/veratown-xtoys-bridge-proposal.md#98-proposed-arousal-triggered-item-removal).
+proposal](../architecture/veratown-xtoys-bridge-proposal.html#98-proposed-arousal-triggered-item-removal).
 
 ## Setup
 
