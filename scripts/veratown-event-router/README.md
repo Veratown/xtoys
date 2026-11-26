@@ -113,12 +113,15 @@ An operator must enable the bridge; players cannot enable it themselves.
    output** control and whisper `!xtoys verify <code>` to the bot within five
    minutes. Then run `!xtoys test`; its receipt appears in that same output
    control.
-6. **Player: select event sources.** Use `!xtoys mirror toy items activitySelf`
-   and, if desired, `!xtoys mirror room activityOther`. Use
-   `!xtoys game locations casino`. These are player choices constrained by the
-   operator's allowlist. For shocks caused by another member, the trigger-source
-   setting must also allow that member; its default is `self`. To opt in to
-   listed members, use `!xtoys triggers allowlist` and `!xtoys allow <member>`.
+6. **Player: review event sources.** New profiles enable supported event
+   categories by default; existing profiles preserve their saved choices.
+   Player opt-outs are constrained by operator policy. Use
+   `!xtoys mirror off activityOther` or `!xtoys game off locations` to opt out,
+   and `!xtoys mirror on toy` / `!xtoys game on casino` to re-enable a source
+   allowed by the operator. For shocks caused by another member, the
+   trigger-source setting must also allow that member; its default is `self`.
+   To opt in to listed members, use `!xtoys triggers allowlist` and
+   `!xtoys allow <member>`.
 7. **Player: verify status and safety.** Whisper `!xtoys status`; use
    `!xtoys pause` / `!xtoys resume` for the bot-side link, independently of the
    XToys script's Pause control. The shared bot safeword sends `bridgeStop` and

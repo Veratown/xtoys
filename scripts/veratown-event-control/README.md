@@ -15,6 +15,9 @@ node --test scripts/veratown-event-control/test.mjs
   optional activity pulses. Each output has its own exact BC group key.
 - BC inflation events mirrored to one selected vibration output, restricted to
   that output's configured group.
+- BC arousal updates displayed in the response panel, including observed
+  progress, quantized bucket, and step size. This example does not route
+  arousal to an output; see the [arousal-to-vibration example](../arousal-vibe/README.md).
 - Five exact location-key slots; slot 1 is prefilled with `asylum`. Each slot
   independently selects entry, exit, or both, and an output channel.
 - All currently published Veratown game event actions: Casino, Hot Seat,
@@ -39,18 +42,20 @@ XToys app and your device layout.
 
 ### 1. Enable the event sources in Veratown
 
-The bot operator must allow the relevant mirror and game event categories.
-The player's profile must also enable them. In a private whisper to the bot,
-configure the categories you want:
+New player profiles enable supported event categories by default; existing
+profiles preserve their saved choices. Players can opt out or re-enable
+categories, while operator policy remains the upper bound:
 
 ```text
-!xtoys mirror toy items activitySelf activityOther room chat
-!xtoys game locations casino hot-seat truth-dare dilemma staged-table shower trick-or-treat
+!xtoys mirror off activityOther
+!xtoys game off locations
+!xtoys mirror on arousal
+!xtoys arousal-step 10
 ```
 
 Use `!xtoys test` to check the event link after linking. If an event does not
-arrive, ask the operator to check the bot-side allowlist/policy as well as your
-player profile. These player commands cannot override operator policy.
+arrive, check `!xtoys status` and ask the operator to check the bot-side policy.
+Player commands cannot override operator policy.
 
 ### 2. Import and configure the XToys script
 

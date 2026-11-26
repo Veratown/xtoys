@@ -1,0 +1,199 @@
+{
+  "initialActions": [
+    {
+      "type": "updateVariable",
+      "variable": "paused",
+      "value": "on"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "response",
+      "value": "Waiting for a Veratown message."
+    },
+    {
+      "type": "updateComponent",
+      "channel": "part-vibrator-a",
+      "action": "setVolume",
+      "percentVolume": "0",
+      "rampTime": 0
+    }
+  ],
+  "finalActions": [
+    {
+      "type": "updateVariable",
+      "variable": "paused",
+      "value": "on"
+    },
+    {
+      "type": "updateComponent",
+      "channel": "part-vibrator-a",
+      "action": "setVolume",
+      "percentVolume": "0",
+      "rampTime": 0
+    }
+  ],
+  "globalTriggers": [
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "arousalUpdate",
+      "requiredExpression": "{paused} == \"off\" and {trigger-origin} == \"room\" and {trigger-relation} == \"self\"",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "BC arousal {trigger-progress}% (bucket {trigger-bucket}%, step {trigger-step}%)."
+        },
+        {
+          "type": "updateComponent",
+          "channel": "part-vibrator-a",
+          "action": "setVolume",
+          "percentVolume": "min({maxVibe}, max(0, {trigger-bucket}) * {maxVibe} / 100)",
+          "rampTime": "{rampSeconds}"
+        }
+      ]
+    },
+    {
+      "type": "variableChange",
+      "variable": "paused",
+      "valueChange": null,
+      "requiredExpression": "{paused} == \"on\"",
+      "actions": [
+        {
+          "type": "updateComponent",
+          "channel": "part-vibrator-a",
+          "action": "setVolume",
+          "percentVolume": "0",
+          "rampTime": 0
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "bridgeVerify",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Verification code: {trigger-code}\nWhisper !xtoys verify {trigger-code} within 5 minutes."
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "bridgeTest",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Veratown test event received."
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "bridgeState",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Veratown state response received. Present: {trigger-present}; fresh: {trigger-fresh}."
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "bridgeStop",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Veratown stopped the bridge. Reason: {trigger-reason}."
+        },
+        {
+          "type": "updateVariable",
+          "variable": "paused",
+          "value": "on"
+        },
+        {
+          "type": "updateComponent",
+          "channel": "part-vibrator-a",
+          "action": "setVolume",
+          "percentVolume": "0",
+          "rampTime": 0
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtResult",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Veratown control result: {trigger-status}. Reason: {trigger-reason}."
+        }
+      ]
+    }
+  ],
+  "jobs": {},
+  "queues": [],
+  "channels": {
+    "part-vibrator-a": {
+      "type": "part-vibrator",
+      "name": "Arousal Vibe"
+    },
+    "webhook-a": {
+      "type": "webhook",
+      "outbound": false,
+      "hideWebhookInfo": false
+    }
+  },
+  "controls": [
+    {
+      "id": "paused",
+      "type": "toggle",
+      "name": "Pause output",
+      "up": "off",
+      "down": "on",
+      "value": "on",
+      "description": "Starts paused. Turning pause on immediately sets output to zero."
+    },
+    {
+      "id": "maxVibe",
+      "type": "slider",
+      "name": "Maximum vibration (%)",
+      "min": 0,
+      "max": 25,
+      "value": 20,
+      "description": "Wearer-controlled local output ceiling; XToys device limits still apply."
+    },
+    {
+      "id": "rampSeconds",
+      "type": "slider",
+      "name": "Ramp time (seconds)",
+      "min": 0,
+      "max": 5,
+      "value": 1
+    },
+    {
+      "id": "response",
+      "type": "textarea",
+      "name": "Latest Veratown message",
+      "value": "Waiting for a Veratown message.",
+      "description": "Lifecycle responses and observed arousal values appear here."
+    }
+  ],
+  "controlPresets": [],
+  "media": {
+    "audio": {},
+    "voices": {},
+    "patterns": {}
+  },
+  "customFunctions": ""
+}

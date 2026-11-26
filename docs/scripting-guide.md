@@ -7,6 +7,10 @@ scripts, and on the Bondage Club integration (see the
 the JSON format see the [script JSON reference](script-json-reference.md); for
 JavaScript recipes see the [JavaScript cookbook](javascript-cookbook.md).
 
+For Veratown-specific payloads, privacy rules, player defaults, and examples
+covering all bridge scenarios, see the
+[Veratown bridge scripting guide](veratown-bridge-scripting-guide.md).
+
 ## 1. Mental model
 
 An XToys script is a small event-driven state machine that runs inside the XToys
