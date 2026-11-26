@@ -1,3 +1,8 @@
+---
+layout: default
+title: Veratown event control
+---
+
 # Veratown event control
 
 Standalone XToys export with native webhook and speech triggers. The generated
@@ -17,7 +22,7 @@ node --test scripts/veratown-event-control/test.mjs
   that output's configured group.
 - BC arousal updates displayed in the response panel, including observed
   progress, quantized bucket, and step size. This example does not route
-  arousal to an output; see the [arousal-to-vibration example](../arousal-vibe/README.md).
+  arousal to an output; see the [arousal-to-vibration example](arousal-vibe.html).
 - Five exact location-key slots; slot 1 is prefilled with `asylum`. Each slot
   independently selects entry, exit, or both, and an output channel.
 - All currently published Veratown game event actions: Casino, Hot Seat,
@@ -59,7 +64,7 @@ Player commands cannot override operator policy.
 
 ### 2. Import and configure the XToys script
 
-Import [`veratown-event-control.json`](./veratown-event-control.json) into
+Import [`veratown-event-control.json`](https://github.com/Veratown/xtoys/blob/main/scripts/veratown-event-control/veratown-event-control.json) into
 XToys and connect your devices to the available output channels. Configure the
 visible controls before unpausing:
 

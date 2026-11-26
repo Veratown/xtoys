@@ -1,3 +1,8 @@
+---
+layout: default
+title: Script JSON reference
+---
+
 # Script JSON reference
 
 This is the structure of an exported XToys script. XToys publishes no schema.

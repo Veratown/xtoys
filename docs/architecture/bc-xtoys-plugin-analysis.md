@@ -1,3 +1,8 @@
+---
+layout: default
+title: BC XToys plugin analysis
+---
+
 # BC XToys plugin analysis
 
 Subject: ItsNorin, _Bondage-Club-XToys-Integration_, commit
@@ -18,7 +23,7 @@ runs inside the Bondage Club page:
    `ws://`/`wss://` URL is accepted) and **only sends** JSON events. It never
    reads XToys replies.
 4. On the XToys side, the official script (`xtoys_script.json` in the repo) or a
-   custom one like [example 1](../examples/README.md#example-1--bc-multi-toy-router)
+   custom one like [example 1](../examples/example-reviews.html#example-1--bc-multi-toy-router)
    turns events into toy output.
 
 All observation happens **from the player's own client**, so the plugin sees

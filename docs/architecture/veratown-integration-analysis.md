@@ -1,3 +1,8 @@
+---
+layout: default
+title: Veratown integration analysis
+---
+
 # Veratown integration analysis
 
 Question: can the BC XToys integration run inside the Veratown bot
@@ -103,9 +108,9 @@ Constraints that follow from the repository rules:
 
 ## Compatibility with existing XToys scripts
 
-If the bridge emits the [plugin's event contract](bc-xtoys-plugin-analysis.md#webhook-event-contract)
+If the bridge emits the [plugin's event contract](bc-xtoys-plugin-analysis.html#webhook-event-contract)
 unchanged, the official script and the
-[example 1 script](../examples/README.md#example-1--bc-multi-toy-router) keep
+[example 1 script](../examples/example-reviews.html#example-1--bc-multi-toy-router) keep
 working without edits. Two additions are recommended. Older scripts ignore them
 because they have no trigger for the new actions:
 
@@ -146,7 +151,7 @@ events are wanted. Pursue option 2 only through a proposal that settles consent,
 credential storage, and the stop contract before any code is written.
 
 That proposal is the
-[Veratown XToys bridge proposal](veratown-xtoys-bridge-proposal.md). It covers
+[Veratown XToys bridge proposal](veratown-xtoys-bridge-proposal.html). It covers
 use cases for all four options, player and operator controls, and two-way
 control (XToys → BC vibrator changes) over the WebSocket transport.
 
