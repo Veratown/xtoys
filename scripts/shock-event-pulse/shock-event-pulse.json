@@ -1,0 +1,205 @@
+{
+  "initialActions": [
+    {
+      "type": "updateVariable",
+      "variable": "response",
+      "value": "Waiting for a Veratown message."
+    },
+    {
+      "type": "updateComponent",
+      "channel": "part-vibrator-a",
+      "action": "setVolume",
+      "percentVolume": "0",
+      "rampTime": 0
+    }
+  ],
+  "finalActions": [
+    {
+      "type": "updateJob",
+      "job": "ShockPulse",
+      "action": "stop"
+    },
+    {
+      "type": "updateComponent",
+      "channel": "part-vibrator-a",
+      "action": "setVolume",
+      "percentVolume": "0",
+      "rampTime": 0
+    }
+  ],
+  "globalTriggers": [
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "activityEvent",
+      "requiredExpression": "({trigger-actionName} == \"ShockLow\" or {trigger-actionName} == \"ShockMed\" or {trigger-actionName} == \"ShockHigh\")",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Shock event received: {trigger-actionName}."
+        },
+        {
+          "type": "updateJob",
+          "job": "ShockPulse",
+          "action": "start",
+          "restart": true
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "bridgeVerify",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Verification code: {trigger-code}\nWhisper !xtoys verify {trigger-code} within 5 minutes."
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "bridgeTest",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Veratown test event received."
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "bridgeState",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Veratown state response received. Present: {trigger-present}; fresh: {trigger-fresh}."
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "bridgeStop",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Veratown stopped the bridge. Reason: {trigger-reason}."
+        },
+        {
+          "type": "updateJob",
+          "job": "ShockPulse",
+          "action": "stop"
+        },
+        {
+          "type": "updateComponent",
+          "channel": "part-vibrator-a",
+          "action": "setVolume",
+          "percentVolume": "0",
+          "rampTime": 0
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
+      "action": "vtResult",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "Veratown control result: {trigger-status}. Reason: {trigger-reason}."
+        }
+      ]
+    }
+  ],
+  "jobs": {
+    "ShockPulse": {
+      "steps": {
+        "START": {
+          "actions": [
+            {
+              "type": "updateComponent",
+              "channel": "part-vibrator-a",
+              "action": "setVolume",
+              "percentVolume": "{pulseLevel}",
+              "rampTime": "0.1"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{pulseDuration}",
+              "actions": [
+                {
+                  "type": "updateComponent",
+                  "channel": "part-vibrator-a",
+                  "action": "setVolume",
+                  "percentVolume": "0",
+                  "rampTime": "0.1"
+                },
+                {
+                  "type": "updateJob",
+                  "job": "ShockPulse",
+                  "action": "stop"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  },
+  "queues": [],
+  "channels": {
+    "part-vibrator-a": {
+      "type": "part-vibrator",
+      "name": "Vibrator"
+    },
+    "webhook-a": {
+      "type": "webhook",
+      "outbound": false,
+      "hideWebhookInfo": false
+    }
+  },
+  "controls": [
+    {
+      "id": "pulseLevel",
+      "type": "slider",
+      "name": "Pulse level (%)",
+      "min": 0,
+      "max": 10,
+      "value": 5
+    },
+    {
+      "id": "pulseDuration",
+      "type": "slider",
+      "name": "Pulse duration (s)",
+      "min": 0.1,
+      "max": 2,
+      "value": 0.5
+    },
+    {
+      "id": "response",
+      "type": "textarea",
+      "name": "Latest Veratown response",
+      "value": "Waiting for a Veratown message.",
+      "description": "Verification codes and received shock events appear here."
+    }
+  ],
+  "controlPresets": [],
+  "media": {
+    "audio": {},
+    "voices": {},
+    "patterns": {}
+  },
+  "customFunctions": ""
+}

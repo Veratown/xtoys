@@ -10,6 +10,7 @@ export const VERATOWN_ALL_ACTIONS = [
     ...VERATOWN_LIFECYCLE_ACTIONS,
     "toyEvent",
     "inflationEvent",
+    "arousalUpdate",
     "itemAdded",
     "itemRemoved",
     "activityEvent",
@@ -44,6 +45,8 @@ function responseText(action) {
             return "Veratown stopped the bridge. Reason: {trigger-reason}.";
         case "vtResult":
             return "Veratown control result: {trigger-status}. Reason: {trigger-reason}.";
+        case "arousalUpdate":
+            return "BC arousal: {trigger-progress}% (bucket {trigger-bucket}%, step {trigger-step}%).";
         default:
             return `Veratown event received: ${action}`;
     }

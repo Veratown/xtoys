@@ -442,6 +442,18 @@ for (const event of gameEvents) {
     });
 }
 
+script.globalTriggers.push({
+    type: "componentState",
+    channel: "webhook-a",
+    action: "arousalUpdate",
+    actions: [
+        updateVariable(
+            "response",
+            "BC arousal {trigger-progress}% (bucket {trigger-bucket}%, step {trigger-step}%).",
+        ),
+    ],
+});
+
 for (const eventAction of ["vtLocationEntered", "vtLocationLeft"]) {
     const entered = eventAction === "vtLocationEntered";
     const side = entered ? "enter" : "leave";

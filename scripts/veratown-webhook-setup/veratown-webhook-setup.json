@@ -95,6 +95,18 @@
     {
       "type": "componentState",
       "channel": "webhook-a",
+      "action": "arousalUpdate",
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "response",
+          "value": "BC arousal: {trigger-progress}% (bucket {trigger-bucket}%, step {trigger-step}%)."
+        }
+      ]
+    },
+    {
+      "type": "componentState",
+      "channel": "webhook-a",
       "action": "itemAdded",
       "actions": [
         {

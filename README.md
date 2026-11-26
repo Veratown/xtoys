@@ -18,6 +18,8 @@ on scripts driven by Bondage Club (BC) events.
 | [Veratown bridge harness](tools/veratown-bridge-harness.mjs)             | Node tool that impersonates the bot to test the script against XToys       |
 | [BC room and chat sender](tools/bc-room-chat-sender.user.js)             | Userscript that sends room-entry and spoken-to events to your webhook      |
 | [Veratown event router](scripts/veratown-event-router/README.md)          | Importable, configurable multi-output script and setup guide                 |
+| [Veratown bridge scripting guide](docs/veratown-bridge-scripting-guide.md) | Complete event contract and basic, advanced, and expert scripting guide      |
+| [Arousal to vibration](scripts/arousal-vibe/README.md)                      | Importable, paused-by-default arousal-to-vibration example                    |
 
 ## Sources
 
