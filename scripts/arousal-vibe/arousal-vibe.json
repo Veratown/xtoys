@@ -7,6 +7,51 @@
     },
     {
       "type": "updateVariable",
+      "variable": "arousalBucket",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "arousalInitialized",
+      "value": "off"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "targetVibe",
+      "value": "0"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "removeItems",
+      "value": "off"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "removalSent1",
+      "value": "off"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "removalSent2",
+      "value": "off"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "removalSent3",
+      "value": "off"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "removalSent4",
+      "value": "off"
+    },
+    {
+      "type": "updateVariable",
+      "variable": "removalSent5",
+      "value": "off"
+    },
+    {
+      "type": "updateVariable",
       "variable": "response",
       "value": "Waiting for a Veratown message."
     },
@@ -25,6 +70,26 @@
       "value": "on"
     },
     {
+      "type": "updateVariable",
+      "variable": "removeItems",
+      "value": "off"
+    },
+    {
+      "type": "updateJob",
+      "job": "Tease",
+      "action": "stop"
+    },
+    {
+      "type": "updateJob",
+      "job": "Random",
+      "action": "stop"
+    },
+    {
+      "type": "updateJob",
+      "job": "Escalate",
+      "action": "stop"
+    },
+    {
       "type": "updateComponent",
       "channel": "part-vibrator-a",
       "action": "setVolume",
@@ -37,7 +102,7 @@
       "type": "componentState",
       "channel": "webhook-a",
       "action": "arousalUpdate",
-      "requiredExpression": "{paused} == \"off\" and {trigger-origin} == \"room\" and {trigger-relation} == \"self\"",
+      "requiredExpression": "{trigger-origin} == \"room\" and {trigger-relation} == \"self\"",
       "actions": [
         {
           "type": "updateVariable",
@@ -46,10 +111,190 @@
         },
         {
           "type": "updateComponent",
-          "channel": "part-vibrator-a",
-          "action": "setVolume",
-          "percentVolume": "min({maxVibe}, max(0, {trigger-bucket}) * {maxVibe} / 100)",
-          "rampTime": "{rampSeconds}"
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "vtRemoveItem",
+          "webhookData": [
+            {
+              "key": "assetGroupName",
+              "value": "{removeGroup1}"
+            },
+            {
+              "key": "assetName",
+              "value": "{removeAsset1}"
+            },
+            {
+              "key": "requestId",
+              "value": "arousal-stage-1-{timestamp}"
+            }
+          ],
+          "requiredExpression": "{removeItems} == \"on\" and {arousalInitialized} == \"on\" and {removalSent1} == \"off\" and {trigger-bucket} >= {removeAt1} and {arousalBucket} < {removeAt1} and {removeGroup1} != \"\" and {removeAsset1} != \"\""
+        },
+        {
+          "type": "updateVariable",
+          "variable": "removalSent1",
+          "value": "on",
+          "requiredExpression": "{removeItems} == \"on\" and {arousalInitialized} == \"on\" and {removalSent1} == \"off\" and {trigger-bucket} >= {removeAt1} and {arousalBucket} < {removeAt1} and {removeGroup1} != \"\" and {removeAsset1} != \"\""
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "vtRemoveItem",
+          "webhookData": [
+            {
+              "key": "assetGroupName",
+              "value": "{removeGroup2}"
+            },
+            {
+              "key": "assetName",
+              "value": "{removeAsset2}"
+            },
+            {
+              "key": "requestId",
+              "value": "arousal-stage-2-{timestamp}"
+            }
+          ],
+          "requiredExpression": "{removeItems} == \"on\" and {arousalInitialized} == \"on\" and {removalSent2} == \"off\" and ({removeGroup1} == \"\" or {removeAsset1} == \"\" or {removalSent1} == \"on\") and {trigger-bucket} >= {removeAt2} and {arousalBucket} < {removeAt2} and {removeGroup2} != \"\" and {removeAsset2} != \"\""
+        },
+        {
+          "type": "updateVariable",
+          "variable": "removalSent2",
+          "value": "on",
+          "requiredExpression": "{removeItems} == \"on\" and {arousalInitialized} == \"on\" and {removalSent2} == \"off\" and ({removeGroup1} == \"\" or {removeAsset1} == \"\" or {removalSent1} == \"on\") and {trigger-bucket} >= {removeAt2} and {arousalBucket} < {removeAt2} and {removeGroup2} != \"\" and {removeAsset2} != \"\""
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "vtRemoveItem",
+          "webhookData": [
+            {
+              "key": "assetGroupName",
+              "value": "{removeGroup3}"
+            },
+            {
+              "key": "assetName",
+              "value": "{removeAsset3}"
+            },
+            {
+              "key": "requestId",
+              "value": "arousal-stage-3-{timestamp}"
+            }
+          ],
+          "requiredExpression": "{removeItems} == \"on\" and {arousalInitialized} == \"on\" and {removalSent3} == \"off\" and ({removeGroup1} == \"\" or {removeAsset1} == \"\" or {removalSent1} == \"on\") and ({removeGroup2} == \"\" or {removeAsset2} == \"\" or {removalSent2} == \"on\") and {trigger-bucket} >= {removeAt3} and {arousalBucket} < {removeAt3} and {removeGroup3} != \"\" and {removeAsset3} != \"\""
+        },
+        {
+          "type": "updateVariable",
+          "variable": "removalSent3",
+          "value": "on",
+          "requiredExpression": "{removeItems} == \"on\" and {arousalInitialized} == \"on\" and {removalSent3} == \"off\" and ({removeGroup1} == \"\" or {removeAsset1} == \"\" or {removalSent1} == \"on\") and ({removeGroup2} == \"\" or {removeAsset2} == \"\" or {removalSent2} == \"on\") and {trigger-bucket} >= {removeAt3} and {arousalBucket} < {removeAt3} and {removeGroup3} != \"\" and {removeAsset3} != \"\""
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "vtRemoveItem",
+          "webhookData": [
+            {
+              "key": "assetGroupName",
+              "value": "{removeGroup4}"
+            },
+            {
+              "key": "assetName",
+              "value": "{removeAsset4}"
+            },
+            {
+              "key": "requestId",
+              "value": "arousal-stage-4-{timestamp}"
+            }
+          ],
+          "requiredExpression": "{removeItems} == \"on\" and {arousalInitialized} == \"on\" and {removalSent4} == \"off\" and ({removeGroup1} == \"\" or {removeAsset1} == \"\" or {removalSent1} == \"on\") and ({removeGroup2} == \"\" or {removeAsset2} == \"\" or {removalSent2} == \"on\") and ({removeGroup3} == \"\" or {removeAsset3} == \"\" or {removalSent3} == \"on\") and {trigger-bucket} >= {removeAt4} and {arousalBucket} < {removeAt4} and {removeGroup4} != \"\" and {removeAsset4} != \"\""
+        },
+        {
+          "type": "updateVariable",
+          "variable": "removalSent4",
+          "value": "on",
+          "requiredExpression": "{removeItems} == \"on\" and {arousalInitialized} == \"on\" and {removalSent4} == \"off\" and ({removeGroup1} == \"\" or {removeAsset1} == \"\" or {removalSent1} == \"on\") and ({removeGroup2} == \"\" or {removeAsset2} == \"\" or {removalSent2} == \"on\") and ({removeGroup3} == \"\" or {removeAsset3} == \"\" or {removalSent3} == \"on\") and {trigger-bucket} >= {removeAt4} and {arousalBucket} < {removeAt4} and {removeGroup4} != \"\" and {removeAsset4} != \"\""
+        },
+        {
+          "type": "updateComponent",
+          "channel": "webhook-a",
+          "action": "send",
+          "webhookAction": "vtRemoveItem",
+          "webhookData": [
+            {
+              "key": "assetGroupName",
+              "value": "{removeGroup5}"
+            },
+            {
+              "key": "assetName",
+              "value": "{removeAsset5}"
+            },
+            {
+              "key": "requestId",
+              "value": "arousal-stage-5-{timestamp}"
+            }
+          ],
+          "requiredExpression": "{removeItems} == \"on\" and {arousalInitialized} == \"on\" and {removalSent5} == \"off\" and ({removeGroup1} == \"\" or {removeAsset1} == \"\" or {removalSent1} == \"on\") and ({removeGroup2} == \"\" or {removeAsset2} == \"\" or {removalSent2} == \"on\") and ({removeGroup3} == \"\" or {removeAsset3} == \"\" or {removalSent3} == \"on\") and ({removeGroup4} == \"\" or {removeAsset4} == \"\" or {removalSent4} == \"on\") and {trigger-bucket} >= {removeAt5} and {arousalBucket} < {removeAt5} and {removeGroup5} != \"\" and {removeAsset5} != \"\""
+        },
+        {
+          "type": "updateVariable",
+          "variable": "removalSent5",
+          "value": "on",
+          "requiredExpression": "{removeItems} == \"on\" and {arousalInitialized} == \"on\" and {removalSent5} == \"off\" and ({removeGroup1} == \"\" or {removeAsset1} == \"\" or {removalSent1} == \"on\") and ({removeGroup2} == \"\" or {removeAsset2} == \"\" or {removalSent2} == \"on\") and ({removeGroup3} == \"\" or {removeAsset3} == \"\" or {removalSent3} == \"on\") and ({removeGroup4} == \"\" or {removeAsset4} == \"\" or {removalSent4} == \"on\") and {trigger-bucket} >= {removeAt5} and {arousalBucket} < {removeAt5} and {removeGroup5} != \"\" and {removeAsset5} != \"\""
+        },
+        {
+          "type": "updateVariable",
+          "variable": "arousalBucket",
+          "value": "{trigger-bucket}"
+        },
+        {
+          "type": "updateVariable",
+          "variable": "targetVibe",
+          "value": "min({maxVibe}, max(0, {arousalBucket}) * {maxVibe} / 100)"
+        },
+        {
+          "type": "updateJob",
+          "job": "Tease",
+          "action": "stop"
+        },
+        {
+          "type": "updateJob",
+          "job": "Random",
+          "action": "stop"
+        },
+        {
+          "type": "updateJob",
+          "job": "Escalate",
+          "action": "stop"
+        },
+        {
+          "type": "updateJob",
+          "job": "Tease",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{paused} == \"off\" and {patternMode} == \"tease\""
+        },
+        {
+          "type": "updateJob",
+          "job": "Random",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{paused} == \"off\" and {patternMode} == \"random\""
+        },
+        {
+          "type": "updateJob",
+          "job": "Escalate",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{paused} == \"off\" and {patternMode} == \"escalate\""
+        },
+        {
+          "type": "updateVariable",
+          "variable": "arousalInitialized",
+          "value": "on",
+          "requiredExpression": "{arousalInitialized} == \"off\""
         }
       ]
     },
@@ -57,14 +302,141 @@
       "type": "variableChange",
       "variable": "paused",
       "valueChange": null,
-      "requiredExpression": "{paused} == \"on\"",
       "actions": [
+        {
+          "type": "updateJob",
+          "job": "Tease",
+          "action": "stop"
+        },
+        {
+          "type": "updateJob",
+          "job": "Random",
+          "action": "stop"
+        },
+        {
+          "type": "updateJob",
+          "job": "Escalate",
+          "action": "stop"
+        },
         {
           "type": "updateComponent",
           "channel": "part-vibrator-a",
           "action": "setVolume",
           "percentVolume": "0",
-          "rampTime": 0
+          "rampTime": 0,
+          "requiredExpression": "{paused} == \"on\""
+        },
+        {
+          "type": "updateJob",
+          "job": "Tease",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{paused} == \"off\" and {patternMode} == \"tease\""
+        },
+        {
+          "type": "updateJob",
+          "job": "Random",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{paused} == \"off\" and {patternMode} == \"random\""
+        },
+        {
+          "type": "updateJob",
+          "job": "Escalate",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{paused} == \"off\" and {patternMode} == \"escalate\""
+        }
+      ]
+    },
+    {
+      "type": "variableChange",
+      "variable": "patternMode",
+      "valueChange": null,
+      "actions": [
+        {
+          "type": "updateJob",
+          "job": "Tease",
+          "action": "stop"
+        },
+        {
+          "type": "updateJob",
+          "job": "Random",
+          "action": "stop"
+        },
+        {
+          "type": "updateJob",
+          "job": "Escalate",
+          "action": "stop"
+        },
+        {
+          "type": "updateJob",
+          "job": "Tease",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{paused} == \"off\" and {patternMode} == \"tease\""
+        },
+        {
+          "type": "updateJob",
+          "job": "Random",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{paused} == \"off\" and {patternMode} == \"random\""
+        },
+        {
+          "type": "updateJob",
+          "job": "Escalate",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{paused} == \"off\" and {patternMode} == \"escalate\""
+        }
+      ]
+    },
+    {
+      "type": "variableChange",
+      "variable": "maxVibe",
+      "valueChange": null,
+      "actions": [
+        {
+          "type": "updateVariable",
+          "variable": "targetVibe",
+          "value": "min({maxVibe}, max(0, {arousalBucket}) * {maxVibe} / 100)"
+        },
+        {
+          "type": "updateJob",
+          "job": "Tease",
+          "action": "stop"
+        },
+        {
+          "type": "updateJob",
+          "job": "Random",
+          "action": "stop"
+        },
+        {
+          "type": "updateJob",
+          "job": "Escalate",
+          "action": "stop"
+        },
+        {
+          "type": "updateJob",
+          "job": "Tease",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{paused} == \"off\" and {patternMode} == \"tease\""
+        },
+        {
+          "type": "updateJob",
+          "job": "Random",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{paused} == \"off\" and {patternMode} == \"random\""
+        },
+        {
+          "type": "updateJob",
+          "job": "Escalate",
+          "action": "start",
+          "restart": true,
+          "requiredExpression": "{paused} == \"off\" and {patternMode} == \"escalate\""
         }
       ]
     },
@@ -120,6 +492,26 @@
           "value": "on"
         },
         {
+          "type": "updateVariable",
+          "variable": "removeItems",
+          "value": "off"
+        },
+        {
+          "type": "updateJob",
+          "job": "Tease",
+          "action": "stop"
+        },
+        {
+          "type": "updateJob",
+          "job": "Random",
+          "action": "stop"
+        },
+        {
+          "type": "updateJob",
+          "job": "Escalate",
+          "action": "stop"
+        },
+        {
           "type": "updateComponent",
           "channel": "part-vibrator-a",
           "action": "setVolume",
@@ -141,7 +533,436 @@
       ]
     }
   ],
-  "jobs": {},
+  "jobs": {
+    "Tease": {
+      "steps": {
+        "START": {
+          "actions": [
+            {
+              "type": "updateComponent",
+              "channel": "part-vibrator-a",
+              "action": "setVolume",
+              "percentVolume": "{targetVibe} * 0.1",
+              "rampTime": "{rampSeconds}"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{patternSeconds}",
+              "actions": [
+                {
+                  "type": "updateJob",
+                  "job": "Tease",
+                  "action": "goTo",
+                  "step": "STEP2"
+                }
+              ]
+            }
+          ]
+        },
+        "STEP2": {
+          "actions": [
+            {
+              "type": "updateComponent",
+              "channel": "part-vibrator-a",
+              "action": "setVolume",
+              "percentVolume": "{targetVibe} * 0.2",
+              "rampTime": "{rampSeconds}"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{patternSeconds}",
+              "actions": [
+                {
+                  "type": "updateJob",
+                  "job": "Tease",
+                  "action": "goTo",
+                  "step": "STEP3"
+                }
+              ]
+            }
+          ]
+        },
+        "STEP3": {
+          "actions": [
+            {
+              "type": "updateComponent",
+              "channel": "part-vibrator-a",
+              "action": "setVolume",
+              "percentVolume": "{targetVibe} * 0.3",
+              "rampTime": "{rampSeconds}"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{patternSeconds}",
+              "actions": [
+                {
+                  "type": "updateJob",
+                  "job": "Tease",
+                  "action": "goTo",
+                  "step": "STEP4"
+                }
+              ]
+            }
+          ]
+        },
+        "STEP4": {
+          "actions": [
+            {
+              "type": "updateComponent",
+              "channel": "part-vibrator-a",
+              "action": "setVolume",
+              "percentVolume": "{targetVibe} * 0.4",
+              "rampTime": "{rampSeconds}"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{patternSeconds}",
+              "actions": [
+                {
+                  "type": "updateJob",
+                  "job": "Tease",
+                  "action": "goTo",
+                  "step": "STEP5"
+                }
+              ]
+            }
+          ]
+        },
+        "STEP5": {
+          "actions": [
+            {
+              "type": "updateComponent",
+              "channel": "part-vibrator-a",
+              "action": "setVolume",
+              "percentVolume": "{targetVibe} * 0.5",
+              "rampTime": "{rampSeconds}"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{patternSeconds}",
+              "actions": [
+                {
+                  "type": "updateJob",
+                  "job": "Tease",
+                  "action": "goTo",
+                  "step": "STEP6"
+                }
+              ]
+            }
+          ]
+        },
+        "STEP6": {
+          "actions": [
+            {
+              "type": "updateComponent",
+              "channel": "part-vibrator-a",
+              "action": "setVolume",
+              "percentVolume": "{targetVibe} * 0.6",
+              "rampTime": "{rampSeconds}"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{patternSeconds}",
+              "actions": [
+                {
+                  "type": "updateJob",
+                  "job": "Tease",
+                  "action": "goTo",
+                  "step": "STEP7"
+                }
+              ]
+            }
+          ]
+        },
+        "STEP7": {
+          "actions": [
+            {
+              "type": "updateComponent",
+              "channel": "part-vibrator-a",
+              "action": "setVolume",
+              "percentVolume": "{targetVibe} * 0.7",
+              "rampTime": "{rampSeconds}"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{patternSeconds}",
+              "actions": [
+                {
+                  "type": "updateJob",
+                  "job": "Tease",
+                  "action": "goTo",
+                  "step": "STEP8"
+                }
+              ]
+            }
+          ]
+        },
+        "STEP8": {
+          "actions": [
+            {
+              "type": "updateComponent",
+              "channel": "part-vibrator-a",
+              "action": "setVolume",
+              "percentVolume": "{targetVibe} * 0.8",
+              "rampTime": "{rampSeconds}"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{patternSeconds}",
+              "actions": [
+                {
+                  "type": "updateJob",
+                  "job": "Tease",
+                  "action": "goTo",
+                  "step": "STEP9"
+                }
+              ]
+            }
+          ]
+        },
+        "STEP9": {
+          "actions": [
+            {
+              "type": "updateComponent",
+              "channel": "part-vibrator-a",
+              "action": "setVolume",
+              "percentVolume": "{targetVibe} * 0.9",
+              "rampTime": "{rampSeconds}"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{patternSeconds}",
+              "actions": [
+                {
+                  "type": "updateJob",
+                  "job": "Tease",
+                  "action": "goTo",
+                  "step": "STEP10"
+                }
+              ]
+            }
+          ]
+        },
+        "STEP10": {
+          "actions": [
+            {
+              "type": "updateComponent",
+              "channel": "part-vibrator-a",
+              "action": "setVolume",
+              "percentVolume": "{targetVibe} * 1",
+              "rampTime": "{rampSeconds}"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{patternSeconds}",
+              "actions": [
+                {
+                  "type": "updateJob",
+                  "job": "Tease",
+                  "action": "goTo",
+                  "step": "START"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "Random": {
+      "steps": {
+        "START": {
+          "actions": [
+            {
+              "type": "updateComponent",
+              "channel": "part-vibrator-a",
+              "action": "setVolume",
+              "percentVolume": "({targetVibe} * 0 | {targetVibe} * 0.25 | {targetVibe} * 0.5 | {targetVibe} * 0.75 | {targetVibe})",
+              "rampTime": "{rampSeconds}"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{patternSeconds}",
+              "actions": [
+                {
+                  "type": "updateJob",
+                  "job": "Random",
+                  "action": "goTo",
+                  "step": "START"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "Escalate": {
+      "steps": {
+        "START": {
+          "actions": [
+            {
+              "type": "updateComponent",
+              "channel": "part-vibrator-a",
+              "action": "setVolume",
+              "percentVolume": "{targetVibe} * 0.2",
+              "rampTime": "{rampSeconds}"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{patternSeconds}",
+              "actions": [
+                {
+                  "type": "updateJob",
+                  "job": "Escalate",
+                  "action": "goTo",
+                  "step": "STEP2"
+                }
+              ]
+            }
+          ]
+        },
+        "STEP2": {
+          "actions": [
+            {
+              "type": "updateComponent",
+              "channel": "part-vibrator-a",
+              "action": "setVolume",
+              "percentVolume": "{targetVibe} * 0.4",
+              "rampTime": "{rampSeconds}"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{patternSeconds}",
+              "actions": [
+                {
+                  "type": "updateJob",
+                  "job": "Escalate",
+                  "action": "goTo",
+                  "step": "STEP3"
+                }
+              ]
+            }
+          ]
+        },
+        "STEP3": {
+          "actions": [
+            {
+              "type": "updateComponent",
+              "channel": "part-vibrator-a",
+              "action": "setVolume",
+              "percentVolume": "{targetVibe} * 0.6",
+              "rampTime": "{rampSeconds}"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{patternSeconds}",
+              "actions": [
+                {
+                  "type": "updateJob",
+                  "job": "Escalate",
+                  "action": "goTo",
+                  "step": "STEP4"
+                }
+              ]
+            }
+          ]
+        },
+        "STEP4": {
+          "actions": [
+            {
+              "type": "updateComponent",
+              "channel": "part-vibrator-a",
+              "action": "setVolume",
+              "percentVolume": "{targetVibe} * 0.8",
+              "rampTime": "{rampSeconds}"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{patternSeconds}",
+              "actions": [
+                {
+                  "type": "updateJob",
+                  "job": "Escalate",
+                  "action": "goTo",
+                  "step": "STEP5"
+                }
+              ]
+            }
+          ]
+        },
+        "STEP5": {
+          "actions": [
+            {
+              "type": "updateComponent",
+              "channel": "part-vibrator-a",
+              "action": "setVolume",
+              "percentVolume": "{targetVibe} * 1",
+              "rampTime": "{rampSeconds}"
+            }
+          ],
+          "triggers": [
+            {
+              "type": "stepState",
+              "event": "timer",
+              "amount": "{patternSeconds}",
+              "actions": [
+                {
+                  "type": "updateJob",
+                  "job": "Escalate",
+                  "action": "goTo",
+                  "step": "START"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  },
   "queues": [],
   "channels": {
     "part-vibrator-a": {
@@ -150,7 +971,7 @@
     },
     "webhook-a": {
       "type": "webhook",
-      "outbound": false,
+      "outbound": true,
       "hideWebhookInfo": false
     }
   },
@@ -167,11 +988,150 @@
     {
       "id": "maxVibe",
       "type": "slider",
-      "name": "Maximum vibration (%)",
+      "name": "Maximum power (%)",
       "min": 0,
-      "max": 25,
-      "value": 20,
-      "description": "Wearer-controlled local output ceiling; XToys device limits still apply."
+      "max": 100,
+      "value": 100,
+      "description": "Wearer-controlled local output ceiling. Arousal 100% reaches this cap; device limits still apply."
+    },
+    {
+      "id": "patternMode",
+      "type": "select",
+      "name": "Vibration pattern",
+      "options": [
+        "tease",
+        "random",
+        "escalate"
+      ],
+      "value": "tease",
+      "description": "Tease rises slowly in ten steps; random picks a level; escalate rises in five steps. Each tops out at the arousal-scaled target."
+    },
+    {
+      "id": "removeItems",
+      "type": "toggle",
+      "name": "Request item removal",
+      "up": "off",
+      "down": "on",
+      "value": "off",
+      "description": "Off by default. Sends proposed vtRemoveItem requests only when enabled and a configured arousal threshold is crossed upward. The current Veratown bridge does not support this request yet."
+    },
+    {
+      "id": "removeAt1",
+      "type": "slider",
+      "name": "Removal threshold 1 (%)",
+      "min": 1,
+      "max": 100,
+      "value": 20
+    },
+    {
+      "id": "removeGroup1",
+      "type": "input",
+      "name": "Removal 1 item group",
+      "value": "",
+      "description": "Exact BC assetGroupName; leave blank to skip this stage."
+    },
+    {
+      "id": "removeAsset1",
+      "type": "input",
+      "name": "Removal 1 item name",
+      "value": "",
+      "description": "Exact BC assetName for the item to remove; leave blank to skip this stage."
+    },
+    {
+      "id": "removeAt2",
+      "type": "slider",
+      "name": "Removal threshold 2 (%)",
+      "min": 1,
+      "max": 100,
+      "value": 40
+    },
+    {
+      "id": "removeGroup2",
+      "type": "input",
+      "name": "Removal 2 item group",
+      "value": "",
+      "description": "Exact BC assetGroupName; leave blank to skip this stage."
+    },
+    {
+      "id": "removeAsset2",
+      "type": "input",
+      "name": "Removal 2 item name",
+      "value": "",
+      "description": "Exact BC assetName for the item to remove; leave blank to skip this stage."
+    },
+    {
+      "id": "removeAt3",
+      "type": "slider",
+      "name": "Removal threshold 3 (%)",
+      "min": 1,
+      "max": 100,
+      "value": 60
+    },
+    {
+      "id": "removeGroup3",
+      "type": "input",
+      "name": "Removal 3 item group",
+      "value": "",
+      "description": "Exact BC assetGroupName; leave blank to skip this stage."
+    },
+    {
+      "id": "removeAsset3",
+      "type": "input",
+      "name": "Removal 3 item name",
+      "value": "",
+      "description": "Exact BC assetName for the item to remove; leave blank to skip this stage."
+    },
+    {
+      "id": "removeAt4",
+      "type": "slider",
+      "name": "Removal threshold 4 (%)",
+      "min": 1,
+      "max": 100,
+      "value": 80
+    },
+    {
+      "id": "removeGroup4",
+      "type": "input",
+      "name": "Removal 4 item group",
+      "value": "",
+      "description": "Exact BC assetGroupName; leave blank to skip this stage."
+    },
+    {
+      "id": "removeAsset4",
+      "type": "input",
+      "name": "Removal 4 item name",
+      "value": "",
+      "description": "Exact BC assetName for the item to remove; leave blank to skip this stage."
+    },
+    {
+      "id": "removeAt5",
+      "type": "slider",
+      "name": "Removal threshold 5 (%)",
+      "min": 1,
+      "max": 100,
+      "value": 100
+    },
+    {
+      "id": "removeGroup5",
+      "type": "input",
+      "name": "Removal 5 item group",
+      "value": "",
+      "description": "Exact BC assetGroupName; leave blank to skip this stage."
+    },
+    {
+      "id": "removeAsset5",
+      "type": "input",
+      "name": "Removal 5 item name",
+      "value": "",
+      "description": "Exact BC assetName for the item to remove; leave blank to skip this stage."
+    },
+    {
+      "id": "patternSeconds",
+      "type": "slider",
+      "name": "Pattern step interval (seconds)",
+      "min": 1,
+      "max": 10,
+      "value": 4
     },
     {
       "id": "rampSeconds",

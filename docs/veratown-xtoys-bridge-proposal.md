@@ -166,6 +166,7 @@ Two-way control uses option 2's WebSocket. It is detailed in
 | `vtQueryState`        | On      | Read-only reply from observed state               |
 | `vtStop`              | On      | Bridge-side stop; changing BC needs `stopChanges` |
 | `vtSetVibe` (self)    | Off     | Own worn vibrators, granted groups, level cap     |
+| `vtRemoveItem` (self) | Off     | One exact worn item in an explicitly granted group |
 | `vtEmote` (templates) | Off     | Fixed templates, room-rate-limited                |
 | Delegated `vtSetVibe` | Off     | Another member's vibrator, only with their grant  |
 
@@ -243,6 +244,7 @@ Each linked player has one profile. All fields have conservative defaults.
 | `denylist`       | member numbers                                                                                    | empty                | Always wins over the allowlist.                               |
 | `control`        | capabilities from [section 9](#9-two-way-control)                                                 | `queryState`, `stop` | What XToys may ask the bot to do.                             |
 | `controlGroups`  | BC item groups, for example `ItemVulva`, `ItemBreast`                                             | empty                | Which worn vibrators `vtSetVibe` may change.                  |
+| `removeGroups`   | BC item groups, for example `ItemClothing`                                                         | empty                | Which item groups a self-only `vtRemoveItem` grant may remove from. |
 | `levelCap`       | `low`, `medium`, `high`, `maximum`                                                                | `medium`             | Highest BC vibrator level that inbound control may set.       |
 | `minIntervalSec` | 2–60                                                                                              | 5                    | Minimum time between inbound BC changes for this player.      |
 | `stopChanges`    | `none`, `vibesOff`                                                                                | `none`               | Whether `vtStop`/safeword also sets granted vibrators to Off. |
@@ -268,6 +270,7 @@ except in allow/deny lists and delegation grants. Names are proposals.
 | `!xtoys allow\|deny <memberNumber>`          | Edits the allow or deny list. `unallow` and `undeny` remove entries.     |
 | `!xtoys control <capability> on\|off`        | Grants or revokes an inbound capability; `on` asks for confirmation.     |
 | `!xtoys groups <group,…>`                    | Sets which worn item groups inbound control may change.                  |
+| `!xtoys remove-groups <group,…>`             | Sets item groups allowed for the separately granted self-removal capability. |
 | `!xtoys cap low\|medium\|high\|maximum`      | Sets the level cap.                                                      |
 | `!xtoys interval <seconds>`                  | Sets the minimum interval between inbound changes.                       |
 | `!xtoys delegate <memberNumber> on\|off`     | Allows or revokes another member's XToys controlling your vibrators.     |
@@ -428,6 +431,7 @@ counted.
 | `vtQueryState` | `requestId?`                                                                                   | Replies `bridgeState` from the latest observed appearance. No BC packet.                      |
 | `vtStop`       | `requestId?`                                                                                   | Clears pending inbound requests; with `stopChanges: vibesOff`, sets granted vibrators to Off. |
 | `vtSetVibe`    | `group`, `level` (`off`, `low`, `medium`, `high`, `maximum` or 0–100), `requestId?`, `member?` | Configures a worn vibrator, after the policy checks below.                                    |
+| `vtRemoveItem` | `assetGroupName`, `assetName`, `requestId?` | Requests removal of that exact currently worn item from the linked player's own character. |
 | `vtEmote`      | `template` (enumerated key), `requestId?`                                                      | Sends a fixed emote template naming the linked member.                                        |
 
 Numeric levels from 0–100 map to BC steps: 0 → Off, 1–25 → Low,
@@ -494,6 +498,63 @@ send `vtSetVibe` with `member: <B>`. All of B's settings apply (groups, cap,
 interval, rooms). B can revoke at any time; safeword revokes all delegations
 B granted. Delegation is a later phase because it creates a
 cross-member control path that needs dedicated review.
+
+### 9.8 Proposed arousal-triggered item removal
+
+This is a **new, unimplemented proposal** prompted by the arousal-pattern XToys
+export. It must not be interpreted as a capability supported by the current
+prototype. The export can prepare `vtRemoveItem` messages, but the prototype's
+inbound validator currently does not accept this action.
+
+The XToys script has five wearer-configurable arousal thresholds (default
+20/40/60/80/100). Each threshold can name one exact BC `assetGroupName` and
+`assetName`. A stage sends one request only when arousal crosses its threshold
+upward; the first observed arousal update establishes a baseline. No retries
+are sent, and a request is not success until an authoritative `vtResult` says
+the requested change was observed. Multiple thresholds crossed in one bridge
+update may each produce one request, in ascending stage order.
+
+Proposed inbound shape:
+
+```json
+{
+  "action": "vtRemoveItem",
+  "assetGroupName": "ItemClothing",
+  "assetName": "ExampleItem",
+  "requestId": "arousal-stage-1-<timestamp>"
+}
+```
+
+Required checks before dispatch:
+
+1. Link is active, unpaused, in an allowed room, and consent is current;
+   operator policy allows removal and the linked player has separately granted
+   `removeItem` with a confirmation that describes the capability.
+2. The command targets only the linked player. `member` delegation is not
+   accepted for this capability.
+3. `assetGroupName` is in the player's explicit `removeGroups` allowlist, and
+   the exact `assetName` is currently worn in that group according to a fresh
+   appearance snapshot. Do not resolve a missing name to "whatever is worn".
+4. The item is removable under BC permissions and is not locked, protected, or
+   otherwise blocked. Use an existing journaled `CharacterAppearanceApi`
+   operation only if its semantics and permission behavior are verified; do
+   not synthesize raw BC packets or bypass permissions.
+5. Enforce a conservative per-player removal interval and an idempotency window
+   keyed by `requestId`. Do not retry an uncertain dispatch.
+6. Reply with `vtResult` states that distinguish `rejected` (including
+   `not_granted`, `not_worn`, `locked`, `stale_state`, `rate_limited`, and
+   `policy`), `dispatched_unconfirmed`, `observed`, and
+   `timed_out_unobserved`. A matching appearance observation is required for
+   `observed`.
+
+The linked player's explicit grant, item-group allowlist, exact asset name,
+one-shot threshold behavior, and no-retry rule bound the feature. Pausing,
+unlinking, leaving the room, consent expiry, or `/bot safeword` must fence new
+requests; an already-dispatched BC action may not be reversible. No remote
+control, delegated target, or arbitrary remove/swap/lock operation is in scope.
+Implementation depends on verifying that the prototype can safely journal an
+exact-item removal using its existing appearance API. Until then this stays
+proposal-only and disabled in XToys by default.
 
 ## 10. Credential storage and privacy
 
@@ -592,6 +653,7 @@ and the appearance-change round trip.
 | 3     | `ws` transport, BC mirroring (options 2/3), presets, `vtQueryState`, `vtStop`.                                                  | Phase 0 broadcast result     |
 | 4     | Two-way `vtSetVibe` for self, feedback-loop tagging, `vtResult`, `vtEmote`.                                                     | Phase 3                      |
 | 5     | Delegated control, room scene broadcasts, Admin Web policy and revocation.                                                      | Phase 4 plus review          |
+| 6     | Optional self-only `vtRemoveItem` after API/permission spike, separate consent, item-group policy, rate limiting, and observation-based outcomes. | Phase 3 plus dedicated safety review |
 
 Each phase is shippable alone and leaves every capability off by default.
 
@@ -600,7 +662,8 @@ Each phase is shippable alone and leaves every capability off by default.
 | Idea                                                        | Why not                                                                                |
 | ----------------------------------------------------------- | -------------------------------------------------------------------------------------- |
 | Real-time waveform from XToys into BC vibrators             | BC changes are rate-limited, room-broadcast, and coarse (five standard levels).        |
-| XToys adding, removing, swapping, or locking BC items       | Too much power for an unauthenticated input channel; not needed for vibration control. |
+| XToys adding, swapping, or locking BC items                 | Too much power for an unauthenticated input channel; not needed for vibration control. |
+| Delegated or arbitrary XToys item removal                   | Unsafe without target-owner consent and exact-item bounds; only self-only `vtRemoveItem` is proposed, gated by separate grants. |
 | Free-text chat from XToys through the bot                   | Spam and impersonation relay; only fixed templates are allowed.                        |
 | Accepting webhook IDs in public chat or from another member | Credential leakage and impersonation.                                                  |
 | Mirroring events for members who have not linked            | Sends their data to a third party without consent.                                     |
